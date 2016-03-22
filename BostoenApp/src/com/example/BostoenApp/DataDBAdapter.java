@@ -527,6 +527,7 @@ public class DataDBAdapter {
     }
 
     /**
+     * bug
      * methode om antwoordopties toe te voegen aan de database
      * @param antwoordOpties
      * de opgegeven id's zijn niet van belang
@@ -548,14 +549,14 @@ public class DataDBAdapter {
     }
 
     /**
-     *
+     *bug
      * @param cursor wordt verkregen door getAntwoordOpties() op te roepen
      * @return een ArrayList met alle AntwoordOpties (null indien de tabel leeg is)
      */
     public ArrayList<AntwoordOptie> getAntwoordOptiesFromCursor(Cursor cursor)
     {
-        /**if(cursor.getCount()>0)
-        {*/
+        if(cursor.getCount()>0)
+        {
             ArrayList<AntwoordOptie> output = new ArrayList<>();
 
             while (cursor.moveToNext())
@@ -573,49 +574,53 @@ public class DataDBAdapter {
                 output.add(antwoordOptie);
             }
             return output;
-        /**}
+        }
         else {
             return null;
-        }*/
+        }
 
     }
     /**
      *
      * @param vraagid
-     * @param antwoordtekst
-     * @return een Cursor met de opgevraagde AntwoordOptie
+     * @return een Cursor met de Antwoordopties van de opgegeven vraag
      */
-    public Cursor getAntwoordOptie(int vraagid,String antwoordtekst)
+    public Cursor getAntwoordOptiesVraag(int vraagid)
     {
-        String[] selectionArgs = {String.valueOf(vraagid),antwoordtekst
-        };
+        String[] selectionArgs = {String.valueOf(vraagid)};
         //eerste null is de 'where', dan 'selectionArgs' 'GroupBy' 'Having' 'orderBy' en 'limit'
-        return mDb.query(ANTWOORDOPTIE_TABLE, ANTWOORDOPTIE_FIELDS,ANTWOORDOPTIE_ID+"="+vraagid+ANTWOORDOPTIE_ANTWOORD_TEKST+"="+antwoordtekst,selectionArgs, null, null, null, null);
+        return mDb.query(ANTWOORDOPTIE_TABLE, ANTWOORDOPTIE_FIELDS,ANTWOORDOPTIE_ID+"=?",selectionArgs, null, null, null, null);
     }
 
     /**
      *
-     * @param cursor wordt verkregen door getAntwoordOptie(vraagid,antwoordtekst) op te roepen (indien null werd het niet gevonden)
-     * @return de gevraagde AntwoordOptie (null indien het niet werd gevonden)
+     * @param cursor wordt verkregen door  getAntwoordOptiesVraag(int vraagid) op te roepen (indien null werd het niet gevonden)
+     * @return de gevraagde AntwoordOpties van de vraag (null indien het niet werd gevonden)
      */
-    public AntwoordOptie getAntwoordOptieFromCursor(Cursor cursor)
+    public ArrayList<AntwoordOptie> getAntwoordOptiesVraagFromCursor(Cursor cursor)
     {
-        if(cursor.getCount()>0 &&  cursor!=null && cursor.moveToFirst())
+        Log.d("getcount",new Integer(cursor.getCount()).toString());
+        if(cursor.getCount()>0)
         {
-            AntwoordOptie antwoordOptie = new AntwoordOptie();
+            ArrayList<AntwoordOptie> output = new ArrayList<>();
 
-            antwoordOptie.setVraagId(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_ID)));
-            antwoordOptie.setAntwoordTekst(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_ANTWOORD_TEKST)));
-            antwoordOptie.setAntwoordOpmerking(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_ANTWOORD_OPMERKING)));
-            antwoordOptie.setOplossing(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_OPLOSSING_ID)));
-            antwoordOptie.setVolgendeVraag(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_VOLGENDEVRAAG_ID)));
-            antwoordOptie.setGeldig(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_GELDIG))==1);
-            antwoordOptie.setLast_update(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_LAST_UPDATE)));
+            while (cursor.moveToNext())
+            {
+                AntwoordOptie antwoordOptie = new AntwoordOptie();
 
-            return antwoordOptie;
+                antwoordOptie.setVraagId(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_ID)));
+                antwoordOptie.setAntwoordTekst(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_ANTWOORD_TEKST)));
+                antwoordOptie.setAntwoordOpmerking(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_ANTWOORD_OPMERKING)));
+                antwoordOptie.setOplossing(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_OPLOSSING_ID)));
+                antwoordOptie.setVolgendeVraag(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_VOLGENDEVRAAG_ID)));
+                antwoordOptie.setGeldig(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_GELDIG))==1);
+                antwoordOptie.setLast_update(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_LAST_UPDATE)));
+
+                output.add(antwoordOptie);
+            }
+            return output;
         }
-        else
-        {
+        else {
             return null;
         }
 

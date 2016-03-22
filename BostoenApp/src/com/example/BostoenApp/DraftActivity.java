@@ -92,14 +92,14 @@ public class DraftActivity extends Activity {
         imageone.setImageBitmap(antwoordenvragen.get(0).getImage());
 
         //cursor om alle antwoordopties op te halen
-        Cursor three = dataDBAdapter.getAntwoordOpties();
-        ArrayList<AntwoordOptie> antwoordOptiesAntwoord=dataDBAdapter.getAntwoordOptiesFromCursor(three);
-        if(antwoordOptiesAntwoord==null)
+        Cursor three = dataDBAdapter.getAntwoordOptiesVraag(1);
+        ArrayList<AntwoordOptie> antwoordOptiesAntwoord=dataDBAdapter.getAntwoordOptiesVraagFromCursor(three);
+        /**if(antwoordOptiesAntwoord==null)
         {
             Log.d("atl results","geen antwoordopties");
         }
         else
-        {
+        {*/
             StringBuffer sb = new StringBuffer();
             for(AntwoordOptie antwoordOptie :antwoordOptiesAntwoord )
             {
@@ -107,7 +107,7 @@ public class DraftActivity extends Activity {
                 Log.d("bla",antwoordOptie.getAntwoordTekst());
             }
             antwoorden.setText(sb.toString());
-        }
+        //}
 
 
 
