@@ -46,7 +46,7 @@ public class DraftActivity extends Activity {
         ArrayList<AntwoordOptie> antwoordOpties=new ArrayList<>();
         antwoordOpties.add(new AntwoordOptie(1,"aa","aa",0,0,true,""));
         antwoordOpties.add(new AntwoordOptie(1,"bb","bb",0,0,true,""));
-        antwoordOpties.add(new AntwoordOptie(1,"cc","c",0,0,true,""));
+        antwoordOpties.add(new AntwoordOptie(1, "cc", "c", 0, 0, true, ""));
 
         //een object aanmaken van de database klasse
         DataDBAdapter dataDBAdapter = new DataDBAdapter(this);
@@ -93,13 +93,23 @@ public class DraftActivity extends Activity {
 
         //cursor om alle antwoordopties op te halen
         Cursor three = dataDBAdapter.getAntwoordOpties();
-        //ArrayList<AntwoordOptie> antwoordOptiesAntwoord=dataDBAdapter.getAntwoordOptiesFromCursor(three);
-        /**StringBuffer sb = new StringBuffer();
-        for(AntwoordOptie antwoordOptie :antwoordOptiesAntwoord )
+        ArrayList<AntwoordOptie> antwoordOptiesAntwoord=dataDBAdapter.getAntwoordOptiesFromCursor(three);
+        if(antwoordOptiesAntwoord==null)
         {
-            sb.append(antwoordOptie.getAntwoordTekst()+"\n");
+            Log.d("atl results","geen antwoordopties");
         }
-        antwoorden.setText(sb.toString());*/
+        else
+        {
+            StringBuffer sb = new StringBuffer();
+            for(AntwoordOptie antwoordOptie :antwoordOptiesAntwoord )
+            {
+                sb.append(antwoordOptie.getAntwoordTekst()+"\n");
+                Log.d("bla",antwoordOptie.getAntwoordTekst());
+            }
+            antwoorden.setText(sb.toString());
+        }
+
+
 
         dataDBAdapter.clear();
         dataDBAdapter.close();
