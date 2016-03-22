@@ -554,8 +554,8 @@ public class DataDBAdapter {
      */
     public ArrayList<AntwoordOptie> getAntwoordOptiesFromCursor(Cursor cursor)
     {
-        if(cursor.getCount()>0)
-        {
+        /**if(cursor.getCount()>0)
+        {*/
             ArrayList<AntwoordOptie> output = new ArrayList<>();
 
             while (cursor.moveToNext())
@@ -573,10 +573,10 @@ public class DataDBAdapter {
                 output.add(antwoordOptie);
             }
             return output;
-        }
+        /**}
         else {
             return null;
-        }
+        }*/
 
     }
     /**
