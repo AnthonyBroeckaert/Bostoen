@@ -53,7 +53,8 @@ public class DraftActivity extends Activity {
         //database openen
         dataDBAdapter.open();
         //alle tabellen aanmaken
-        //dataDBAdapter.create();
+        dataDBAdapter.create();
+
 
 
 

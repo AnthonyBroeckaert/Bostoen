@@ -141,7 +141,7 @@ public class DataDBAdapter {
     /**strings met sql statement om tabellen aan te maken*/
     private static final String CREATE_TABLE_REEKS =
             "create table " + REEKS_TABLE + "("
-                    + REEKS_ID + " INTEGER PRIMARY,"
+                    + REEKS_ID + " INTEGER PRIMARY KEY,"
                     + REEKS_NAAM + " TEXT NOT NULL UNIQUE,"
                     + REEKS_LAST_UPDATE +" TEXT NOT NULL,"
                     + REEKS_EERSTE_VRAAG + " INTEGER"
