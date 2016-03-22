@@ -141,7 +141,7 @@ public class DataDBAdapter {
     /**strings met sql statement om tabellen aan te maken*/
     private static final String CREATE_TABLE_REEKS =
             "create table " + REEKS_TABLE + "("
-                    + REEKS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + REEKS_ID + " INTEGER PRIMARY,"
                     + REEKS_NAAM + " TEXT NOT NULL UNIQUE,"
                     + REEKS_LAST_UPDATE +" TEXT NOT NULL,"
                     + REEKS_EERSTE_VRAAG + " INTEGER"
@@ -149,7 +149,7 @@ public class DataDBAdapter {
 
     private static final String CREATE_TABLE_VRAAG =
             "create table " + VRAAG_TABLE + "("
-                    + VRAAG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + VRAAG_ID + " INTEGER PRIMARY KEY,"
                     + VRAAG_TEKST + " TEXT NOT NULL,"
                     + VRAAG_TIP +" TEXT,"
                     + VRAAG_AFBEELDING + " BLOB,"
@@ -160,7 +160,7 @@ public class DataDBAdapter {
 
     private static final String CREATE_TABLE_OPLOSSING =
             "create table " + OPLOSSING_TABLE + "("
-                    + OPLOSSING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + OPLOSSING_ID + " INTEGER PRIMARY KEY,"
                     + OPLOSSING_TEKST + " TEXT NOT NULL,"
                     + OPLOSSING_GELDIG +" TEXT NOT NULL,"
                     + OPLOSSING_LAST_UPDATE + "TEXT"
@@ -173,17 +173,17 @@ public class DataDBAdapter {
                     + ANTWOORDOPTIE_VOLGENDEVRAAG_ID + " INTEGER,"
                     + ANTWOORDOPTIE_OPLOSSING_ID + " INTEGER,"
                     + ANTWOORDOPTIE_GELDIG +" TEXT NOT NULL,"
-                    + ANTWOORDOPTIE_LAST_UPDATE + "TEXT,"
+                    + ANTWOORDOPTIE_LAST_UPDATE + " TEXT,"
                     +"PRIMARY KEY ("+ANTWOORDOPTIE_ID+","+ANTWOORDOPTIE_ANTWOORD_TEKST+")"
                     + ");";
 
     private static final String CREATE_TABLE_PLAATS=
             "create table " + PLAATS_TABLE +"("
-                    + PLAATS_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + PLAATS_ID +" INTEGER PRIMARY KEY,"
                     + PLAATS_ADRES+" text NOT NULL"+");";
     private static final String CREATE_TABLE_DOSSIER=
             "create table "+ DOSSIER_TABLE+"("
-                    + DOSSIER_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + DOSSIER_ID +" INTEGER PRIMARY KEY,"
                     + DOSSIER_PLAATS_ID +" INTEGER,"
                     + DOSSIER_DATUM +" text NOT NULL,"
                     + DOSSIER_NAAM +" text NOT NULL"+");";

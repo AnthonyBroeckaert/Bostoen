@@ -53,7 +53,7 @@ public class DraftActivity extends Activity {
         //database openen
         dataDBAdapter.open();
         //alle tabellen aanmaken
-        dataDBAdapter.create();
+        //dataDBAdapter.create();
 
 
 
@@ -80,8 +80,10 @@ public class DraftActivity extends Activity {
         //ArrayLIst met alle vragen
         ArrayList<Vraag> antwoordenvragen=dataDBAdapter.getVragenFromCursor(two);
 
-        Cursor reeks = dataDBAdapter.getReeks(1);
-        Reeks temp=dataDBAdapter.getReeksFromCursor(reeks);
+        Cursor vraag = dataDBAdapter.getVraag(1);
+        Vraag temp=dataDBAdapter.getVraagFromCursor(vraag);
+        String a =temp.getTekst()+temp.getLast_update();
+        Log.d("test enkele reeks",a);
 
 
         //Afbeelding van vraag weergeven
@@ -89,7 +91,7 @@ public class DraftActivity extends Activity {
         imageone.setImageBitmap(antwoordenvragen.get(0).getImage());
 
         //cursor om alle antwoordopties op te halen
-        //Cursor three = dataDBAdapter.getAntwoordOpties();
+        Cursor three = dataDBAdapter.getAntwoordOpties();
         //ArrayList<AntwoordOptie> antwoordOptiesAntwoord=dataDBAdapter.getAntwoordOptiesFromCursor(three);
         /**StringBuffer sb = new StringBuffer();
         for(AntwoordOptie antwoordOptie :antwoordOptiesAntwoord )
