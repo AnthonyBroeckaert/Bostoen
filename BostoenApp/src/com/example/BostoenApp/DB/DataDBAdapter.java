@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -238,7 +239,7 @@ public class DataDBAdapter {
         mDb.execSQL(CREATE_TABLE_VRAAG);
     }
 
-    public void clear()
+    public void clearAll()
     {
         mDb.execSQL("DROP TABLE IF EXISTS " + REEKS_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + ANTWOORDOPTIE_TABLE);
@@ -248,6 +249,14 @@ public class DataDBAdapter {
         mDb.execSQL("DROP TABLE IF EXISTS " + VRAGENDOSSIER_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + VRAAG_TABLE);
     }
+    public void clearUserData()
+    {
+        mDb.execSQL("DROP TABLE IF EXISTS " + OPLOSSING_TABLE);
+        mDb.execSQL("DROP TABLE IF EXISTS " + PLAATS_TABLE);
+        mDb.execSQL("DROP TABLE IF EXISTS " + VRAGENDOSSIER_TABLE);
+        mDb.execSQL("DROP TABLE IF EXISTS " + VRAAG_TABLE);
+    }
+
     public DataDBAdapter(Context ctx) {
         this.mCtx = ctx;
     }
@@ -290,7 +299,7 @@ public class DataDBAdapter {
         initialValues.put(REEKS_ID,reeks.getId());
         initialValues.put(REEKS_NAAM,reeks.getNaam());
         initialValues.put(REEKS_EERSTE_VRAAG,reeks.getEersteVraag());
-        initialValues.put(REEKS_LAST_UPDATE,reeks.getLast_update());
+        initialValues.put(REEKS_LAST_UPDATE,reeks.getLast_update().toString());
 
         mDb.insert(REEKS_TABLE, null, initialValues);
     }
@@ -309,6 +318,22 @@ public class DataDBAdapter {
     }
 
     /**
+     *Methode om de gewenste reeks te verwijderen
+     * @param reeks
+     */
+    public void deleteReeks(Reeks reeks)
+    {
+        mDb.delete(REEKS_TABLE, REEKS_ID + "=" + reeks.getId(), null);
+    }
+
+    public void deleteReeksen(ArrayList<Reeks> reeksen)
+    {
+        for(Reeks reeks : reeksen)
+        {
+            deleteReeks(reeks);
+        }
+    }
+    /**
      * @return een Cursor met alle reeksen
      */
     public Cursor getReeksen() {
@@ -317,11 +342,12 @@ public class DataDBAdapter {
     }
 
     /**
-     * @param cursor wordt verkregen door getReeksen() op te roepen
-     * @return een ArrayList met alle reeksen (null indien de tabel leeg is)
+     *
+     *@param cursor wordt verkregen door getReeksen() op te roepen
+     *@return een ArrayList met alle reeksen (null indien de tabel leeg is)
+     * @throws ParseException indien het formaat van het veld last_update verkeerd is
      */
-    public static ArrayList<Reeks> getReeksenFromCursor(Cursor cursor)
-    {
+    public static ArrayList<Reeks> getReeksenFromCursor(Cursor cursor) throws ParseException {
         if(cursor.getCount()>0)
         {
             ArrayList<Reeks> output = new ArrayList<>();
@@ -330,7 +356,7 @@ public class DataDBAdapter {
                 reeks.setId(cursor.getInt(cursor.getColumnIndex(REEKS_ID)));
                 reeks.setEersteVraag(cursor.getInt(cursor.getColumnIndex(REEKS_EERSTE_VRAAG)));
                 reeks.setNaam(cursor.getString(cursor.getColumnIndex(REEKS_NAAM)));
-                reeks.setLast_update(cursor.getString(cursor.getColumnIndex(REEKS_LAST_UPDATE)));
+                reeks.setLast_update(new Reeks.CustomDate(cursor.getString(cursor.getColumnIndex(REEKS_LAST_UPDATE))));
                 output.add(reeks);
             }
 
@@ -358,16 +384,16 @@ public class DataDBAdapter {
     /**
      * @param cursor wordt verkregen door getReeks() op te roepen
      * @return het gevraagde Reeks object (indien null werd het niet gevonden)
+     * @throws ParseException indien het formaat van het veld last_update verkeerd is
      */
-    public Reeks getReeksFromCursor(Cursor cursor)
-    {
+    public Reeks getReeksFromCursor(Cursor cursor) throws ParseException {
         if(cursor.getCount()>0 &&  cursor!=null && cursor.moveToFirst())
         {
             Reeks reeks = new Reeks();
             reeks.setId(cursor.getInt(cursor.getColumnIndex(REEKS_ID)));
             reeks.setEersteVraag(cursor.getInt(cursor.getColumnIndex(REEKS_EERSTE_VRAAG)));
             reeks.setNaam(cursor.getString(cursor.getColumnIndex(REEKS_NAAM)));
-            reeks.setLast_update(cursor.getString(cursor.getColumnIndex(REEKS_LAST_UPDATE)));
+            reeks.setLast_update(new Reeks.CustomDate(cursor.getString(cursor.getColumnIndex(REEKS_LAST_UPDATE))));
 
             return reeks;
         }
@@ -399,7 +425,7 @@ public class DataDBAdapter {
         {
             initialValues.put(VRAAG_GELDIG, 0);
         }
-        initialValues.put(VRAAG_LAST_UPDATE,vraag.getLast_update());
+        initialValues.put(VRAAG_LAST_UPDATE,vraag.getLast_update().toString());
 
         /**Bitmap naar BLOB converteren*/
         Bitmap bmp=vraag.getImage();
@@ -427,6 +453,29 @@ public class DataDBAdapter {
     }
 
     /**
+     * Methode om de gewenste vraag te verwijderen
+     * @param vraag
+     */
+    public void deleteVraag(Vraag vraag)
+    {
+
+        mDb.delete(REEKS_TABLE, REEKS_ID + "=" + vraag.getId(), null);
+
+    }
+
+    /**
+     * Methode om de opgegeven vragen in een ArrayList te verwijderen
+     * @param vragen
+     */
+    public void deleteVragen(ArrayList<Vraag> vragen)
+    {
+        for(Vraag vraag : vragen)
+        {
+            deleteVraag(vraag);
+        }
+    }
+
+    /**
      * @return een Cursor met alle vragen
      */
     public Cursor getVragen() {
@@ -436,9 +485,9 @@ public class DataDBAdapter {
     /**
      * @param cursor wordt verkregen door getVragen op te roepen
      * @return een ArrayList met alle vragen (null indien de tabel leeg is)
+     * @throws ParseException indien het formaat van het veld last_update verkeerd is
      */
-    public ArrayList<Vraag> getVragenFromCursor(Cursor cursor)
-    {
+    public ArrayList<Vraag> getVragenFromCursor(Cursor cursor) throws ParseException {
         if(cursor.getCount()>0)
         {
             ArrayList<Vraag> output = new ArrayList<>();
@@ -446,7 +495,7 @@ public class DataDBAdapter {
                 Vraag vraag=new Vraag();
                 vraag.setId(cursor.getInt(cursor.getColumnIndex(VRAAG_ID)));
                 vraag.setTekst(cursor.getString(cursor.getColumnIndex(VRAAG_TEKST)));
-                vraag.setLast_update(cursor.getString(cursor.getColumnIndex(VRAAG_LAST_UPDATE)));
+                vraag.setLast_update(new Reeks.CustomDate(cursor.getString(cursor.getColumnIndex(VRAAG_LAST_UPDATE))));
                 vraag.setReeks_id(cursor.getInt(cursor.getColumnIndex(VRAAG_REEKS_ID)));
                 vraag.setGeldig(cursor.getInt(cursor.getColumnIndex(VRAAG_GELDIG)) == 1);
 
@@ -480,15 +529,15 @@ public class DataDBAdapter {
      *
      * @param cursor wordt verkregen door getVraag() op te roepen
      * @return het gevraagde Vraag object (indien null werd het niet gevonden)
+     * @throws ParseException indien het formaat van het veld last_update verkeerd is
      */
-    public Vraag getVraagFromCursor(Cursor cursor)
-    {
+    public Vraag getVraagFromCursor(Cursor cursor) throws ParseException {
         if(cursor.getCount()>0 &&  cursor!=null && cursor.moveToFirst())
         {
             Vraag vraag=new Vraag();
             vraag.setId(cursor.getInt(cursor.getColumnIndex(VRAAG_ID)));
             vraag.setTekst(cursor.getString(cursor.getColumnIndex(VRAAG_TEKST)));
-            vraag.setLast_update(cursor.getString(cursor.getColumnIndex(VRAAG_LAST_UPDATE)));
+            vraag.setLast_update(new Reeks.CustomDate(cursor.getString(cursor.getColumnIndex(VRAAG_LAST_UPDATE))));
             vraag.setReeks_id(cursor.getInt(cursor.getColumnIndex(VRAAG_REEKS_ID)));
             vraag.setGeldig(cursor.getInt(cursor.getColumnIndex(VRAAG_GELDIG)) == 1);
 
@@ -517,7 +566,7 @@ public class DataDBAdapter {
         initialValues.put(ANTWOORDOPTIE_ANTWOORD_OPMERKING, antwoordOptie.getAntwoordOpmerking());
         initialValues.put(ANTWOORDOPTIE_OPLOSSING_ID, antwoordOptie.getOplossing());
         initialValues.put(ANTWOORDOPTIE_VOLGENDEVRAAG_ID, antwoordOptie.getVolgendeVraag());
-        initialValues.put(ANTWOORDOPTIE_LAST_UPDATE, antwoordOptie.getLast_update());
+        initialValues.put(ANTWOORDOPTIE_LAST_UPDATE, antwoordOptie.getLast_update().toString());
         if(antwoordOptie.isGeldig())
         {
             initialValues.put(ANTWOORDOPTIE_GELDIG, 1);
@@ -530,7 +579,7 @@ public class DataDBAdapter {
     }
 
     /**
-     * bug
+     *
      * methode om antwoordopties toe te voegen aan de database
      * @param antwoordOpties
      * de opgegeven id's zijn niet van belang
@@ -544,6 +593,15 @@ public class DataDBAdapter {
     }
 
     /**
+     * Methode om alle antwoordopties de bij de opgegeven vraag horen te verwijderen
+     * @param vraag
+     */
+    public void deleteAntwoordOpties(Vraag vraag)
+    {
+        mDb.delete(ANTWOORDOPTIE_TABLE, ANTWOORDOPTIE_ID + "=" + vraag.getId(), null);
+    }
+
+    /**
      * @return een Cursor met alle antwoordopties
      */
     public Cursor getAntwoordOpties()
@@ -552,12 +610,12 @@ public class DataDBAdapter {
     }
 
     /**
-     *bug
+     *
      * @param cursor wordt verkregen door getAntwoordOpties() op te roepen
      * @return een ArrayList met alle AntwoordOpties (null indien de tabel leeg is)
+     * @throws ParseException indien het formaat van het veld last_update verkeerd is
      */
-    public ArrayList<AntwoordOptie> getAntwoordOptiesFromCursor(Cursor cursor)
-    {
+    public ArrayList<AntwoordOptie> getAntwoordOptiesFromCursor(Cursor cursor) throws ParseException {
         if(cursor.getCount()>0)
         {
             ArrayList<AntwoordOptie> output = new ArrayList<>();
@@ -572,7 +630,7 @@ public class DataDBAdapter {
                 antwoordOptie.setOplossing(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_OPLOSSING_ID)));
                 antwoordOptie.setVolgendeVraag(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_VOLGENDEVRAAG_ID)));
                 antwoordOptie.setGeldig(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_GELDIG))==1);
-                antwoordOptie.setLast_update(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_LAST_UPDATE)));
+                antwoordOptie.setLast_update(new Reeks.CustomDate(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_LAST_UPDATE))));
 
                 output.add(antwoordOptie);
             }
@@ -599,16 +657,14 @@ public class DataDBAdapter {
      *
      * @param cursor wordt verkregen door  getAntwoordOptiesVraag(int vraagid) op te roepen (indien null werd het niet gevonden)
      * @return de gevraagde AntwoordOpties van de vraag (null indien het niet werd gevonden)
+     * @throws ParseException indien het formaat van het veld last_update verkeerd is
      */
-    public ArrayList<AntwoordOptie> getAntwoordOptiesVraagFromCursor(Cursor cursor)
-    {
-        Log.d("getcount",new Integer(cursor.getCount()).toString());
-        if(cursor.getCount()>0)
-        {
+    public ArrayList<AntwoordOptie> getAntwoordOptiesVraagFromCursor(Cursor cursor) throws ParseException {
+        Log.d("getcount", new Integer(cursor.getCount()).toString());
+        if (cursor.getCount() > 0) {
             ArrayList<AntwoordOptie> output = new ArrayList<>();
 
-            while (cursor.moveToNext())
-            {
+            while (cursor.moveToNext()) {
                 AntwoordOptie antwoordOptie = new AntwoordOptie();
 
                 antwoordOptie.setVraagId(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_ID)));
@@ -616,18 +672,125 @@ public class DataDBAdapter {
                 antwoordOptie.setAntwoordOpmerking(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_ANTWOORD_OPMERKING)));
                 antwoordOptie.setOplossing(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_OPLOSSING_ID)));
                 antwoordOptie.setVolgendeVraag(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_VOLGENDEVRAAG_ID)));
-                antwoordOptie.setGeldig(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_GELDIG))==1);
-                antwoordOptie.setLast_update(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_LAST_UPDATE)));
+                antwoordOptie.setGeldig(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_GELDIG)) == 1);
+                antwoordOptie.setLast_update(new Reeks.CustomDate(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_LAST_UPDATE))));
 
                 output.add(antwoordOptie);
             }
             return output;
+        } else {
+            return null;
         }
-        else {
+    }
+
+    /**
+     * Voegt de gewenste plaats toe aan de database
+     * @param plaats
+     */
+    public void addPlaats(Plaats plaats)
+    {
+        ContentValues initialValues=new ContentValues();
+        initialValues.put(PLAATS_ID,plaats.getId());
+        initialValues.put(PLAATS_ADRES,plaats.getAdres());
+
+        mDb.insert(PLAATS_TABLE, null, initialValues);
+    }
+
+    /**
+     *
+     * @param id het id van de gewenste plaats
+     * @return een Cursor met het gevraagd Plaats object
+     */
+    public Cursor getPlaats(int id)
+    {
+        String[] selectionArgs = {String.valueOf(id)};
+        //eerste null is de 'where', dan 'selectionArgs' 'GroupBy' 'Having' 'orderBy' en 'limit'
+        return mDb.query(PLAATS_TABLE, PLAATS_FIELDS,PLAATS_ID+"=?",selectionArgs, null, null, null, null);
+    }
+
+    /**
+     *
+     * @param adres het adres van de gewenste plaats
+     * @return een Cursor met het gevraagd Plaats object
+     */
+    public Cursor getPlaats(String adres)
+    {
+        String[] selectionArgs = {adres};
+        //eerste null is de 'where', dan 'selectionArgs' 'GroupBy' 'Having' 'orderBy' en 'limit'
+        return mDb.query(PLAATS_TABLE, PLAATS_FIELDS,PLAATS_ADRES+"=?",selectionArgs, null, null, null, null);
+    }
+
+    /**
+     *
+     *  @param cursor wordt verkregen door getPlaats() op te roepen
+     * @return het gevraagde Plaats object (null indien het object niet werd gevonden)
+     */
+    public Plaats getPlaatsFromCursor(Cursor cursor)
+    {
+        if(cursor.getCount()>0 &&  cursor!=null && cursor.moveToFirst())
+        {
+            Plaats plaats = new Plaats();
+            plaats.setId(cursor.getInt(cursor.getColumnIndex(PLAATS_ID)));
+
+            return plaats;
+        }
+        else
+        {
             return null;
         }
 
     }
 
 
+    /**
+     * Voegt het gewenste dossier toe aan de database
+     * @param dossier
+     */
+    public void addDossier(Dossier dossier)
+    {
+        ContentValues initialValues=new ContentValues();
+        initialValues.put(DOSSIER_ID,dossier.getId());
+        initialValues.put(DOSSIER_NAAM,dossier.getNaam());
+        initialValues.put(DOSSIER_PLAATS_ID,dossier.getPlaatsId());
+        initialValues.put(DOSSIER_DATUM,dossier.getDatum().toString());
+
+        mDb.insert(DOSSIER_TABLE, null, initialValues);
+    }
+
+    /**
+     *
+     * @param id het id van het gewenste Dossier
+     * @return een Cursor met het gewenste Dossier object
+     */
+    public Cursor getDossier(int id)
+    {
+        String[] selectionArgs = {String.valueOf(id)};
+        //eerste null is de 'where', dan 'selectionArgs' 'GroupBy' 'Having' 'orderBy' en 'limit'
+        return mDb.query(DOSSIER_TABLE, DOSSIER_FIELDS,DOSSIER_ID+"=?",selectionArgs, null, null, null, null);
+    }
+
+    /**
+     *
+     * @param cursor wordt verkregen door getDossier() op te roepen
+     * @return het gevraagde Dossier object (null indien het object niet werd gevonden)
+     * @throws ParseException indien het formaat van het veld last_update verkeerd is
+     */
+    public Dossier getDossierFromCursor(Cursor cursor) throws ParseException {
+
+        if(cursor.getCount()>0 &&  cursor!=null && cursor.moveToFirst())
+        {
+            Dossier dossier = new Dossier();
+            dossier.setId(cursor.getInt(cursor.getColumnIndex(DOSSIER_ID)));
+            dossier.setNaam(cursor.getString(cursor.getColumnIndex(DOSSIER_NAAM)));
+            dossier.setPlaatsId(cursor.getInt(cursor.getColumnIndex(DOSSIER_PLAATS_ID)));
+            dossier.setDatum(new Reeks.CustomDate(cursor.getString(cursor.getColumnIndex(DOSSIER_DATUM))));
+
+            return dossier;
+        }
+        else
+        {
+            return null;
+        }
+
+    }
 }

@@ -11,7 +11,7 @@ public class Vraag {
     private String tekst;
     private String tip;
     private Bitmap image;
-    private String last_update;
+    private Reeks.CustomDate last_update;
     private int reeks_id;
     private boolean geldig;
     //Volgende vraag opties
@@ -20,7 +20,7 @@ public class Vraag {
     public Vraag() {
     }
 
-    public Vraag(Integer id, String tekst, String tip, Bitmap image, String last_update, int reeks_id, boolean geldig) {
+    public Vraag(Integer id, String tekst, String tip, Bitmap image, Reeks.CustomDate last_update, int reeks_id, boolean geldig) {
         this.id = id;
         this.tekst = tekst;
         this.tip = tip;
@@ -54,11 +54,11 @@ public class Vraag {
         this.reeks_id = reeks_id;
     }
 
-    public String getLast_update() {
+    public Reeks.CustomDate getLast_update() {
         return last_update;
     }
 
-    public void setLast_update(String last_update) {
+    public void setLast_update(Reeks.CustomDate last_update) {
         this.last_update = last_update;
     }
 

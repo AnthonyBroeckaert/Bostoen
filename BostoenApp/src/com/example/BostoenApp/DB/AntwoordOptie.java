@@ -10,14 +10,14 @@ public class AntwoordOptie {
     private int volgendeVraag;
     private int oplossing;
     private boolean geldig;
-    private String last_update;
+    private Reeks.CustomDate last_update;
 
     public AntwoordOptie()
     {
 
     }
 
-    public AntwoordOptie(int vraagId,String antwoordTekst,String antwoordOpmerking,int volgendeVraag,int oplossing,boolean geldig,String last_update)
+    public AntwoordOptie(int vraagId,String antwoordTekst,String antwoordOpmerking,int volgendeVraag,int oplossing,boolean geldig,Reeks.CustomDate last_update)
     {
         this.setVraagId(vraagId);
         this.setAntwoordTekst(antwoordTekst);
@@ -69,11 +69,11 @@ public class AntwoordOptie {
         this.geldig = geldig;
     }
 
-    public String getLast_update() {
+    public Reeks.CustomDate getLast_update() {
         return last_update;
     }
 
-    public void setLast_update(String last_update) {
+    public void setLast_update(Reeks.CustomDate last_update) {
         this.last_update = last_update;
     }
 
