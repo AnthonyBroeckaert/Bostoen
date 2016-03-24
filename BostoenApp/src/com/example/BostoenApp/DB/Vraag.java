@@ -1,4 +1,4 @@
-package com.example.BostoenApp;
+package com.example.BostoenApp.DB;
 
 import android.graphics.Bitmap;
 

@@ -1,4 +1,4 @@
-package com.example.BostoenApp;
+package com.example.BostoenApp.DB;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -11,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.BostoenApp.R;
 
 import java.util.ArrayList;
 

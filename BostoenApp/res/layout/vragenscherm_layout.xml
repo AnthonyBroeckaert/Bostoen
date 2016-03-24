@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:baselineAligned="false"
-    android:background="@color/colorBackgroundRed">
+    android:background="#e3000b">
 
     <TextView
         android:layout_width="238dp"
@@ -16,12 +16,12 @@
         android:layout_weight="0.15"
         android:textAlignment="center"
         android:textColor="#ffffff"
-        android:layout_marginTop="29dp"
         android:textSize="25dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/radio2"
         android:textStyle="bold"
-        android:enabled="true" />
+        android:enabled="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="40dp" />
 
     <RadioButton
         android:layout_width="209dp"
@@ -31,12 +31,11 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.10"
         android:checked="false"
-        android:layout_marginBottom="35dp"
-        android:layout_marginEnd="62dp"
         android:textSize="20dp"
-        android:layout_above="@+id/radio2"
-        android:layout_alignParentEnd="true"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:layout_marginTop="29dp"
+        android:layout_below="@+id/txtVraag"
+        android:layout_alignStart="@+id/txtVraag" />
 
     <RadioButton
         android:layout_width="211dp"
@@ -46,11 +45,11 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.15"
         android:checked="false"
-        android:layout_marginBottom="38dp"
         android:textSize="20dp"
-        android:layout_above="@+id/radio3"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/radio1"
         android:layout_alignEnd="@+id/radio1"
-        android:textColor="#ffffff" />
+        android:layout_marginTop="34dp" />
 
     <RadioButton
         android:layout_width="206dp"
@@ -60,29 +59,38 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.14"
         android:checked="false"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/radio2"
         android:textSize="20dp"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:layout_below="@+id/radio2"
+        android:layout_alignStart="@+id/radio2"
+        android:layout_marginTop="38dp" />
 
     <ImageView
         android:layout_width="128dp"
         android:layout_height="128dp"
         android:id="@+id/imageView"
         android:background="#ffffff"
+        android:layout_marginBottom="27dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="25dp" />
+        android:layout_toStartOf="@+id/btnOK" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="TIP"
+        android:text="TIP: een tip hier"
         android:id="@+id/txtTip"
+        android:textColor="#ffffff"
         android:layout_alignTop="@+id/imageView"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/imageView"
-        android:textColor="#ffffff" />
+        android:layout_marginStart="28dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:id="@+id/btnOK"
+        android:layout_below="@+id/radio3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp" />
 </RelativeLayout>
