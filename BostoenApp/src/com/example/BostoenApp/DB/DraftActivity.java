@@ -1,4 +1,4 @@
-package com.example.BostoenApp;
+package com.example.BostoenApp.DB;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -13,6 +13,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.ParseException;
+
+import com.example.BostoenApp.CustomDate;
+import com.example.BostoenApp.R;
 import java.util.ArrayList;
 
 public class DraftActivity extends Activity {
