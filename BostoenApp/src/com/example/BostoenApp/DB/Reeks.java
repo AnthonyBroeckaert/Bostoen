@@ -1,6 +1,19 @@
 package com.example.BostoenApp.DB;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+import com.example.BostoenApp.R;
+
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by david on 20/03/2016.
@@ -74,5 +87,103 @@ public class Reeks {
 
         return  sb.toString();
 
+    }
+
+    /**
+     * Created by david on 24/03/2016.
+     */
+    public static class CustomDate extends Date {
+        private Date date;
+        private SimpleDateFormat formatter;
+        private String format = "yyyy.MM.dd':'hh:mm:ss";
+
+        /**
+         *
+         */
+        public CustomDate()
+        {
+            Calendar c = Calendar.getInstance();
+            date=c.getTime();
+            formatter = new SimpleDateFormat(format);
+        }
+
+
+
+        /**
+         *
+         * @param date
+         */
+        public CustomDate(long date)
+        {
+            this.date=new Date(date);
+            formatter = new SimpleDateFormat(format);
+        }
+
+
+        /**
+         *
+         * @param date
+         */
+        public CustomDate(Date date)
+        {
+            this.date=date;
+            formatter = new SimpleDateFormat(format);
+        }
+
+        /**
+         *
+         * @param date
+         * @throws ParseException wordt opgegooid wanneer de String in een verkeerd formaat wordt opgegeven
+         */
+        public CustomDate(String date) throws ParseException {
+            formatter = new SimpleDateFormat(format);
+            this.date = formatter.parse(date);
+        }
+
+        public String toString()
+        {
+            return formatter.format(date);
+        }
+
+        /**
+         * Created by david on 21/03/2016.
+         */
+        public static class ReeksAdapter extends BaseAdapter {
+            Context mContext;
+            ArrayList<Reeks> reeksen;
+            LayoutInflater mInflater;
+
+            public ReeksAdapter(Context c,ArrayList<Reeks> reeksen)
+            {
+                mContext=c;
+                this.reeksen=reeksen;
+                mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            }
+            @Override
+            public int getCount() {
+                return reeksen.size();
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return reeksen.get(position);
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return position;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = mInflater.inflate(R.layout.reeks_view_item,null);
+                TextView reeksnaam = (TextView)view.findViewById(R.id.Reeksnaam);
+
+                Reeks currentReeks=reeksen.get(position);
+                reeksnaam.setText(currentReeks.getNaam());
+
+                return view;
+            }
+        }
     }
 }

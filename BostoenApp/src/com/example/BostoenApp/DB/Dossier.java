@@ -6,15 +6,16 @@ package com.example.BostoenApp.DB;
 public class Dossier {
     private Integer id;
     private Integer plaatsId;
-    private String datum;
+    private Reeks.CustomDate datum;
     private String naam;
 
     public Dossier()
     {
 
+
     }
 
-    public Dossier(Integer id,Integer plaatsId,String datum,String naam)
+    public Dossier(Integer id,Integer plaatsId,Reeks.CustomDate datum,String naam)
     {
         this.setId(id);
         this.setPlaatsId(plaatsId);
@@ -39,11 +40,11 @@ public class Dossier {
         this.plaatsId = plaatsId;
     }
 
-    public String getDatum() {
+    public Reeks.CustomDate getDatum() {
         return datum;
     }
 
-    public void setDatum(String datum) {
+    public void setDatum(Reeks.CustomDate datum) {
         this.datum = datum;
     }
 

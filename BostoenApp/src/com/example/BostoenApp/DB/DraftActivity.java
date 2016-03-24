@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import java.text.ParseException;
 
-import com.example.BostoenApp.CustomDate;
 import com.example.BostoenApp.R;
 import java.util.ArrayList;
 
@@ -34,7 +33,7 @@ public class DraftActivity extends Activity {
 
         //een ArrayList met reeksen maken
         ArrayList<Reeks> reeksen = new ArrayList<>();
-        CustomDate c= new CustomDate();
+        Reeks.CustomDate c= new Reeks.CustomDate();
         try {
 
             reeksen.add(new Reeks(null,"1",1,c));
@@ -96,7 +95,7 @@ public class DraftActivity extends Activity {
             Log.d("antwoordreeks id",new Integer(reeks.getId()).toString());
         }
         //adapter van ListView met reeksen instellen
-        reeksenlijst.setAdapter(new ReeksAdapter(getApplicationContext(), antwoordenreeksen));
+        reeksenlijst.setAdapter(new Reeks.CustomDate.ReeksAdapter(getApplicationContext(), antwoordenreeksen));
 
         // voorbeeld van onclick in listview
         reeksenlijst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
