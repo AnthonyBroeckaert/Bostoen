@@ -287,6 +287,7 @@ public class DataDBAdapter {
     public void addReeks(Reeks reeks)
     {
         ContentValues initialValues=new ContentValues();
+        initialValues.put(REEKS_ID,reeks.getId());
         initialValues.put(REEKS_NAAM,reeks.getNaam());
         initialValues.put(REEKS_EERSTE_VRAAG,reeks.getEersteVraag());
         initialValues.put(REEKS_LAST_UPDATE,reeks.getLast_update());
@@ -385,6 +386,7 @@ public class DataDBAdapter {
     public void  addVraag(Vraag vraag)
     {
         ContentValues initialValues=new ContentValues();
+        initialValues.put(VRAAG_ID,vraag.getId());
         initialValues.put(VRAAG_TEKST,vraag.getTekst());
         initialValues.put(VRAAG_TIP,vraag.getTip());
         initialValues.put(VRAAG_REEKS_ID,vraag.getReeks_id());
@@ -524,6 +526,7 @@ public class DataDBAdapter {
         {
             initialValues.put(ANTWOORDOPTIE_GELDIG,0);
         }
+        mDb.insert(ANTWOORDOPTIE_TABLE, null, initialValues);
     }
 
     /**
