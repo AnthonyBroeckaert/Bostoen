@@ -697,6 +697,26 @@ public class DataDBAdapter {
     }
 
     /**
+     * methode om de gewenste plaats te verwijderen
+     * @param plaats
+     */
+    public void deletePlaats(Plaats plaats) {
+        mDb.delete(PLAATS_TABLE, PLAATS_ID + "=" + plaats.getId(), null);
+    }
+
+    /**
+     * methode om alle plaatsen in de opgegeven ArrayLIst te verwijderen
+     * @param plaatsen
+     */
+    public void deletePlaatsen(ArrayList<Plaats> plaatsen)
+    {
+        for(Plaats plaats : plaatsen)
+        {
+            deletePlaats(plaats);
+        }
+    }
+
+    /**
      *
      * @param id het id van de gewenste plaats
      * @return een Cursor met het gevraagd Plaats object
@@ -727,8 +747,7 @@ public class DataDBAdapter {
      */
     public Plaats getPlaatsFromCursor(Cursor cursor)
     {
-        if(cursor.getCount()>0 &&  cursor!=null && cursor.moveToFirst())
-        {
+        if(cursor.getCount()>0 &&  cursor!=null && cursor.moveToFirst()) {
             Plaats plaats = new Plaats();
             plaats.setId(cursor.getInt(cursor.getColumnIndex(PLAATS_ID)));
 
@@ -755,6 +774,27 @@ public class DataDBAdapter {
         initialValues.put(DOSSIER_DATUM,dossier.getDatum().toString());
 
         mDb.insert(DOSSIER_TABLE, null, initialValues);
+    }
+
+    /**
+     * Verwijdert het gewenste dossier object
+     * @param dossier
+     */
+    public void deleteDossier(Dossier dossier)
+    {
+        mDb.delete(DOSSIER_TABLE, DOSSIER_FIELDS + "=" + dossier.getId(), null);
+    }
+
+    /**
+     * Verwijdert de dossiers in de opgegeven ArrayList
+     * @param dossiers
+     */
+    public void deleteDossiers(ArrayList<Dossier> dossiers)
+    {
+        for(Dossier dossier : dossiers)
+        {
+            deleteDossier(dossier);
+        }
     }
 
     /**
@@ -791,6 +831,11 @@ public class DataDBAdapter {
         {
             return null;
         }
+
+    }
+
+    public void addVragenDossier(VragenDossier vragenDossier )
+    {
 
     }
 }
