@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="#ffffff"
+    android:columnCount="9"
+    android:rowCount="9">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="sjlsdfjjklqsdjklqdsjklqdslkjsqkjlmqdskjdsfkjqdsfkjlsqdfkjlfsqdjklsqdfjklksdjkjqdsfkjlqdslkjsqdlk"
+        android:id="@+id/txtAbout"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:layout_columnSpan="5"
+        android:textColor="#e3000b"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp" />
+
+    <ImageView
+        android:layout_width="89dp"
+        android:layout_height="48dp"
+        android:id="@+id/imageView13"
+        android:layout_row="8"
+        android:layout_column="0"
+        android:src="@drawable/logoKortrijkBLACK" />
+
+    <ImageView
+        android:layout_width="115dp"
+        android:layout_height="52dp"
+        android:id="@+id/imageView9"
+        android:layout_row="8"
+        android:layout_column="1"
+        android:src="@drawable/logorenson" />
+
+    <ImageView
+        android:layout_width="79dp"
+        android:layout_height="42dp"
+        android:id="@+id/imageView11"
+        android:layout_row="8"
+        android:layout_column="2"
+        android:src="@drawable/logo" />
+
+    <ImageView
+        android:layout_width="79dp"
+        android:layout_height="43dp"
+        android:id="@+id/imageView10"
+        android:layout_row="8"
+        android:layout_column="3"
+        android:src="@drawable/LOGOBBLRGB" />
+
+    <ImageView
+        android:layout_width="201dp"
+        android:layout_height="44dp"
+        android:id="@+id/imageView12"
+        android:layout_row="8"
+        android:layout_column="4"
+        android:src="@drawable/CombinatielogoVLAIO" />
+
+</GridLayout>

@@ -19,9 +19,8 @@
         android:textStyle="bold"
         android:enabled="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="40dp"
-        android:layout_marginTop="20dp" />
+        android:layout_alignStart="@+id/radio2"
+        android:layout_marginTop="10dp" />
 
     <RadioButton
         android:layout_width="209dp"
@@ -33,9 +32,9 @@
         android:checked="false"
         android:textSize="20dp"
         android:textColor="#e3000b"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="36dp"
         android:layout_below="@+id/txtVraag"
-        android:layout_alignStart="@+id/txtVraag" />
+        android:layout_toStartOf="@+id/btnOK" />
 
     <RadioButton
         android:layout_width="211dp"
@@ -47,9 +46,9 @@
         android:checked="false"
         android:textSize="20dp"
         android:textColor="#e3000b"
-        android:layout_above="@+id/radio3"
-        android:layout_alignStart="@+id/radio1"
-        android:layout_marginBottom="32dp" />
+        android:layout_alignTop="@+id/radio1"
+        android:layout_alignStart="@+id/txtTip"
+        android:layout_marginStart="46dp" />
 
     <RadioButton
         android:layout_width="206dp"
@@ -61,18 +60,17 @@
         android:checked="false"
         android:textSize="20dp"
         android:textColor="#e3000b"
-        android:layout_marginBottom="32dp"
-        android:layout_above="@+id/btnOK"
-        android:layout_alignStart="@+id/radio2" />
+        android:layout_alignTop="@+id/radio2"
+        android:layout_alignParentEnd="true" />
 
     <ImageView
         android:layout_width="128dp"
         android:layout_height="128dp"
         android:id="@+id/imageView"
         android:background="#ffffff"
-        android:layout_marginBottom="27dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/btnOK" />
+        android:layout_marginStart="21dp"
+        android:layout_below="@+id/btnOK"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -81,16 +79,17 @@
         android:text="TIP: een tip hier"
         android:id="@+id/txtTip"
         android:textColor="#e3000b"
-        android:layout_alignTop="@+id/imageView"
+        android:layout_marginStart="23dp"
+        android:layout_alignBottom="@+id/imageView"
         android:layout_toEndOf="@+id/imageView"
-        android:layout_marginStart="28dp" />
+        android:layout_marginBottom="51dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="OK"
         android:id="@+id/btnOK"
-        android:layout_above="@+id/txtTip"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="57dp" />
+        android:layout_marginTop="43dp"
+        android:layout_below="@+id/radio2"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
