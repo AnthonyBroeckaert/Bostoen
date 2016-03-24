@@ -1,5 +1,7 @@
 package com.example.BostoenApp;
 
+import java.text.ParseException;
+
 /**
  * Created by david on 20/03/2016.
  */
@@ -7,19 +9,26 @@ public class Reeks {
     private Integer id;
     private String naam;
     private Integer eersteVraag;
-    private String last_update;
+    private CustomDate last_update;
 
     public Reeks()
     {
 
     }
 
-    public Reeks(Integer id,String naam,int eersteVraag,String last_update)
-    {
+    /**
+     *
+     * @param id
+     * @param naam
+     * @param eersteVraag
+     * @param last_update
+     * @throws ParseException wordt opgegooid wanneer de string last_update een verkeerd formaat heeft
+     */
+    public Reeks(Integer id,String naam,int eersteVraag,CustomDate last_update) throws ParseException {
         this.id=id;
         this.naam=naam;
         this.eersteVraag=eersteVraag;
-        this.last_update=last_update;
+        this.last_update=new CustomDate();
     }
 
     public Integer getId() {
@@ -47,11 +56,11 @@ public class Reeks {
     }
 
 
-    public String getLast_update() {
+    public CustomDate getLast_update() {
         return last_update;
     }
 
-    public void setLast_update(String last_update) {
+    public void setLast_update(CustomDate last_update) {
         this.last_update = last_update;
     }
 
