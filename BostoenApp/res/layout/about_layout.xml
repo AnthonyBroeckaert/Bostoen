@@ -4,7 +4,9 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:columnCount="4"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    android:theme="@style/ThemeBostoen"
+    >
 
     <TextView
         android:layout_width="match_parent"
@@ -21,8 +23,8 @@
         android:layout_marginRight="20dp" />
 
     <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="62dp"
+        android:layout_height="62dp"
         android:id="@+id/imageView6"
         android:src="@drawable/logobblrg"
         android:minHeight="0dp"
