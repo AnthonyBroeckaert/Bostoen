@@ -6,12 +6,17 @@
         <item name="android:colorBackground">#ffffffff</item>
         <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
         <item name="android:windowBackground">@color/background</item>
-
+        <item name="android:textColor">#e3000b</item>
+        <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
 
     </style>
 
     <style name="WindowTitleBackground">
         <item name="android:background">#e3000b</item>
+    </style>
+
+    <style name="RobotoTextViewStyle">
+        <item name="android:fontFamily">"fonts/Robot-Regular"</item>
     </style>
 
     <color name="background">#ffffffff</color>
