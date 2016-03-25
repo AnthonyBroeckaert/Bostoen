@@ -3,8 +3,9 @@
     <style name="ThemeBostoen" parent="android:style/Theme">
         <item name="android:textColorPrimary">#e3000b</item>
         <item name="android:colorForeground">#e3000b</item>
-        <item name="android:colorBackground">#fffff</item>
+        <item name="android:colorBackground">#ffffffff</item>
         <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
+        <item name="android:windowBackground">@color/background</item>
 
 
     </style>
@@ -12,4 +13,6 @@
     <style name="WindowTitleBackground">
         <item name="android:background">#e3000b</item>
     </style>
+
+    <color name="background">#ffffffff</color>
 </resources>
