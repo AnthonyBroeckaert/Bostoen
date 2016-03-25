@@ -1,10 +1,11 @@
 package com.example.BostoenApp.Schermen;
 
+import android.view.View;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
+
 
 import com.example.BostoenApp.R;
 
