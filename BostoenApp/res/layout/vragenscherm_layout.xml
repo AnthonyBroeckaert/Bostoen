@@ -33,8 +33,7 @@
         android:checked="false"
         android:textSize="20dp"
         android:textColor="#e3000b"
-        android:layout_marginTop="70dp"
-        android:layout_below="@+id/txtVraag"
+        android:layout_above="@+id/radio2"
         android:layout_alignStart="@+id/txtVraag" />
 
     <RadioButton
@@ -48,8 +47,7 @@
         android:textSize="20dp"
         android:textColor="#e3000b"
         android:layout_above="@+id/radio3"
-        android:layout_alignStart="@+id/radio1"
-        android:layout_marginBottom="32dp" />
+        android:layout_alignStart="@+id/radio1" />
 
     <RadioButton
         android:layout_width="206dp"
