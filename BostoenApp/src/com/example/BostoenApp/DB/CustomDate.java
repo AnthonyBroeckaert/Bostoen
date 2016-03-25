@@ -11,7 +11,7 @@ import java.util.Date;
 public class CustomDate extends Date {
     private Date date;
     private SimpleDateFormat formatter;
-    private String format = "yyyy.MM.dd':'hh:mm:ss";
+    private String format = "yyyy-MM-dd':'hh:mm:ss";
 
     /**
      *
