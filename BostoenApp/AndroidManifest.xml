@@ -3,15 +3,15 @@
     package="com.example.BostoenApp">
     <uses-sdk android:minSdkVersion="17" />
     <application android:icon="@drawable/logo" android:label="Bostoen">
-        <activity android:name=".Schermen.LoginActivity">
-
-        </activity>
-        <activity android:name=".Schermen.EnqueteActivity" />
-        <activity android:name=".DB.DraftActivity">
+        <activity android:name=".Schermen.LoginActivity"  android:theme="@style/ThemeBostoen">>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Schermen.EnqueteActivity" />
+        <activity android:name=".DB.DraftActivity">
+
         </activity>
     </application>
 </manifest>
