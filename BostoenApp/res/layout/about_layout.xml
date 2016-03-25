@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="347dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="blablablablablblablbl dingen en zo blablabllbalbalblblblblblblblbl"
+        android:text="blablablablablblablbla dingen en zo blablabllbalbalblblblblblblblbl"
         android:id="@+id/txtAbout"
         android:layout_row="1"
         android:layout_column="0"
