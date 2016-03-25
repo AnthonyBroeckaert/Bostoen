@@ -6,7 +6,7 @@ package com.example.BostoenApp.DB;
 public class Dossier {
     private Integer id;
     private Integer plaatsId;
-    private Reeks.CustomDate datum;
+    private CustomDate datum;
     private String naam;
 
     public Dossier()
@@ -15,7 +15,7 @@ public class Dossier {
 
     }
 
-    public Dossier(Integer id,Integer plaatsId,Reeks.CustomDate datum,String naam)
+    public Dossier(Integer id,Integer plaatsId,CustomDate datum,String naam)
     {
         this.setId(id);
         this.setPlaatsId(plaatsId);
@@ -40,11 +40,11 @@ public class Dossier {
         this.plaatsId = plaatsId;
     }
 
-    public Reeks.CustomDate getDatum() {
+    public CustomDate getDatum() {
         return datum;
     }
 
-    public void setDatum(Reeks.CustomDate datum) {
+    public void setDatum(CustomDate datum) {
         this.datum = datum;
     }
 

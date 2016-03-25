@@ -33,7 +33,7 @@ public class DraftActivity extends Activity {
 
         //een ArrayList met reeksen maken
         ArrayList<Reeks> reeksen = new ArrayList<>();
-        Reeks.CustomDate c= new Reeks.CustomDate();
+        CustomDate c= new CustomDate();
         try {
 
             reeksen.add(new Reeks(null,"1",1,c));
@@ -95,7 +95,7 @@ public class DraftActivity extends Activity {
             Log.d("antwoordreeks id",new Integer(reeks.getId()).toString());
         }
         //adapter van ListView met reeksen instellen
-        reeksenlijst.setAdapter(new Reeks.CustomDate.ReeksAdapter(getApplicationContext(), antwoordenreeksen));
+        reeksenlijst.setAdapter(new Reeks.ReeksAdapter(getApplicationContext(), antwoordenreeksen));
 
         // voorbeeld van onclick in listview
         reeksenlijst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -162,6 +162,10 @@ public class DraftActivity extends Activity {
 
         dataDBAdapter.clearAll();
         dataDBAdapter.close();
+
+        Log.d("datetest",c.toString());
+
+
     }
 
 

@@ -356,7 +356,7 @@ public class DataDBAdapter {
                 reeks.setId(cursor.getInt(cursor.getColumnIndex(REEKS_ID)));
                 reeks.setEersteVraag(cursor.getInt(cursor.getColumnIndex(REEKS_EERSTE_VRAAG)));
                 reeks.setNaam(cursor.getString(cursor.getColumnIndex(REEKS_NAAM)));
-                reeks.setLast_update(new Reeks.CustomDate(cursor.getString(cursor.getColumnIndex(REEKS_LAST_UPDATE))));
+                reeks.setLast_update(new CustomDate(cursor.getString(cursor.getColumnIndex(REEKS_LAST_UPDATE))));
                 output.add(reeks);
             }
 
@@ -393,7 +393,7 @@ public class DataDBAdapter {
             reeks.setId(cursor.getInt(cursor.getColumnIndex(REEKS_ID)));
             reeks.setEersteVraag(cursor.getInt(cursor.getColumnIndex(REEKS_EERSTE_VRAAG)));
             reeks.setNaam(cursor.getString(cursor.getColumnIndex(REEKS_NAAM)));
-            reeks.setLast_update(new Reeks.CustomDate(cursor.getString(cursor.getColumnIndex(REEKS_LAST_UPDATE))));
+            reeks.setLast_update(new CustomDate(cursor.getString(cursor.getColumnIndex(REEKS_LAST_UPDATE))));
 
             return reeks;
         }
@@ -495,7 +495,7 @@ public class DataDBAdapter {
                 Vraag vraag=new Vraag();
                 vraag.setId(cursor.getInt(cursor.getColumnIndex(VRAAG_ID)));
                 vraag.setTekst(cursor.getString(cursor.getColumnIndex(VRAAG_TEKST)));
-                vraag.setLast_update(new Reeks.CustomDate(cursor.getString(cursor.getColumnIndex(VRAAG_LAST_UPDATE))));
+                vraag.setLast_update(new CustomDate(cursor.getString(cursor.getColumnIndex(VRAAG_LAST_UPDATE))));
                 vraag.setReeks_id(cursor.getInt(cursor.getColumnIndex(VRAAG_REEKS_ID)));
                 vraag.setGeldig(cursor.getInt(cursor.getColumnIndex(VRAAG_GELDIG)) == 1);
 
@@ -537,7 +537,7 @@ public class DataDBAdapter {
             Vraag vraag=new Vraag();
             vraag.setId(cursor.getInt(cursor.getColumnIndex(VRAAG_ID)));
             vraag.setTekst(cursor.getString(cursor.getColumnIndex(VRAAG_TEKST)));
-            vraag.setLast_update(new Reeks.CustomDate(cursor.getString(cursor.getColumnIndex(VRAAG_LAST_UPDATE))));
+            vraag.setLast_update(new CustomDate(cursor.getString(cursor.getColumnIndex(VRAAG_LAST_UPDATE))));
             vraag.setReeks_id(cursor.getInt(cursor.getColumnIndex(VRAAG_REEKS_ID)));
             vraag.setGeldig(cursor.getInt(cursor.getColumnIndex(VRAAG_GELDIG)) == 1);
 
@@ -630,7 +630,7 @@ public class DataDBAdapter {
                 antwoordOptie.setOplossing(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_OPLOSSING_ID)));
                 antwoordOptie.setVolgendeVraag(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_VOLGENDEVRAAG_ID)));
                 antwoordOptie.setGeldig(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_GELDIG))==1);
-                antwoordOptie.setLast_update(new Reeks.CustomDate(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_LAST_UPDATE))));
+                antwoordOptie.setLast_update(new CustomDate(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_LAST_UPDATE))));
 
                 output.add(antwoordOptie);
             }
@@ -673,7 +673,7 @@ public class DataDBAdapter {
                 antwoordOptie.setOplossing(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_OPLOSSING_ID)));
                 antwoordOptie.setVolgendeVraag(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_VOLGENDEVRAAG_ID)));
                 antwoordOptie.setGeldig(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_GELDIG)) == 1);
-                antwoordOptie.setLast_update(new Reeks.CustomDate(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_LAST_UPDATE))));
+                antwoordOptie.setLast_update(new CustomDate(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_LAST_UPDATE))));
 
                 output.add(antwoordOptie);
             }
@@ -823,7 +823,7 @@ public class DataDBAdapter {
             dossier.setId(cursor.getInt(cursor.getColumnIndex(DOSSIER_ID)));
             dossier.setNaam(cursor.getString(cursor.getColumnIndex(DOSSIER_NAAM)));
             dossier.setPlaatsId(cursor.getInt(cursor.getColumnIndex(DOSSIER_PLAATS_ID)));
-            dossier.setDatum(new Reeks.CustomDate(cursor.getString(cursor.getColumnIndex(DOSSIER_DATUM))));
+            dossier.setDatum(new CustomDate(cursor.getString(cursor.getColumnIndex(DOSSIER_DATUM))));
 
             return dossier;
         }
