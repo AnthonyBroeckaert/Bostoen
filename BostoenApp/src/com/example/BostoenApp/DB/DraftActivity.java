@@ -1,4 +1,4 @@
-package com.example.BostoenApp.DB;
+package com.example.BostoenApp;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -12,9 +12,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.text.ParseException;
-
-import com.example.BostoenApp.R;
 import java.util.ArrayList;
 
 public class DraftActivity extends Activity {
@@ -32,20 +29,10 @@ public class DraftActivity extends Activity {
         ImageView imagethree = (ImageView) findViewById(R.id.imageViewthree);*/
 
         //een ArrayList met reeksen maken
-        ArrayList<Reeks> reeksen = new ArrayList<>();
-        Reeks.CustomDate c= new Reeks.CustomDate();
-        try {
-
-            reeksen.add(new Reeks(null,"1",1,c));
-            reeksen.add(new Reeks(null,"2",2,c));
-            reeksen.add(new Reeks(null, "3", 3,c));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-
-
-
+        ArrayList<Reeks> reeksen = new ArrayList<Reeks>();
+        reeksen.add(new Reeks(null,"1",1,"hhsj"));
+        reeksen.add(new Reeks(null,"2",2,"hfaahsj"));
+        reeksen.add(new Reeks(null, "3",3, "hhsj"));
 
 
         //bitmap maken aan de hand van resource ( Res/Mipmap)
@@ -53,23 +40,23 @@ public class DraftActivity extends Activity {
         Bitmap bittwo = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.test2);
 
         //een ArrayList met vragen maken
-        ArrayList<Vraag> vragen = new ArrayList<>();
-        vragen.add(new Vraag(null,"11","",bitone,c,1,true));
-        vragen.add(new Vraag(null, "22", "", bittwo, c, 2, true));
+        ArrayList<Vraag> vragen = new ArrayList<Vraag>();
+        vragen.add(new Vraag(null,"11","",bitone,"",1,true));
+        vragen.add(new Vraag(null, "22", "", bittwo, "", 2, true));
 
 
-        ArrayList<AntwoordOptie> antwoordOpties=new ArrayList<>();
-        antwoordOpties.add(new AntwoordOptie(1,"aa","aa",0,0,true,c));
-        antwoordOpties.add(new AntwoordOptie(1,"bb","bb",0,0,true,c));
-        antwoordOpties.add(new AntwoordOptie(2, "cc", "c", 0, 0, true, c));
+        ArrayList<AntwoordOptie> antwoordOpties=new ArrayList<AntwoordOptie>();
+        antwoordOpties.add(new AntwoordOptie(1,"aa","aa",0,0,true,""));
+        antwoordOpties.add(new AntwoordOptie(1,"bb","bb",0,0,true,""));
+        antwoordOpties.add(new AntwoordOptie(2, "cc", "c", 0, 0, true, ""));
 
         //een object aanmaken van de database klasse
         DataDBAdapter dataDBAdapter = new DataDBAdapter(this);
         //database openen
         dataDBAdapter.open();
         //alle tabellen aanmaken
-        dataDBAdapter.create();
-        //dataDBAdapter.clearAll();
+        //dataDBAdapter.create();
+        //dataDBAdapter.clear();
 
 
 
@@ -84,18 +71,13 @@ public class DraftActivity extends Activity {
         //Cursor om alle reeksen uit database te halen
         Cursor one= dataDBAdapter.getReeksen();
         //ArrayList met alle reeksen uit de database
-        ArrayList<Reeks> antwoordenreeksen= null;
-        try {
-            antwoordenreeksen = dataDBAdapter.getReeksenFromCursor(one);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        ArrayList<Reeks> antwoordenreeksen= dataDBAdapter.getReeksenFromCursor(one);
         for(Reeks reeks : antwoordenreeksen)
         {
             Log.d("antwoordreeks id",new Integer(reeks.getId()).toString());
         }
         //adapter van ListView met reeksen instellen
-        reeksenlijst.setAdapter(new Reeks.CustomDate.ReeksAdapter(getApplicationContext(), antwoordenreeksen));
+        reeksenlijst.setAdapter(new ReeksAdapter(getApplicationContext(), antwoordenreeksen));
 
         // voorbeeld van onclick in listview
         reeksenlijst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -108,25 +90,14 @@ public class DraftActivity extends Activity {
         //Cursor om alle vragen op te halen
        Cursor two=dataDBAdapter.getVragen();
         //ArrayLIst met alle vragen
-
-        ArrayList<Vraag> antwoordenvragen= null;
-        try {
-            antwoordenvragen = dataDBAdapter.getVragenFromCursor(two);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        ArrayList<Vraag> antwoordenvragen=dataDBAdapter.getVragenFromCursor(two);
         for(Vraag vraag : antwoordenvragen)
         {
             Log.d("Antwoord vraag id",vraag.getId().toString());
         }
 
         Cursor vraag = dataDBAdapter.getVraag(1);
-        Vraag temp= null;
-        try {
-            temp = dataDBAdapter.getVraagFromCursor(vraag);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Vraag temp=dataDBAdapter.getVraagFromCursor(vraag);
         String a =temp.getTekst()+temp.getLast_update();
         Log.d("test enkele reeks",a);
 
@@ -137,12 +108,7 @@ public class DraftActivity extends Activity {
 
         //cursor om alle antwoordopties op te halen
         Cursor three = dataDBAdapter.getAntwoordOptiesVraag(1);
-        ArrayList<AntwoordOptie> antwoordOptiesAntwoord= null;
-        try {
-            antwoordOptiesAntwoord = dataDBAdapter.getAntwoordOptiesVraagFromCursor(three);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        ArrayList<AntwoordOptie> antwoordOptiesAntwoord=dataDBAdapter.getAntwoordOptiesVraagFromCursor(three);
         if(antwoordOptiesAntwoord==null)
         {
             Log.d("atl results","geen antwoordopties");
@@ -160,7 +126,7 @@ public class DraftActivity extends Activity {
 
 
 
-        dataDBAdapter.clearAll();
+        dataDBAdapter.clear();
         dataDBAdapter.close();
     }
 
