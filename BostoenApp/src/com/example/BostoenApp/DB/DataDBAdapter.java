@@ -130,12 +130,12 @@ public class DataDBAdapter {
     };
     //VRAGENDOSSIER TABLE
     private static final String VRAGENDOSSIER_DOSSIER_NR="dossiernr";
-    private static final String VRAGENDOSSIER_VRAAG_ID="vraag_id";
+    private static final String VRAGENDOSSIER_VRAAG_TEKST="vraag_tekst";
     private static final String VRAGENDOSSIER_ANTWOORD_TEKST="antwoord_tekst";
 
     private static final String[] VRAGENDOSSIER_FIELDS = new String[] {
             VRAGENDOSSIER_DOSSIER_NR,
-            VRAGENDOSSIER_VRAAG_ID,
+            VRAGENDOSSIER_VRAAG_TEKST,
             VRAGENDOSSIER_ANTWOORD_TEKST
     };
 
@@ -190,9 +190,11 @@ public class DataDBAdapter {
                     + DOSSIER_NAAM +" text NOT NULL"+");";
     private static final String CREATE_TABLE_VRAGENDOSSIER=
             "create table "+ VRAGENDOSSIER_TABLE+"("
-                    + VRAGENDOSSIER_DOSSIER_NR + " INTEGER PRIMARY KEY,"
-                    + VRAGENDOSSIER_VRAAG_ID + " INTEGER,"
-                    + VRAGENDOSSIER_ANTWOORD_TEKST+" text"+");";
+                    + VRAGENDOSSIER_DOSSIER_NR + " INTEGER ,"
+                    + VRAGENDOSSIER_VRAAG_TEKST + " text,"
+                    + VRAGENDOSSIER_ANTWOORD_TEKST+" text,"
+                    +"PRIMARY KEY ("+VRAGENDOSSIER_VRAAG_TEKST+","+VRAGENDOSSIER_ANTWOORD_TEKST+")"
+                    +");";
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
         DatabaseHelper(Context context) {
@@ -299,7 +301,7 @@ public class DataDBAdapter {
         initialValues.put(REEKS_ID,reeks.getId());
         initialValues.put(REEKS_NAAM,reeks.getNaam());
         initialValues.put(REEKS_EERSTE_VRAAG,reeks.getEersteVraag());
-        initialValues.put(REEKS_LAST_UPDATE,reeks.getLast_update().toString());
+        initialValues.put(REEKS_LAST_UPDATE, reeks.getLast_update().toString());
 
         mDb.insert(REEKS_TABLE, null, initialValues);
     }
@@ -567,7 +569,7 @@ public class DataDBAdapter {
         initialValues.put(ANTWOORDOPTIE_OPLOSSING_ID, antwoordOptie.getOplossing());
         initialValues.put(ANTWOORDOPTIE_VOLGENDEVRAAG_ID, antwoordOptie.getVolgendeVraag());
         initialValues.put(ANTWOORDOPTIE_LAST_UPDATE, antwoordOptie.getLast_update().toString());
-        if(antwoordOptie.isGeldig())
+        if (antwoordOptie.isGeldig())
         {
             initialValues.put(ANTWOORDOPTIE_GELDIG, 1);
         }
@@ -691,7 +693,7 @@ public class DataDBAdapter {
     {
         ContentValues initialValues=new ContentValues();
         initialValues.put(PLAATS_ID,plaats.getId());
-        initialValues.put(PLAATS_ADRES,plaats.getAdres());
+        initialValues.put(PLAATS_ADRES, plaats.getAdres());
 
         mDb.insert(PLAATS_TABLE, null, initialValues);
     }
@@ -780,8 +782,7 @@ public class DataDBAdapter {
      * Verwijdert het gewenste dossier object
      * @param dossier
      */
-    public void deleteDossier(Dossier dossier)
-    {
+    public void deleteDossier(Dossier dossier) {
         mDb.delete(DOSSIER_TABLE, DOSSIER_FIELDS + "=" + dossier.getId(), null);
     }
 
@@ -834,8 +835,67 @@ public class DataDBAdapter {
 
     }
 
+    /**
+     * Methode om een vragenDossier aan de database toe te voegen
+     * @param vragenDossier
+     */
     public void addVragenDossier(VragenDossier vragenDossier )
     {
+        ContentValues initialValues=new ContentValues();
+        initialValues.put(VRAGENDOSSIER_DOSSIER_NR,vragenDossier.getDossierNr());
+        initialValues.put(VRAGENDOSSIER_VRAAG_TEKST,vragenDossier.getVraagTekst());
+        initialValues.put(VRAGENDOSSIER_ANTWOORD_TEKST,vragenDossier.getAntwoordTekst());
+        mDb.insert(DOSSIER_TABLE, null, initialValues);
+    }
 
+    /**
+     * Methode die een ArrayList met vragenDossiers aan de database toevoegt
+     * @param vragenDossiers
+     */
+    public void addVragenDossiers(ArrayList<VragenDossier> vragenDossiers)
+    {
+        for(VragenDossier vragenDossier : vragenDossiers)
+        {
+            addVragenDossier(vragenDossier);
+        }
+    }
+
+    /**
+     *
+     * @param dossiernr het id van het dossier waarvan je alle VragenDossiers wilt
+     * @return
+     */
+    public Cursor getVragenDossiers(int dossiernr)
+    {
+        String[] selectionArgs = {String.valueOf(dossiernr)};
+        //eerste null is de 'where', dan 'selectionArgs' 'GroupBy' 'Having' 'orderBy' en 'limit'
+        return mDb.query(VRAGENDOSSIER_TABLE, VRAGENDOSSIER_FIELDS,VRAGENDOSSIER_DOSSIER_NR+"=?",selectionArgs, null, null, null, null);
+    }
+
+    /**
+     *
+     * @param cursor wordt verkregen door getVragenDossiers() op te roepen
+     * @return de gevraagd VragenDossiers in een ArrayList (null indien het niet werd gevonden)
+     */
+    public ArrayList<VragenDossier> getVragenDossiersFromCursor(Cursor cursor)
+    {
+        if (cursor.getCount() > 0) {
+            ArrayList<VragenDossier> output = new ArrayList<>();
+
+            while (cursor.moveToNext()) {
+               VragenDossier vragenDossier = new VragenDossier();
+
+                vragenDossier.setDossierNr(cursor.getInt(cursor.getColumnIndex(VRAGENDOSSIER_DOSSIER_NR)));
+                vragenDossier.setAntwoordTekst(cursor.getString(cursor.getColumnIndex(VRAGENDOSSIER_ANTWOORD_TEKST)));
+                vragenDossier.setVraagTekst(cursor.getString(cursor.getColumnIndex(VRAGENDOSSIER_VRAAG_TEKST)));
+
+                output.add(vragenDossier);
+            }
+            return output;
+        }
+        else
+        {
+            return null;
+        }
     }
 }

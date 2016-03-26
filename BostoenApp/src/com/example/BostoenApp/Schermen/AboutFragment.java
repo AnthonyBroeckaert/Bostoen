@@ -1,7 +1,6 @@
 package com.example.BostoenApp.Schermen;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 import android.app.Fragment;
 import android.os.Bundle;

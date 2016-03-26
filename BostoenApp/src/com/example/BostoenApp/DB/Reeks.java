@@ -4,6 +4,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.BostoenApp.R;
@@ -15,11 +17,13 @@ import java.util.ArrayList;
 /**
  * Created by david on 20/03/2016.
  */
-public class Reeks {
+public class Reeks  {
     private Integer id;
     private String naam;
     private Integer eersteVraag;
     private CustomDate last_update;
+    private boolean isChecked;
+
 
     public Reeks() {
 
@@ -32,7 +36,7 @@ public class Reeks {
      * @param last_update
      * @throws ParseException wordt opgegooid wanneer de string last_update een verkeerd formaat heeft
      */
-    public Reeks(Integer id, String naam, int eersteVraag, CustomDate last_update) throws ParseException {
+    public Reeks(Integer id, String naam, int eersteVraag, CustomDate last_update) throws ParseException  {
         this.id = id;
         this.naam = naam;
         this.eersteVraag = eersteVraag;
@@ -82,6 +86,21 @@ public class Reeks {
         return sb.toString();
 
     }
+
+    public void setChecked(boolean isChecked)
+    {
+        this.isChecked=isChecked;
+    }
+
+    public boolean isChecked()
+    {
+        return isChecked;
+    }
+
+
+
+
+
     /**
      * Created by david on 21/03/2016.
      */
@@ -89,6 +108,7 @@ public class Reeks {
         Context mContext;
         ArrayList<Reeks> reeksen;
         LayoutInflater mInflater;
+
 
         public ReeksAdapter(Context c,ArrayList<Reeks> reeksen)
         {
@@ -115,12 +135,21 @@ public class Reeks {
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = mInflater.inflate(R.layout.reeks_view_item,null);
             TextView reeksnaam = (TextView)view.findViewById(R.id.Reeksnaam);
+            RadioButton btn = (RadioButton)view.findViewById(R.id.reeksCheck);
+            btn.setEnabled(false);
+            btn.setChecked(reeksen.get(position).isChecked());
 
             Reeks currentReeks=reeksen.get(position);
             reeksnaam.setText(currentReeks.getNaam());
 
+
             return view;
         }
+
+
+
+
+
     }
 
 
