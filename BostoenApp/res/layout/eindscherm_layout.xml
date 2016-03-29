@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="#ffffff">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="RESULTAAT blblblblbllblaqlablallablbalablbalbalablbalbalbalblalbalablbal"
+        android:id="@+id/txtResultaat"
+        android:layout_weight="0.57"
+        android:maxLines = "10000"
+
+        android:scrollbars = "vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="60dp"
+        android:textColor="#e3000b"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wijzigingen"
+        android:id="@+id/btnWijzigen"
+        android:layout_alignParentEnd="true"
+        android:textColor="#e3000b" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="KIES REEKS"
+        android:id="@+id/btnKiesReeks"
+        android:layout_marginBottom="68dp"
+        android:layout_marginEnd="46dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/btnVerzenden" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Verzenden"
+        android:id="@+id/btnVerzenden"
+        android:layout_marginEnd="60dp"
+        android:layout_alignTop="@+id/btnKiesReeks"
+        android:layout_alignEnd="@+id/btnWijzigen" />
+</RelativeLayout>
