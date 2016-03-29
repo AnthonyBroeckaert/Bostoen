@@ -56,17 +56,18 @@ public class DraftActivity extends Activity {
 
 
         ArrayList<AntwoordOptie> antwoordOpties=new ArrayList<>();
-        antwoordOpties.add(new AntwoordOptie(1,"aa","aa",0,0,true,c));
-        antwoordOpties.add(new AntwoordOptie(1,"bb","bb",0,0,true,c));
-        antwoordOpties.add(new AntwoordOptie(2, "cc", "c", 0, 0, true, c));
+        antwoordOpties.add(new AntwoordOptie(1,"aa","aa",0,"",true,c));
+        antwoordOpties.add(new AntwoordOptie(1,"bb","bb",0,"",true,c));
+        antwoordOpties.add(new AntwoordOptie(2, "cc", "c", 0, "", true, c));
 
         //een object aanmaken van de database klasse
         DataDBAdapter dataDBAdapter = new DataDBAdapter(this);
         //database openen
         dataDBAdapter.open();
+        dataDBAdapter.clearAll();
         //alle tabellen aanmaken
-        dataDBAdapter.create();
-        //dataDBAdapter.clearAll();
+       //dataDBAdapter.create();
+
 
 
 

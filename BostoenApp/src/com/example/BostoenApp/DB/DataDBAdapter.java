@@ -92,7 +92,7 @@ public class DataDBAdapter {
     public static final String ANTWOORDOPTIE_ANTWOORD_TEKST = "antwoord_tekst";
     public static final String ANTWOORDOPTIE_ANTWOORD_OPMERKING = "antwoord_opmerking";
     public static final String ANTWOORDOPTIE_VOLGENDEVRAAG_ID = "volgendeVraag_id";
-    public static final String ANTWOORDOPTIE_OPLOSSING_ID = "oplossing_id";
+    public static final String ANTWOORDOPTIE_OPLOSSING_TEKST = "oplossing_tekst";
     public static final String ANTWOORDOPTIE_GELDIG = "geldig";
     public static final String ANTWOORDOPTIE_LAST_UPDATE = "last_update";
 
@@ -101,7 +101,7 @@ public class DataDBAdapter {
             ANTWOORDOPTIE_ANTWOORD_TEKST,
             ANTWOORDOPTIE_ANTWOORD_OPMERKING,
             ANTWOORDOPTIE_VOLGENDEVRAAG_ID,
-            ANTWOORDOPTIE_OPLOSSING_ID,
+            ANTWOORDOPTIE_OPLOSSING_TEKST,
             ANTWOORDOPTIE_GELDIG,
             ANTWOORDOPTIE_LAST_UPDATE
     };
@@ -124,7 +124,7 @@ public class DataDBAdapter {
             ANTWOORDOPTIE_ANTWOORD_TEKST,
             ANTWOORDOPTIE_ANTWOORD_OPMERKING,
             ANTWOORDOPTIE_VOLGENDEVRAAG_ID,
-            ANTWOORDOPTIE_OPLOSSING_ID,
+            ANTWOORDOPTIE_OPLOSSING_TEKST,
             ANTWOORDOPTIE_GELDIG,
             ANTWOORDOPTIE_LAST_UPDATE
     };
@@ -172,7 +172,7 @@ public class DataDBAdapter {
                     + ANTWOORDOPTIE_ANTWOORD_TEKST+" TEXT,"
                     + ANTWOORDOPTIE_ANTWOORD_OPMERKING + " TEXT,"
                     + ANTWOORDOPTIE_VOLGENDEVRAAG_ID + " INTEGER,"
-                    + ANTWOORDOPTIE_OPLOSSING_ID + " INTEGER,"
+                    + ANTWOORDOPTIE_OPLOSSING_TEKST + " TEXT,"
                     + ANTWOORDOPTIE_GELDIG +" TEXT NOT NULL,"
                     + ANTWOORDOPTIE_LAST_UPDATE + " TEXT,"
                     +"PRIMARY KEY ("+ANTWOORDOPTIE_ID+","+ANTWOORDOPTIE_ANTWOORD_TEKST+")"
@@ -205,6 +205,7 @@ public class DataDBAdapter {
 
             db.execSQL(CREATE_TABLE_REEKS);
             db.execSQL(CREATE_TABLE_ANTWOORDOPTIE);
+            Log.d("create",CREATE_TABLE_ANTWOORDOPTIE);
             db.execSQL(CREATE_TABLE_DOSSIER);
             db.execSQL(CREATE_TABLE_OPLOSSING);
             db.execSQL(CREATE_TABLE_PLAATS);
@@ -234,6 +235,7 @@ public class DataDBAdapter {
     {
         mDb.execSQL(CREATE_TABLE_REEKS);
         mDb.execSQL(CREATE_TABLE_ANTWOORDOPTIE);
+        Log.d("create", CREATE_TABLE_ANTWOORDOPTIE);
         mDb.execSQL(CREATE_TABLE_DOSSIER);
         mDb.execSQL(CREATE_TABLE_OPLOSSING);
         mDb.execSQL(CREATE_TABLE_PLAATS);
@@ -566,7 +568,7 @@ public class DataDBAdapter {
         initialValues.put(ANTWOORDOPTIE_ID, antwoordOptie.getVraagId());
         initialValues.put(ANTWOORDOPTIE_ANTWOORD_TEKST, antwoordOptie.getAntwoordTekst());
         initialValues.put(ANTWOORDOPTIE_ANTWOORD_OPMERKING, antwoordOptie.getAntwoordOpmerking());
-        initialValues.put(ANTWOORDOPTIE_OPLOSSING_ID, antwoordOptie.getOplossing());
+        initialValues.put(ANTWOORDOPTIE_OPLOSSING_TEKST, antwoordOptie.getOplossing());
         initialValues.put(ANTWOORDOPTIE_VOLGENDEVRAAG_ID, antwoordOptie.getVolgendeVraag());
         initialValues.put(ANTWOORDOPTIE_LAST_UPDATE, antwoordOptie.getLast_update().toString());
         if (antwoordOptie.isGeldig())
@@ -629,7 +631,7 @@ public class DataDBAdapter {
                 antwoordOptie.setVraagId(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_ID)));
                 antwoordOptie.setAntwoordTekst(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_ANTWOORD_TEKST)));
                 antwoordOptie.setAntwoordOpmerking(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_ANTWOORD_OPMERKING)));
-                antwoordOptie.setOplossing(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_OPLOSSING_ID)));
+                antwoordOptie.setOplossing(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_OPLOSSING_TEKST)));
                 antwoordOptie.setVolgendeVraag(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_VOLGENDEVRAAG_ID)));
                 antwoordOptie.setGeldig(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_GELDIG))==1);
                 antwoordOptie.setLast_update(new CustomDate(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_LAST_UPDATE))));
@@ -672,7 +674,7 @@ public class DataDBAdapter {
                 antwoordOptie.setVraagId(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_ID)));
                 antwoordOptie.setAntwoordTekst(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_ANTWOORD_TEKST)));
                 antwoordOptie.setAntwoordOpmerking(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_ANTWOORD_OPMERKING)));
-                antwoordOptie.setOplossing(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_OPLOSSING_ID)));
+                antwoordOptie.setOplossing(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_OPLOSSING_TEKST)));
                 antwoordOptie.setVolgendeVraag(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_VOLGENDEVRAAG_ID)));
                 antwoordOptie.setGeldig(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_GELDIG)) == 1);
                 antwoordOptie.setLast_update(new CustomDate(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_LAST_UPDATE))));
