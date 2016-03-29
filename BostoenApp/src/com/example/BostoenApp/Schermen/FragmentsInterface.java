@@ -12,7 +12,7 @@ public interface FragmentsInterface {
     void goToKlantFragment();
 
 
-    void goToVragenFragment();
+    void goToVragenFragment(int id);
 
 
     void goToAboutFragment();

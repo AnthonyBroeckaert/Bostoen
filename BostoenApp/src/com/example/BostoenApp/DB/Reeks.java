@@ -34,9 +34,8 @@ public class Reeks  {
      * @param naam
      * @param eersteVraag
      * @param last_update
-     * @throws ParseException wordt opgegooid wanneer de string last_update een verkeerd formaat heeft
      */
-    public Reeks(Integer id, String naam, int eersteVraag, CustomDate last_update) throws ParseException  {
+    public Reeks(Integer id, String naam, int eersteVraag, CustomDate last_update)  {
         this.id = id;
         this.naam = naam;
         this.eersteVraag = eersteVraag;

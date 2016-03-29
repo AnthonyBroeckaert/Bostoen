@@ -40,11 +40,14 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface{
     }
 
     @Override
-    public void goToVragenFragment() {
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, new VragenFragment(), "VragenFragment")
+    public void goToVragenFragment(int id) {
+        VragenFragment vraag=new VragenFragment();
+        vraag.setVraagid(id);
+        getFragmentManager().beginTransaction().replace(R.id.container, vraag, "VragenFragment")
                 .addToBackStack("VragenFragment")
                 .commit();
     }
+
 
     @Override
     public void goToAboutFragment() {

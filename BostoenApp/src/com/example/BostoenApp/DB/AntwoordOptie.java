@@ -1,5 +1,17 @@
 package com.example.BostoenApp.DB;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.RadioButton;
+import android.widget.TextView;
+
+import com.example.BostoenApp.R;
+
+import java.util.ArrayList;
+
 /**
  * Created by david on 21/03/2016.
  */
@@ -7,10 +19,11 @@ public class AntwoordOptie {
     private int vraagId;
     private String antwoordTekst;
     private String antwoordOpmerking;
-    private int volgendeVraag;
+    private Integer volgendeVraag;
     private int oplossing;
     private boolean geldig;
     private CustomDate last_update;
+    private boolean isChecked;
 
     public AntwoordOptie()
     {
@@ -45,7 +58,7 @@ public class AntwoordOptie {
         this.antwoordOpmerking = antwoordOpmerking;
     }
 
-    public int getVolgendeVraag() {
+    public Integer getVolgendeVraag() {
         return volgendeVraag;
     }
 
@@ -84,4 +97,63 @@ public class AntwoordOptie {
     public void setVraagId(int vraagId) {
         this.vraagId = vraagId;
     }
+
+    public boolean isChecked()
+    {
+        return isChecked;
+    }
+
+    public void setChecked(boolean isChecked)
+    {
+        this.isChecked=isChecked;
+    }
+
+    public static class AntwoordOptieAdapter extends BaseAdapter {
+        Context mContext;
+        ArrayList<AntwoordOptie> antwoordOpties;
+        LayoutInflater mInflater;
+
+
+        public AntwoordOptieAdapter(Context c,ArrayList<AntwoordOptie> antwoordOpties)
+        {
+            mContext=c;
+            this.antwoordOpties=antwoordOpties;
+            mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+
+
+        @Override
+        public int getCount() {
+            return antwoordOpties.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return antwoordOpties.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = mInflater.inflate(R.layout.antwoordoptie_view_item,null);
+            TextView antwoordtekst = (TextView)view.findViewById(R.id.Antwoordtekst);
+            RadioButton btn = (RadioButton)view.findViewById(R.id.AntwoordoptieCheck);
+            btn.setEnabled(false);
+            btn.setChecked(antwoordOpties.get(position).isChecked());
+
+            AntwoordOptie currentAntwoord=antwoordOpties.get(position);
+            antwoordtekst.setText(currentAntwoord.getAntwoordTekst());
+
+
+            return view;
+        }
 }
+
+
+
+    }

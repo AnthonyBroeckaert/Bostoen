@@ -34,14 +34,11 @@ public class DraftActivity extends Activity {
         //een ArrayList met reeksen maken
         ArrayList<Reeks> reeksen = new ArrayList<>();
         CustomDate c= new CustomDate();
-        try {
 
             reeksen.add(new Reeks(null,"1",1,c));
             reeksen.add(new Reeks(null,"2",2,c));
             reeksen.add(new Reeks(null, "3", 3,c));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+
 
 
 
