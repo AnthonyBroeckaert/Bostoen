@@ -117,8 +117,8 @@
                 android:layout_margin="15dp"/>
 
             <Button
-                android:id="@+id/btnFragKeuze"
-                android:text="Volgende"
+                android:id="@+id/btnFragKlantInstellingen"
+                android:text="Bevestig"
                 android:textSize="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
