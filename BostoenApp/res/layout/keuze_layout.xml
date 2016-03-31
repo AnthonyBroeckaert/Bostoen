@@ -8,6 +8,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/reeksLijst"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         />
 
     <TextView

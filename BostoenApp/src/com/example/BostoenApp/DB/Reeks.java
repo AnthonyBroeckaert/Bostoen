@@ -1,5 +1,6 @@
 package com.example.BostoenApp.DB;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -136,12 +137,12 @@ public class Reeks  {
             View view = mInflater.inflate(R.layout.reeks_view_item,null);
             TextView reeksnaam = (TextView)view.findViewById(R.id.Reeksnaam);
             RadioButton btn = (RadioButton)view.findViewById(R.id.reeksCheck);
-            RadioGroup rdg = (RadioGroup)view.findViewById(R.id.RadioButtonReeks);
-            rdg.setEnabled(false);
+
             btn.setEnabled(false);
             btn.setChecked(reeksen.get(position).isChecked());
+            
 
-            Reeks currentReeks=reeksen.get(position);
+            Reeks currentReeks = reeksen.get(position);
             reeksnaam.setText(currentReeks.getNaam());
 
 

@@ -8,7 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.EditText;
+
 
 import com.example.BostoenApp.DB.AntwoordOptie;
 import com.example.BostoenApp.DB.CustomDate;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class LoginActivity extends Activity implements FragmentsInterface,KeuzeFragment.OnFragmentInteractionListener,TestInterface,VragenFragment.OnFragmentInteractionListener,LoginAdviseurFragment.OnFragmentInteractionListener{
     private DataDBAdapter dataDBAdapter;
     private static final String PREFS_NAME = "COM.BOSTOEN.BE";
-    SharedPreferences sharedpreferences;
+    private SharedPreferences sharedpreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -3,13 +3,14 @@ package com.example.BostoenApp.Schermen;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-
+import android.widget.RadioButton;
 
 
 import com.example.BostoenApp.DB.Reeks;
@@ -74,9 +75,9 @@ public class KeuzeFragment extends Fragment {
 
                 }
 
+
                 reekslijst.setAdapter(new Reeks.ReeksAdapter(getActivity().getApplicationContext(), reeksen));
-
-
+                Log.d("Listview","onclick");
                 }
             });
 
