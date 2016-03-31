@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.BostoenApp.R;
@@ -135,6 +136,8 @@ public class Reeks  {
             View view = mInflater.inflate(R.layout.reeks_view_item,null);
             TextView reeksnaam = (TextView)view.findViewById(R.id.Reeksnaam);
             RadioButton btn = (RadioButton)view.findViewById(R.id.reeksCheck);
+            RadioGroup rdg = (RadioGroup)view.findViewById(R.id.RadioButtonReeks);
+            rdg.setEnabled(false);
             btn.setEnabled(false);
             btn.setChecked(reeksen.get(position).isChecked());
 

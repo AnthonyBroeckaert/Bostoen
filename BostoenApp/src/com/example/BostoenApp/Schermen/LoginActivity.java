@@ -1,7 +1,9 @@
 package com.example.BostoenApp.Schermen;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -21,18 +23,31 @@ import java.util.ArrayList;
 /**
  * Created by Marnix on 20/03/2016.
  */
-public class LoginActivity extends Activity implements FragmentsInterface,KeuzeFragment.OnFragmentInteractionListener,TestInterface,VragenFragment.OnFragmentInteractionListener{
+public class LoginActivity extends Activity implements FragmentsInterface,KeuzeFragment.OnFragmentInteractionListener,TestInterface,VragenFragment.OnFragmentInteractionListener,LoginAdviseurFragment.OnFragmentInteractionListener{
     private DataDBAdapter dataDBAdapter;
+    private static final String PREFS_NAME = "COM.BOSTOEN.BE";
+    SharedPreferences sharedpreferences;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
 
+        sharedpreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new LoginAdviseurFragment(), "AdviseurFragment")
-                    .addToBackStack("AdviseurFragment")
-                    .commit();
+            if(!sharedpreferences.contains("Voornaam"))
+            {
+                Log.d("no shared preferences","");
+                goToAdviseurFragment();
+            }
+            else
+            {
+                goToKlantFragment();
+                Log.d("Shared preferences","");
+            }
+
         }
         dataDBAdapter = new DataDBAdapter(getApplicationContext());
     }
@@ -157,6 +172,57 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
         }
         dataDBAdapter.close();
         return antwoordOpties;
+    }
+
+    @Override
+    public String getVoornaam() {
+        if(sharedpreferences.contains("Voornaam"))
+        {
+            return sharedpreferences.getString("Voornaam","");
+        }
+        else return null;
+    }
+
+    @Override
+    public void setVoornaam(String voornaam) {
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString("Voornaam",voornaam);
+        editor.commit();
+        Log.d("Activity","Voornaam is set");
+    }
+
+    @Override
+    public String getNaam() {
+        if(sharedpreferences.contains("Naam"))
+        {
+            return sharedpreferences.getString("Naam","");
+        }
+        else return null;
+    }
+
+    @Override
+    public void setNaam(String naam) {
+        SharedPreferences.Editor editor=sharedpreferences.edit();
+        editor.putString("Naam",naam);
+        editor.commit();
+        Log.d("Activity", "Naam is set");
+    }
+
+    @Override
+    public String getEmail() {
+        if(sharedpreferences.contains("Email"))
+        {
+            return sharedpreferences.getString("Email","");
+        }
+        else return null;
+    }
+
+    @Override
+    public void setEmail(String email) {
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString("Email",email);
+        editor.commit();
+        Log.d("Activity", "Email is set");
     }
 }
 

@@ -55,14 +55,9 @@
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
     </style>
 
-    <style name="radiobutton">
-
-        <item name="android:button">@drawable/selectr</item>
+    <style name="radiobutton" parent="@android:style/Widget.CompoundButton.RadioButton">
+            <item name="android:button">@drawable/selectr</item>
     </style>
-
-
-
-
 
 
 

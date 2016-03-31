@@ -8,8 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
+import com.example.BostoenApp.DB.AntwoordOptie;
+import com.example.BostoenApp.DB.Vraag;
 import com.example.BostoenApp.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by Anthony on 25/03/2016.
@@ -17,6 +22,7 @@ import com.example.BostoenApp.R;
 public class LoginKlantFragment extends Fragment {
     private View view;
     private FragmentsInterface mListener;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,9 +32,11 @@ public class LoginKlantFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view= inflater.inflate(R.layout.loginklant_layout, container, false);
         Button volgende = (Button)view.findViewById(R.id.btnFragKeuze);
+
         volgende.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 mListener.goToKeuzeFragment();
             }
         });
@@ -41,6 +49,7 @@ public class LoginKlantFragment extends Fragment {
         super.onAttach(activity);
         if (activity instanceof FragmentsInterface) {
             mListener = (FragmentsInterface) activity;
+
         } else {
             throw new RuntimeException(activity.toString()
                     + " must implement FragmetnsInterface");
@@ -51,4 +60,6 @@ public class LoginKlantFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
+
+
 }
