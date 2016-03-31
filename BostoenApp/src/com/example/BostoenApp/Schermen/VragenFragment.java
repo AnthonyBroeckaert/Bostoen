@@ -43,55 +43,54 @@ public class VragenFragment extends Fragment {
         ListView antwoorden = (ListView)view.findViewById(R.id.AntwoordenList);
         Button ok = (Button) view.findViewById(R.id.btnOK);
         Vraag vraag = methods.getVraag(vraagid);
-        if(vraag.getImage()!=null)
+        if(vraag!=null)
         {
-            ImageView image = (ImageView) view.findViewById(R.id.imageView);
-            image.setImageBitmap(vraag.getImage());
-        }
-        vraagtekst.setText(vraag.getTekst());
+            if(vraag.getImage()!=null)
+            {
+                ImageView image = (ImageView) view.findViewById(R.id.imageView);
+                image.setImageBitmap(vraag.getImage());
+            }
+            vraagtekst.setText(vraag.getTekst());
+            ArrayList<AntwoordOptie> antwoordOpties=methods.getAntwoorden(vraagid);
+            antwoorden.setAdapter(new AntwoordOptie.AntwoordOptieAdapter(getActivity().getApplicationContext(),antwoordOpties));
 
-        ArrayList<AntwoordOptie> antwoordOpties=methods.getAntwoorden(vraagid);
-        antwoorden.setAdapter(new AntwoordOptie.AntwoordOptieAdapter(getActivity().getApplicationContext(),antwoordOpties));
+            antwoorden.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    huidig = (AntwoordOptie) parent.getItemAtPosition(position);
+                    for (int i = 0; i < antwoordOpties.size(); i++) {
+                        AntwoordOptie antwoordOptie = antwoordOpties.get(i);
 
-        antwoorden.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                huidig = (AntwoordOptie) parent.getItemAtPosition(position);
-                for (int i = 0; i < antwoordOpties.size(); i++) {
-                    AntwoordOptie antwoordOptie = antwoordOpties.get(i);
+                        if (antwoordOptie == huidig) {
+                            antwoordOpties.get(i).setChecked(true);
+                        } else {
+                            antwoordOpties.get(i).setChecked(false);
+                        }
 
-                    if (antwoordOptie == huidig) {
-                        antwoordOpties.get(i).setChecked(true);
+                    }
+
+                    antwoorden.setAdapter(new AntwoordOptie.AntwoordOptieAdapter(getActivity().getApplicationContext(), antwoordOpties));
+
+
+                }
+            });
+
+            ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (huidig != null) {
+                        if (huidig.getVolgendeVraag() != null) {
+                            mListener.goToVragenFragment(huidig.getVolgendeVraag());
+                        }
+                        Log.d("Volgende vraag is null", "null");
                     } else {
-                        antwoordOpties.get(i).setChecked(false);
+                        Log.d("Huidig is null", "null");
                     }
-
                 }
+            });
+        }
 
-                antwoorden.setAdapter(new AntwoordOptie.AntwoordOptieAdapter(getActivity().getApplicationContext(), antwoordOpties));
-
-
-            }
-        });
-
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(huidig!=null)
-                {
-                    if(huidig.getVolgendeVraag()!=null)
-                    {
-                        mListener.goToVragenFragment(huidig.getVolgendeVraag());
-                    }
-                    Log.d("Volgende vraag is null","null");
-                }
-                else
-                {
-                    Log.d("Huidig is null","null");
-                }
-            }
-        });
         return view;
         }
 
