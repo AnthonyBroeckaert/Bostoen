@@ -40,6 +40,7 @@ public class VragenFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view= inflater.inflate(R.layout.vragenscherm_layout, container, false);
         TextView vraagtekst=(TextView)view.findViewById(R.id.txtVraag);
+        TextView tip = (TextView)view.findViewById(R.id.txtTip);
         ListView antwoorden = (ListView)view.findViewById(R.id.AntwoordenList);
         Button ok = (Button) view.findViewById(R.id.btnOK);
         Vraag vraag = methods.getVraag(vraagid);
@@ -51,6 +52,11 @@ public class VragenFragment extends Fragment {
                 image.setImageBitmap(vraag.getImage());
             }
             vraagtekst.setText(vraag.getTekst());
+            if(vraag.getTip()!=null && !vraag.getTip().equals(""))
+            {
+                tip.setText("Tip : "+vraag.getTip());
+            }
+            else tip.setText("");
             ArrayList<AntwoordOptie> antwoordOpties=methods.getAntwoorden(vraagid);
             antwoorden.setAdapter(new AntwoordOptie.AntwoordOptieAdapter(getActivity().getApplicationContext(),antwoordOpties));
 

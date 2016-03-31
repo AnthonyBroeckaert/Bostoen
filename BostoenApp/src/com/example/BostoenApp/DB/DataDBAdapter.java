@@ -107,11 +107,24 @@ public class DataDBAdapter {
     };
     //PLAATS TABLE
     private static final String PLAATS_ID="id";
-    private static final String PLAATS_ADRES="adres";
+    private static final String PLAATS_STRAAT="straat";
+    private static final String PLAATS_GEMEENTE="gemeente";
+    private static final String PLAATS_NR="nummer";
+    private static final String PLAATS_CODE="postcode";
+    private static final String PLAATS_VOORNAAM="voornaam";
+    private static final String PLAATS_NAAM="naam";
+    private static final String PLAATS_ISEIGENAAR="isEigenaar";
+
 
     private static final String[] PLAATS_FIELDS = new String[] {
             PLAATS_ID,
-            PLAATS_ADRES
+            PLAATS_STRAAT,
+            PLAATS_GEMEENTE,
+            PLAATS_NR,
+            PLAATS_CODE,
+            PLAATS_VOORNAAM,
+            PLAATS_NAAM,
+            PLAATS_ISEIGENAAR
     };
     //DOSSIER TABLE
     private static final String DOSSIER_ID="id";
@@ -181,7 +194,13 @@ public class DataDBAdapter {
     private static final String CREATE_TABLE_PLAATS=
             "create table " + PLAATS_TABLE +"("
                     + PLAATS_ID +" INTEGER PRIMARY KEY,"
-                    + PLAATS_ADRES+" text NOT NULL"+");";
+                    + PLAATS_STRAAT +" TEXT,"
+                    + PLAATS_NR +" INTEGER,"
+                    + PLAATS_GEMEENTE +" TEXT,"
+                    + PLAATS_CODE +" INTEGER,"
+                    + PLAATS_NAAM + " TEXT,"
+                    + PLAATS_VOORNAAM +" TEXT,"
+                    + PLAATS_ISEIGENAAR+" INTEGER"+");";
     private static final String CREATE_TABLE_DOSSIER=
             "create table "+ DOSSIER_TABLE+"("
                     + DOSSIER_ID +" INTEGER PRIMARY KEY,"
@@ -695,7 +714,35 @@ public class DataDBAdapter {
     {
         ContentValues initialValues=new ContentValues();
         initialValues.put(PLAATS_ID,plaats.getId());
-        initialValues.put(PLAATS_ADRES, plaats.getAdres());
+        initialValues.put(PLAATS_STRAAT,plaats.getStraat());
+        if(plaats.getNummer()!=null)
+        {
+            initialValues.put(PLAATS_NR,plaats.getNummer().toString());
+        }
+        else {
+            initialValues.put(PLAATS_NR,-1);
+        }
+
+        initialValues.put(PLAATS_GEMEENTE,plaats.getGemeente());
+
+        if(plaats.getPostcode()!=null)
+        {
+            initialValues.put(PLAATS_CODE,plaats.getPostcode());
+        }
+        else {
+            initialValues.put(PLAATS_CODE,-1);
+        }
+
+        initialValues.put(PLAATS_VOORNAAM,plaats.getVoornaam());
+        initialValues.put(PLAATS_NAAM, plaats.getNaam());
+        if(plaats.isEigenaar())
+        {
+            initialValues.put(PLAATS_ISEIGENAAR,1);
+        }
+        else
+        {
+            initialValues.put(PLAATS_ISEIGENAAR,0);
+        }
 
         mDb.insert(PLAATS_TABLE, null, initialValues);
     }
@@ -732,18 +779,16 @@ public class DataDBAdapter {
         return mDb.query(PLAATS_TABLE, PLAATS_FIELDS,PLAATS_ID+"=?",selectionArgs, null, null, null, null);
     }
 
+
     /**
      *
-     * @param adres het adres van de gewenste plaats
-     * @return een Cursor met het gevraagd Plaats object
+     * @return
      */
-    public Cursor getPlaats(String adres)
+    public Cursor getPlaatsen()
     {
-        String[] selectionArgs = {adres};
         //eerste null is de 'where', dan 'selectionArgs' 'GroupBy' 'Having' 'orderBy' en 'limit'
-        return mDb.query(PLAATS_TABLE, PLAATS_FIELDS,PLAATS_ADRES+"=?",selectionArgs, null, null, null, null);
+        return mDb.query(PLAATS_TABLE, PLAATS_FIELDS,null,null, null, null, null, null);
     }
-
     /**
      *
      *  @param cursor wordt verkregen door getPlaats() op te roepen
@@ -754,6 +799,29 @@ public class DataDBAdapter {
         if(cursor.getCount()>0 &&  cursor!=null && cursor.moveToFirst()) {
             Plaats plaats = new Plaats();
             plaats.setId(cursor.getInt(cursor.getColumnIndex(PLAATS_ID)));
+            plaats.setStraat(cursor.getString(cursor.getColumnIndex(PLAATS_STRAAT)));
+            if(cursor.getInt(cursor.getColumnIndex(PLAATS_NR))!=-1)
+            {
+                plaats.setNummer(cursor.getInt(cursor.getColumnIndex(PLAATS_NR)));
+            }
+            else {
+                plaats.setNummer(null);
+            }
+
+            plaats.setGemeente(cursor.getString(cursor.getColumnIndex(PLAATS_GEMEENTE)));
+
+            if(cursor.getInt(cursor.getColumnIndex(PLAATS_CODE))!=-1)
+            {
+
+                plaats.setPostcode(cursor.getInt(cursor.getColumnIndex(PLAATS_CODE)));
+            }
+            else {
+                plaats.setPostcode(null);
+            }
+
+            plaats.setVoornaam(cursor.getString(cursor.getColumnIndex(PLAATS_VOORNAAM)));
+            plaats.setNaam(cursor.getString(cursor.getColumnIndex(PLAATS_NAAM)));
+            plaats.setIsEigenaar(cursor.getInt(cursor.getColumnIndex(PLAATS_ISEIGENAAR))==1);
 
             return plaats;
         }
@@ -762,6 +830,47 @@ public class DataDBAdapter {
             return null;
         }
 
+    }
+
+    public ArrayList<Plaats> getPlaatsenFromCursor(Cursor cursor)
+    {
+        if (cursor.getCount() > 0) {
+            ArrayList<Plaats> output = new ArrayList<>();
+
+            while (cursor.moveToNext()) {
+                Plaats plaats = new Plaats();
+
+                plaats.setId(cursor.getInt(cursor.getColumnIndex(PLAATS_ID)));
+                plaats.setStraat(cursor.getString(cursor.getColumnIndex(PLAATS_STRAAT)));
+                if(cursor.getInt(cursor.getColumnIndex(PLAATS_NR))!=-1)
+                {
+                    plaats.setNummer(cursor.getInt(cursor.getColumnIndex(PLAATS_NR)));
+                }
+                else {
+                    plaats.setNummer(null);
+                }
+
+                plaats.setGemeente(cursor.getString(cursor.getColumnIndex(PLAATS_GEMEENTE)));
+
+                if(cursor.getInt(cursor.getColumnIndex(PLAATS_CODE))!=-1)
+                {
+
+                    plaats.setPostcode(cursor.getInt(cursor.getColumnIndex(PLAATS_CODE)));
+                }
+                else {
+                    plaats.setPostcode(null);
+                }
+
+                plaats.setVoornaam(cursor.getString(cursor.getColumnIndex(PLAATS_VOORNAAM)));
+                plaats.setNaam(cursor.getString(cursor.getColumnIndex(PLAATS_NAAM)));
+                plaats.setIsEigenaar(cursor.getInt(cursor.getColumnIndex(PLAATS_ISEIGENAAR))==1);
+
+                output.add(plaats);
+            }
+            return output;
+        } else {
+            return null;
+        }
     }
 
 

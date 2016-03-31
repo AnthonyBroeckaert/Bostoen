@@ -12,6 +12,7 @@
     <CheckBox
         android:text="Eigenaar"
         android:textSize="20dp"
+        android:id="@+id/klantIsEigenaar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"

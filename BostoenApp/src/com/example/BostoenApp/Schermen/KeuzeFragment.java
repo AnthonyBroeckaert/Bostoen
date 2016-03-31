@@ -26,7 +26,7 @@ public class KeuzeFragment extends Fragment {
     private Reeks huidig;
     private FragmentsInterface mListener;
     private OnFragmentInteractionListener methods;
-    private TestInterface testInterface;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +49,7 @@ public class KeuzeFragment extends Fragment {
         });
 
         ListView reekslijst = (ListView)view.findViewById(R.id.reeksLijst);
-        //data die al toegevoegd was verwijderen om conflicten te vermijden
-        testInterface.ClearData();
-        //test data toevoegen aan database
-        testInterface.addSampleData();
+
 
 
         ArrayList<Reeks> reeksen = methods.getReeksen();
@@ -95,15 +92,7 @@ public class KeuzeFragment extends Fragment {
             if(activity instanceof OnFragmentInteractionListener)
             {
                 methods = (OnFragmentInteractionListener)activity;
-                if(activity instanceof   TestInterface)
-                {
-                    testInterface = (TestInterface)activity;
-                }
-                else
-                {
-                    throw new RuntimeException(activity.toString()
-                            + " must implement TestInterface");
-                }
+
             }
             else {
                 throw new RuntimeException(activity.toString()

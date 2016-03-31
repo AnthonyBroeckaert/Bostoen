@@ -13,6 +13,7 @@ import android.util.Log;
 import com.example.BostoenApp.DB.AntwoordOptie;
 import com.example.BostoenApp.DB.CustomDate;
 import com.example.BostoenApp.DB.DataDBAdapter;
+import com.example.BostoenApp.DB.Plaats;
 import com.example.BostoenApp.DB.Reeks;
 import com.example.BostoenApp.DB.Vraag;
 import com.example.BostoenApp.R;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 /**
  * Created by Marnix on 20/03/2016.
  */
-public class LoginActivity extends Activity implements FragmentsInterface,KeuzeFragment.OnFragmentInteractionListener,TestInterface,VragenFragment.OnFragmentInteractionListener,LoginAdviseurFragment.OnFragmentInteractionListener{
+public class LoginActivity extends Activity implements FragmentsInterface,KeuzeFragment.OnFragmentInteractionListener,TestInterface,VragenFragment.OnFragmentInteractionListener,LoginAdviseurFragment.OnFragmentInteractionListener,LoginKlantFragment.OnFragmentInteractionListener{
     private DataDBAdapter dataDBAdapter;
     private static final String PREFS_NAME = "COM.BOSTOEN.BE";
     private SharedPreferences sharedpreferences;
@@ -223,6 +224,20 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
         editor.putString("Email",email);
         editor.commit();
         Log.d("Activity", "Email is set");
+    }
+
+    @Override
+    public void addPlaats(Plaats plaats) {
+        dataDBAdapter.open();
+        dataDBAdapter.addPlaats(plaats);
+        StringBuilder plaatsen= new StringBuilder();
+        ArrayList<Plaats> plaatsArrayList = dataDBAdapter.getPlaatsenFromCursor(dataDBAdapter.getPlaatsen());
+        for(int i=0;i<plaatsArrayList.size();i++)
+        {
+            plaatsen.append(i+"\n");
+        }
+        Log.d("plaatsen",plaatsen.toString());
+        dataDBAdapter.close();
     }
 }
 
