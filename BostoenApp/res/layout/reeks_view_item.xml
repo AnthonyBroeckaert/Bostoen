@@ -14,6 +14,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/reeksCheck"
         android:focusable="false"
+        android:clickable="false"
+        android:focusableInTouchMode="false"
         android:button="@drawable/selectr"
         />
 </RadioGroup>

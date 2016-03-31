@@ -13,6 +13,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/AntwoordoptieCheck"
             android:focusable="false"
+            android:clickable="false"
+            android:focusableInTouchMode="false"
             android:button="@drawable/selectr"
             />
     </RadioGroup>
