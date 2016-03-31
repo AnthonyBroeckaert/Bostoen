@@ -13,6 +13,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/AntwoordoptieCheck"
             android:focusable="false"
+            android:background="@drawable/selectr"
             />
     </RadioGroup>
 
