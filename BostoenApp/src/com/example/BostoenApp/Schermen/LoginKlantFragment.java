@@ -50,6 +50,28 @@ public class LoginKlantFragment extends Fragment {
         //test data toevoegen aan database
         testInterface.addSampleData();
 
+        //kijken of er tijdens de uitvoering van de app al een plaats werd toegevoegd
+        if(methods.getLastPlaats()!=null)
+        {
+            Plaats plaats = methods.getPlaats(methods.getLastPlaats());
+            if(plaats!=null)
+            {
+
+
+                isEigenaar.setChecked(plaats.isEigenaar());
+                naam.setText(plaats.getNaam());
+                voornaam.setText(plaats.getVoornaam());
+                straat.setText(plaats.getStraat());
+                gemeente.setText(plaats.getGemeente());
+                nummer.setText(plaats.getNummer().toString());
+                postcode.setText(plaats.getPostcode().toString());
+
+            }
+            else {
+                Log.d("Loginklant","plaats is null");
+            }
+
+        }
         volgende.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,12 +89,21 @@ public class LoginKlantFragment extends Fragment {
                     plaats.setPostcode(new Integer(postcode.getText().toString()));
                 }
                 Log.d("Methods null : ",new  Boolean(methods==null).toString());
-                Log.d("Plaats null : ",new  Boolean(plaats==null).toString());
-                methods.addPlaats(plaats);
-
+                Log.d("Plaats null : ", new Boolean(plaats == null).toString());
+                //indien de plaats nog niet bestaat
+                if(methods.getLastPlaats()==null)
+                {
+                    methods.addPlaats(plaats);
+                }
+                //de plaats updaten
+                else {
+                    methods.updatePlaats(methods.getLastPlaats(),plaats);
+                }
                 mListener.goToKeuzeFragment();
             }
         });
+
+
         return view;
     }
 
@@ -113,5 +144,8 @@ public class LoginKlantFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void addPlaats(Plaats plaats);
+        Integer getLastPlaats();
+        Plaats getPlaats(int id);
+        void updatePlaats(int id,Plaats plaats);
     }
 }

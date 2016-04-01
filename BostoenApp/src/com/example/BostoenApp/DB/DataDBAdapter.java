@@ -37,7 +37,6 @@ public class DataDBAdapter {
     /**declaratie van alle tabelnamen*/
     private static final String REEKS_TABLE = "REEKS";
     private static final String VRAAG_TABLE = "VRAAG";
-    private static final String OPLOSSING_TABLE = "OPLOSSING";
     private static final String ANTWOORDOPTIE_TABLE = "ANTWOORDOPTIE";
     private static final String VRAGENDOSSIER_TABLE="VRAGENDOSSIER";
     private static final String PLAATS_TABLE="PLAATS";
@@ -75,18 +74,7 @@ public class DataDBAdapter {
             VRAAG_GELDIG
     };
 
-    //OPLOSSING TABLE
-    public static final String OPLOSSING_ID = "id";
-    public static final String OPLOSSING_TEKST = "tekst";
-    public static final String OPLOSSING_GELDIG = "geldig";
-    public static final String OPLOSSING_LAST_UPDATE = "last_update";
 
-    private static final String[] OPLOSSING_FIELDS = new String[] {
-            OPLOSSING_ID,
-            OPLOSSING_TEKST,
-            OPLOSSING_GELDIG,
-            OPLOSSING_LAST_UPDATE
-    };
     //ANTWOORDOPTIE TABLE
     public static final String ANTWOORDOPTIE_ID = "vraag_id";
     public static final String ANTWOORDOPTIE_ANTWOORD_TEKST = "antwoord_tekst";
@@ -133,20 +121,19 @@ public class DataDBAdapter {
     private static final String DOSSIER_NAAM="naam";
 
     private static final String[] DOSSIER_FIELDS = new String[] {
-            ANTWOORDOPTIE_ID,
-            ANTWOORDOPTIE_ANTWOORD_TEKST,
-            ANTWOORDOPTIE_ANTWOORD_OPMERKING,
-            ANTWOORDOPTIE_VOLGENDEVRAAG_ID,
-            ANTWOORDOPTIE_OPLOSSING_TEKST,
-            ANTWOORDOPTIE_GELDIG,
-            ANTWOORDOPTIE_LAST_UPDATE
+            DOSSIER_ID,
+            DOSSIER_PLAATS_ID,
+            DOSSIER_DATUM,
+            DOSSIER_NAAM
     };
     //VRAGENDOSSIER TABLE
+    private static final String VRAGENDOSSIER_ID="id";
     private static final String VRAGENDOSSIER_DOSSIER_NR="dossiernr";
     private static final String VRAGENDOSSIER_VRAAG_TEKST="vraag_tekst";
     private static final String VRAGENDOSSIER_ANTWOORD_TEKST="antwoord_tekst";
 
     private static final String[] VRAGENDOSSIER_FIELDS = new String[] {
+            VRAGENDOSSIER_ID,
             VRAGENDOSSIER_DOSSIER_NR,
             VRAGENDOSSIER_VRAAG_TEKST,
             VRAGENDOSSIER_ANTWOORD_TEKST
@@ -172,13 +159,7 @@ public class DataDBAdapter {
                     + VRAAG_GELDIG + " INTEGER NOT NULL"
                     + ");";
 
-    private static final String CREATE_TABLE_OPLOSSING =
-            "create table " + OPLOSSING_TABLE + "("
-                    + OPLOSSING_ID + " INTEGER PRIMARY KEY,"
-                    + OPLOSSING_TEKST + " TEXT NOT NULL,"
-                    + OPLOSSING_GELDIG +" TEXT NOT NULL,"
-                    + OPLOSSING_LAST_UPDATE + "TEXT"
-                    + ");";
+
     private static final String CREATE_TABLE_ANTWOORDOPTIE =
             "create table " + ANTWOORDOPTIE_TABLE + "("
                     + ANTWOORDOPTIE_ID+" INTEGER,"
@@ -209,11 +190,11 @@ public class DataDBAdapter {
                     + DOSSIER_NAAM +" text NOT NULL"+");";
     private static final String CREATE_TABLE_VRAGENDOSSIER=
             "create table "+ VRAGENDOSSIER_TABLE+"("
-                    + VRAGENDOSSIER_DOSSIER_NR + " INTEGER ,"
+                    + VRAGENDOSSIER_ID+" INTEGER PRIMARY KEY,"
+                    + VRAGENDOSSIER_DOSSIER_NR + " INTEGER,"
                     + VRAGENDOSSIER_VRAAG_TEKST + " text,"
-                    + VRAGENDOSSIER_ANTWOORD_TEKST+" text,"
-                    +"PRIMARY KEY ("+VRAGENDOSSIER_VRAAG_TEKST+","+VRAGENDOSSIER_ANTWOORD_TEKST+")"
-                    +");";
+                    + VRAGENDOSSIER_ANTWOORD_TEKST+" text"+")";
+
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
         DatabaseHelper(Context context) {
@@ -226,7 +207,6 @@ public class DataDBAdapter {
             db.execSQL(CREATE_TABLE_ANTWOORDOPTIE);
             Log.d("create",CREATE_TABLE_ANTWOORDOPTIE);
             db.execSQL(CREATE_TABLE_DOSSIER);
-            db.execSQL(CREATE_TABLE_OPLOSSING);
             db.execSQL(CREATE_TABLE_PLAATS);
             db.execSQL(CREATE_TABLE_VRAGENDOSSIER);
             db.execSQL(CREATE_TABLE_VRAAG);
@@ -243,7 +223,6 @@ public class DataDBAdapter {
             db.execSQL("DROP TABLE IF EXISTS " + REEKS_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + ANTWOORDOPTIE_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + DOSSIER_TABLE);
-            db.execSQL("DROP TABLE IF EXISTS " + OPLOSSING_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + PLAATS_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + VRAGENDOSSIER_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + VRAAG_TABLE);
@@ -256,7 +235,6 @@ public class DataDBAdapter {
         mDb.execSQL(CREATE_TABLE_ANTWOORDOPTIE);
         Log.d("create", CREATE_TABLE_ANTWOORDOPTIE);
         mDb.execSQL(CREATE_TABLE_DOSSIER);
-        mDb.execSQL(CREATE_TABLE_OPLOSSING);
         mDb.execSQL(CREATE_TABLE_PLAATS);
         mDb.execSQL(CREATE_TABLE_VRAGENDOSSIER);
         mDb.execSQL(CREATE_TABLE_VRAAG);
@@ -267,14 +245,12 @@ public class DataDBAdapter {
         mDb.execSQL("DROP TABLE IF EXISTS " + REEKS_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + ANTWOORDOPTIE_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + DOSSIER_TABLE);
-        mDb.execSQL("DROP TABLE IF EXISTS " + OPLOSSING_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + PLAATS_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + VRAGENDOSSIER_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + VRAAG_TABLE);
     }
     public void clearUserData()
     {
-        mDb.execSQL("DROP TABLE IF EXISTS " + OPLOSSING_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + PLAATS_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + VRAGENDOSSIER_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + VRAAG_TABLE);
@@ -709,8 +685,9 @@ public class DataDBAdapter {
     /**
      * Voegt de gewenste plaats toe aan de database
      * @param plaats
+     * @return id van toegevoegde plaats in de database
      */
-    public void addPlaats(Plaats plaats)
+    public long addPlaats(Plaats plaats)
     {
         ContentValues initialValues=new ContentValues();
         initialValues.put(PLAATS_ID,plaats.getId());
@@ -733,7 +710,7 @@ public class DataDBAdapter {
             initialValues.put(PLAATS_CODE,-1);
         }
 
-        initialValues.put(PLAATS_VOORNAAM,plaats.getVoornaam());
+        initialValues.put(PLAATS_VOORNAAM, plaats.getVoornaam());
         initialValues.put(PLAATS_NAAM, plaats.getNaam());
         if(plaats.isEigenaar())
         {
@@ -744,7 +721,44 @@ public class DataDBAdapter {
             initialValues.put(PLAATS_ISEIGENAAR,0);
         }
 
-        mDb.insert(PLAATS_TABLE, null, initialValues);
+        return mDb.insert(PLAATS_TABLE, null, initialValues);
+    }
+
+    public void updatePlaats(int id,Plaats plaats)
+    {
+        ContentValues initialValues=new ContentValues();
+        initialValues.put(PLAATS_STRAAT,plaats.getStraat());
+        if(plaats.getNummer()!=null)
+        {
+            initialValues.put(PLAATS_NR,plaats.getNummer().toString());
+        }
+        else {
+            initialValues.put(PLAATS_NR,-1);
+        }
+
+        initialValues.put(PLAATS_GEMEENTE,plaats.getGemeente());
+
+        if(plaats.getPostcode()!=null)
+        {
+            initialValues.put(PLAATS_CODE,plaats.getPostcode());
+        }
+        else {
+            initialValues.put(PLAATS_CODE,-1);
+        }
+
+        initialValues.put(PLAATS_VOORNAAM, plaats.getVoornaam());
+        initialValues.put(PLAATS_NAAM, plaats.getNaam());
+        if(plaats.isEigenaar())
+        {
+            initialValues.put(PLAATS_ISEIGENAAR,1);
+        }
+        else
+        {
+            initialValues.put(PLAATS_ISEIGENAAR,0);
+        }
+
+        mDb.update(PLAATS_TABLE,initialValues,"id ="+id,null);
+
     }
 
     /**
@@ -878,7 +892,7 @@ public class DataDBAdapter {
      * Voegt het gewenste dossier toe aan de database
      * @param dossier
      */
-    public void addDossier(Dossier dossier)
+    public long addDossier(Dossier dossier)
     {
         ContentValues initialValues=new ContentValues();
         initialValues.put(DOSSIER_ID,dossier.getId());
@@ -886,7 +900,7 @@ public class DataDBAdapter {
         initialValues.put(DOSSIER_PLAATS_ID,dossier.getPlaatsId());
         initialValues.put(DOSSIER_DATUM,dossier.getDatum().toString());
 
-        mDb.insert(DOSSIER_TABLE, null, initialValues);
+        return mDb.insert(DOSSIER_TABLE, null, initialValues);
     }
 
     /**
@@ -895,6 +909,17 @@ public class DataDBAdapter {
      */
     public void deleteDossier(Dossier dossier) {
         mDb.delete(DOSSIER_TABLE, DOSSIER_FIELDS + "=" + dossier.getId(), null);
+    }
+
+    public void updateDossier(int id,Dossier dossier)
+    {
+        ContentValues initialValues=new ContentValues();
+
+        initialValues.put(DOSSIER_NAAM,dossier.getNaam());
+        initialValues.put(DOSSIER_PLAATS_ID,dossier.getPlaatsId());
+        initialValues.put(DOSSIER_DATUM,dossier.getDatum().toString());
+
+        mDb.update(DOSSIER_TABLE, initialValues, "id =" + id, null);
     }
 
     /**
@@ -956,7 +981,7 @@ public class DataDBAdapter {
         initialValues.put(VRAGENDOSSIER_DOSSIER_NR,vragenDossier.getDossierNr());
         initialValues.put(VRAGENDOSSIER_VRAAG_TEKST,vragenDossier.getVraagTekst());
         initialValues.put(VRAGENDOSSIER_ANTWOORD_TEKST,vragenDossier.getAntwoordTekst());
-        mDb.insert(DOSSIER_TABLE, null, initialValues);
+        mDb.insert(VRAGENDOSSIER_TABLE, null, initialValues);
     }
 
     /**
@@ -969,6 +994,14 @@ public class DataDBAdapter {
         {
             addVragenDossier(vragenDossier);
         }
+    }
+
+    public void updateVragenDossier(int dossiernr,String vraagtekst,VragenDossier vragenDossier)
+    {
+        ContentValues initialValues=new ContentValues();
+
+        initialValues.put(VRAGENDOSSIER_ANTWOORD_TEKST,vragenDossier.getAntwoordTekst());
+        mDb.update(VRAGENDOSSIER_TABLE,initialValues, VRAGENDOSSIER_DOSSIER_NR+"="+dossiernr+" AND "+VRAGENDOSSIER_VRAAG_TEKST+"="+vraagtekst,null);
     }
 
     /**

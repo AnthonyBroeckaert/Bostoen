@@ -13,9 +13,11 @@ import android.util.Log;
 import com.example.BostoenApp.DB.AntwoordOptie;
 import com.example.BostoenApp.DB.CustomDate;
 import com.example.BostoenApp.DB.DataDBAdapter;
+import com.example.BostoenApp.DB.Dossier;
 import com.example.BostoenApp.DB.Plaats;
 import com.example.BostoenApp.DB.Reeks;
 import com.example.BostoenApp.DB.Vraag;
+import com.example.BostoenApp.DB.VragenDossier;
 import com.example.BostoenApp.R;
 
 import java.text.ParseException;
@@ -28,6 +30,10 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
     private DataDBAdapter dataDBAdapter;
     private static final String PREFS_NAME = "COM.BOSTOEN.BE";
     private SharedPreferences sharedpreferences;
+    private Integer lastPlaats;
+    private Integer lastDossier;
+    private Integer lastReeks;
+    private String  oplossing="";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -176,6 +182,25 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
     }
 
     @Override
+    public void addVragenDossier(VragenDossier vragenDossier) {
+        dataDBAdapter.open();
+        dataDBAdapter.addVragenDossier(vragenDossier);
+        dataDBAdapter.close();
+    }
+
+    @Override
+    public void updateVragenDossier(int dossiernr, String vraagtekst, VragenDossier vragenDossier) {
+        dataDBAdapter.open();
+        dataDBAdapter.updateVragenDossier(dossiernr,vraagtekst,vragenDossier);
+        dataDBAdapter.close();
+    }
+
+    @Override
+    public void addOplossing(String oplossing) {
+
+    }
+
+    @Override
     public String getVoornaam() {
         if(sharedpreferences.contains("Voornaam"))
         {
@@ -229,7 +254,7 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
     @Override
     public void addPlaats(Plaats plaats) {
         dataDBAdapter.open();
-        dataDBAdapter.addPlaats(plaats);
+        lastPlaats=new Integer((int) dataDBAdapter.addPlaats(plaats));
         StringBuilder plaatsen= new StringBuilder();
         ArrayList<Plaats> plaatsArrayList = dataDBAdapter.getPlaatsenFromCursor(dataDBAdapter.getPlaatsen());
         for(int i=0;i<plaatsArrayList.size();i++)
@@ -237,6 +262,78 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
             plaatsen.append(i+"\n");
         }
         Log.d("plaatsen",plaatsen.toString());
+        dataDBAdapter.close();
+    }
+
+    @Override
+    public Integer getLastPlaats() {
+        return lastPlaats;
+    }
+
+    @Override
+    public Integer getLastDossier() {
+        return lastDossier;
+    }
+
+    @Override
+    public ArrayList<VragenDossier> getVragenDossiers(int dossiernr) {
+        dataDBAdapter.open();
+        ArrayList<VragenDossier> vragenDossiers;
+        vragenDossiers=dataDBAdapter.getVragenDossiersFromCursor(dataDBAdapter.getVragenDossiers(dossiernr));
+
+        dataDBAdapter.close();
+        return vragenDossiers;
+    }
+
+    @Override
+    public Dossier getDossier(int id) {
+        dataDBAdapter.open();
+        Dossier dossier = null;
+        try {
+            dossier = dataDBAdapter.getDossierFromCursor(dataDBAdapter.getDossier(id));
+        } catch (ParseException e) {
+            Log.d("Loginactivity parse error",e.getMessage());
+        }
+        dataDBAdapter.close();
+        return dossier;
+    }
+
+    @Override
+    public Integer getLastReeks() {
+        return lastReeks;
+    }
+
+    @Override
+    public void setLastReeks(Integer id) {
+        lastReeks=id;
+    }
+
+    @Override
+    public void addDosier(Dossier dossier) {
+        dataDBAdapter.open();
+        lastDossier=(int)dataDBAdapter.addDossier(dossier);
+        dataDBAdapter.close();
+    }
+
+    @Override
+    public void updateDossier(int id, Dossier dossier) {
+        dataDBAdapter.open();
+        dataDBAdapter.updateDossier(id,dossier);
+        dataDBAdapter.close();
+    }
+
+    @Override
+    public Plaats getPlaats(int id) {
+        dataDBAdapter.open();
+        Plaats plaats = dataDBAdapter.getPlaatsFromCursor(dataDBAdapter.getPlaats(id));
+        dataDBAdapter.close();
+        return plaats;
+    }
+
+    @Override
+    public void updatePlaats(int id, Plaats plaats) {
+        dataDBAdapter.open();
+        dataDBAdapter.updatePlaats(id, plaats);
         dataDBAdapter.close();
     }
 }

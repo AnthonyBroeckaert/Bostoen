@@ -9,10 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 
 
+import com.example.BostoenApp.DB.CustomDate;
+import com.example.BostoenApp.DB.Dossier;
 import com.example.BostoenApp.DB.Reeks;
 import com.example.BostoenApp.R;
 import java.util.ArrayList;
@@ -37,11 +40,37 @@ public class KeuzeFragment extends Fragment {
         view= inflater.inflate(R.layout.keuze_layout, container, false);
 
         Button volgende = (Button)view.findViewById(R.id.btnFragVragen);
+        EditText dossiernaam = (EditText)view.findViewById(R.id.txtIdentificatieKeuze);
+
+        if(methods.getLastDossier()!=null)
+        {
+            Dossier dossier = methods.getDossier(methods.getLastPlaats());
+
+            if(dossier!=null)
+            {
+                dossiernaam.setText(dossier.getNaam());
+            }
+        }
         volgende.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("volgende","keuzefragment");
                 if(huidig!=null)
                 {
+                    Dossier dossier = new Dossier();
+                    dossier.setPlaatsId(methods.getLastPlaats());
+
+
+
+                    if(methods.getLastDossier()==null)
+                    {
+                        //voorkomen dat bij een update de aanmaakdatum gewijzigd wordt
+                        dossier.setDatum(new CustomDate());
+                        methods.addDosier(dossier);
+                    }
+                    else {
+                        methods.updateDossier(methods.getLastDossier(),dossier);
+                    }
                     mListener.goToVragenFragment(huidig.getEersteVraag());
                 }
 
@@ -54,6 +83,12 @@ public class KeuzeFragment extends Fragment {
 
         ArrayList<Reeks> reeksen = methods.getReeksen();
 
+        if(methods.getLastReeks()!=null)
+        {
+            reeksen.get(methods.getLastReeks()).setChecked(true);
+            huidig = reeksen.get(methods.getLastReeks());
+        }
+
         reekslijst.setAdapter(new Reeks.ReeksAdapter(getActivity().getApplicationContext(), reeksen));
 
 
@@ -61,6 +96,7 @@ public class KeuzeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 huidig = (Reeks) parent.getItemAtPosition(position);
+                methods.setLastReeks(position);
                 for (int i = 0; i < reeksen.size(); i++) {
                     Reeks reeks = reeksen.get(i);
 
@@ -111,6 +147,13 @@ public class KeuzeFragment extends Fragment {
     public interface OnFragmentInteractionListener {
 
     ArrayList<Reeks> getReeksen();
+    Integer getLastPlaats();
+    Integer getLastDossier();
+    Dossier getDossier(int id);
+    Integer getLastReeks();
+    void setLastReeks(Integer id);
+    void addDosier(Dossier dossier);
+    void updateDossier(int id,Dossier dossier);
 
     }
 }
