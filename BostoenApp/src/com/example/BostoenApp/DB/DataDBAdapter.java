@@ -37,7 +37,6 @@ public class DataDBAdapter {
     /**declaratie van alle tabelnamen*/
     private static final String REEKS_TABLE = "REEKS";
     private static final String VRAAG_TABLE = "VRAAG";
-    private static final String OPLOSSING_TABLE = "OPLOSSING";
     private static final String ANTWOORDOPTIE_TABLE = "ANTWOORDOPTIE";
     private static final String VRAGENDOSSIER_TABLE="VRAGENDOSSIER";
     private static final String PLAATS_TABLE="PLAATS";
@@ -224,7 +223,6 @@ public class DataDBAdapter {
             db.execSQL("DROP TABLE IF EXISTS " + REEKS_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + ANTWOORDOPTIE_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + DOSSIER_TABLE);
-            db.execSQL("DROP TABLE IF EXISTS " + OPLOSSING_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + PLAATS_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + VRAGENDOSSIER_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + VRAAG_TABLE);
@@ -247,14 +245,12 @@ public class DataDBAdapter {
         mDb.execSQL("DROP TABLE IF EXISTS " + REEKS_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + ANTWOORDOPTIE_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + DOSSIER_TABLE);
-        mDb.execSQL("DROP TABLE IF EXISTS " + OPLOSSING_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + PLAATS_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + VRAGENDOSSIER_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + VRAAG_TABLE);
     }
     public void clearUserData()
     {
-        mDb.execSQL("DROP TABLE IF EXISTS " + OPLOSSING_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + PLAATS_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + VRAGENDOSSIER_TABLE);
         mDb.execSQL("DROP TABLE IF EXISTS " + VRAAG_TABLE);
