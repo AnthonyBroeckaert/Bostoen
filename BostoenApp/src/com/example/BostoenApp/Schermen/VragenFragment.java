@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.BostoenApp.DB.AntwoordOptie;
 import com.example.BostoenApp.DB.Reeks;
 import com.example.BostoenApp.DB.Vraag;
+import com.example.BostoenApp.DB.VragenDossier;
 import com.example.BostoenApp.R;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class VragenFragment extends Fragment {
     private FragmentsInterface mListener;
     private OnFragmentInteractionListener methods;
     private int vraagid;
+    private boolean answered=false;
     private AntwoordOptie huidig;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -43,9 +45,11 @@ public class VragenFragment extends Fragment {
         TextView tip = (TextView)view.findViewById(R.id.txtTip);
         ListView antwoorden = (ListView)view.findViewById(R.id.AntwoordenList);
         Button ok = (Button) view.findViewById(R.id.btnOK);
+
         Vraag vraag = methods.getVraag(vraagid);
         if(vraag!=null)
         {
+            //kijken of de huidige vraag een afbeelding heeft
             if(vraag.getImage()!=null)
             {
                 ImageView image = (ImageView) view.findViewById(R.id.imageView);
@@ -57,8 +61,36 @@ public class VragenFragment extends Fragment {
                 tip.setText("Tip : "+vraag.getTip());
             }
             else tip.setText("");
+
             ArrayList<AntwoordOptie> antwoordOpties=methods.getAntwoorden(vraagid);
+
+            ArrayList<VragenDossier> vragenDossiers=methods.getVragenDossiers(methods.getLastDossier());
+            if(vragenDossiers!=null)
+            {
+                String antwoord="";
+                for(int i=0;i<vragenDossiers.size();i++)
+                {
+                    VragenDossier vragenDossier = vragenDossiers.get(i);
+                    if(vragenDossier.getVraagTekst().equals(vraag.getTekst()))
+                    {
+                        antwoord=vragenDossier.getAntwoordTekst();
+                    }
+                }
+                for (int i =0;i<antwoordOpties.size();i++)
+                {
+                    if(antwoordOpties.get(i).getAntwoordTekst().equals(antwoord))
+                    {
+                        huidig=antwoordOpties.get(i);
+                        antwoordOpties.get(i).setChecked(true);
+                        answered=true;
+                        Log.d("Vraag","Match");
+                    }
+                }
+            }
+
             antwoorden.setAdapter(new AntwoordOptie.AntwoordOptieAdapter(getActivity().getApplicationContext(),antwoordOpties));
+
+
 
             antwoorden.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -87,6 +119,23 @@ public class VragenFragment extends Fragment {
 
                     if (huidig != null) {
                         if (huidig.getVolgendeVraag() != null) {
+                            VragenDossier vragenDossier = new VragenDossier();
+                            vragenDossier.setDossierNr(methods.getLastDossier());
+                            vragenDossier.setAntwoordTekst(huidig.getAntwoordTekst());
+                            vragenDossier.setVraagTekst(vraag.getTekst());
+
+                            if(answered)
+                            {
+                                Log.d("Vraag","answered");
+                                methods.updateVragenDossier(methods.getLastDossier(),vraag.getTekst(),vragenDossier);
+                            }
+                            else
+                            {
+                                Log.d("Vraag","not answered");
+                                methods.addVragenDossier(vragenDossier);
+                            }
+
+
                             mListener.goToVragenFragment(huidig.getVolgendeVraag());
                         }
                         Log.d("Volgende vraag is null", "null");
@@ -134,9 +183,14 @@ public class VragenFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
+
     public interface OnFragmentInteractionListener {
         Vraag getVraag(int id);
+        Integer getLastDossier();
+        ArrayList<VragenDossier> getVragenDossiers(int vraagid);
         ArrayList<AntwoordOptie> getAntwoorden(int vraagid);
+        void addVragenDossier(VragenDossier vragenDossier);
+        void updateVragenDossier(int dossiernr,String vraagtekst,VragenDossier vragenDossier);
 
     }
 
