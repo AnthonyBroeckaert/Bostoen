@@ -33,6 +33,7 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
     private Integer lastPlaats;
     private Integer lastDossier;
     private Integer lastReeks;
+    private String  oplossing="";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -195,6 +196,11 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
     }
 
     @Override
+    public void addOplossing(String oplossing) {
+
+    }
+
+    @Override
     public String getVoornaam() {
         if(sharedpreferences.contains("Voornaam"))
         {
@@ -311,7 +317,9 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
 
     @Override
     public void updateDossier(int id, Dossier dossier) {
-
+        dataDBAdapter.open();
+        dataDBAdapter.updateDossier(id,dossier);
+        dataDBAdapter.close();
     }
 
     @Override
