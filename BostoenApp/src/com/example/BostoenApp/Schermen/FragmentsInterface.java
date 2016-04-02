@@ -20,4 +20,6 @@ public interface FragmentsInterface {
 
     void goToKeuzeFragment();
 
+    void goToEindScherm();
+
 }

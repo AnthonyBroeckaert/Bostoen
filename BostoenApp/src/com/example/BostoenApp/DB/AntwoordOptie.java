@@ -30,12 +30,15 @@ public class AntwoordOptie {
 
     }
 
-    public AntwoordOptie(int vraagId,String antwoordTekst,String antwoordOpmerking,int volgendeVraag,String oplossing,boolean geldig,CustomDate last_update)
+    public AntwoordOptie(int vraagId,String antwoordTekst,String antwoordOpmerking,Integer volgendeVraag,String oplossing,boolean geldig,CustomDate last_update)
     {
         this.setVraagId(vraagId);
         this.setAntwoordTekst(antwoordTekst);
         this.setAntwoordOpmerking(antwoordOpmerking);
-        this.setVolgendeVraag(volgendeVraag);
+        if(volgendeVraag!=null){
+            this.volgendeVraag=volgendeVraag;
+        }
+
         this.setOplossing(oplossing);
         this.setGeldig(geldig);
         this.setLast_update(last_update);

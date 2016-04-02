@@ -187,7 +187,7 @@ public class DataDBAdapter {
                     + DOSSIER_ID +" INTEGER PRIMARY KEY,"
                     + DOSSIER_PLAATS_ID +" INTEGER,"
                     + DOSSIER_DATUM +" text NOT NULL,"
-                    + DOSSIER_NAAM +" text NOT NULL"+");";
+                    + DOSSIER_NAAM +" text"+");";
     private static final String CREATE_TABLE_VRAGENDOSSIER=
             "create table "+ VRAGENDOSSIER_TABLE+"("
                     + VRAGENDOSSIER_ID+" INTEGER PRIMARY KEY,"
@@ -205,7 +205,7 @@ public class DataDBAdapter {
 
             db.execSQL(CREATE_TABLE_REEKS);
             db.execSQL(CREATE_TABLE_ANTWOORDOPTIE);
-            Log.d("create",CREATE_TABLE_ANTWOORDOPTIE);
+            Log.d("create", CREATE_TABLE_ANTWOORDOPTIE);
             db.execSQL(CREATE_TABLE_DOSSIER);
             db.execSQL(CREATE_TABLE_PLAATS);
             db.execSQL(CREATE_TABLE_VRAGENDOSSIER);
@@ -564,7 +564,14 @@ public class DataDBAdapter {
         initialValues.put(ANTWOORDOPTIE_ANTWOORD_TEKST, antwoordOptie.getAntwoordTekst());
         initialValues.put(ANTWOORDOPTIE_ANTWOORD_OPMERKING, antwoordOptie.getAntwoordOpmerking());
         initialValues.put(ANTWOORDOPTIE_OPLOSSING_TEKST, antwoordOptie.getOplossing());
-        initialValues.put(ANTWOORDOPTIE_VOLGENDEVRAAG_ID, antwoordOptie.getVolgendeVraag());
+        if(antwoordOptie.getVolgendeVraag()!=null)
+        {
+            initialValues.put(ANTWOORDOPTIE_VOLGENDEVRAAG_ID, antwoordOptie.getVolgendeVraag());
+        }
+        else {
+            initialValues.put(ANTWOORDOPTIE_VOLGENDEVRAAG_ID, -1);
+        }
+
         initialValues.put(ANTWOORDOPTIE_LAST_UPDATE, antwoordOptie.getLast_update().toString());
         if (antwoordOptie.isGeldig())
         {
@@ -627,7 +634,11 @@ public class DataDBAdapter {
                 antwoordOptie.setAntwoordTekst(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_ANTWOORD_TEKST)));
                 antwoordOptie.setAntwoordOpmerking(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_ANTWOORD_OPMERKING)));
                 antwoordOptie.setOplossing(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_OPLOSSING_TEKST)));
-                antwoordOptie.setVolgendeVraag(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_VOLGENDEVRAAG_ID)));
+                if(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_VOLGENDEVRAAG_ID))!=-1)
+                {
+                    antwoordOptie.setVolgendeVraag(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_VOLGENDEVRAAG_ID)));
+                }
+
                 antwoordOptie.setGeldig(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_GELDIG))==1);
                 antwoordOptie.setLast_update(new CustomDate(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_LAST_UPDATE))));
 
@@ -670,7 +681,12 @@ public class DataDBAdapter {
                 antwoordOptie.setAntwoordTekst(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_ANTWOORD_TEKST)));
                 antwoordOptie.setAntwoordOpmerking(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_ANTWOORD_OPMERKING)));
                 antwoordOptie.setOplossing(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_OPLOSSING_TEKST)));
-                antwoordOptie.setVolgendeVraag(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_VOLGENDEVRAAG_ID)));
+
+                if(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_VOLGENDEVRAAG_ID))!=-1)
+                {
+                    antwoordOptie.setVolgendeVraag(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_VOLGENDEVRAAG_ID)));
+                }
+
                 antwoordOptie.setGeldig(cursor.getInt(cursor.getColumnIndex(ANTWOORDOPTIE_GELDIG)) == 1);
                 antwoordOptie.setLast_update(new CustomDate(cursor.getString(cursor.getColumnIndex(ANTWOORDOPTIE_LAST_UPDATE))));
 
@@ -757,7 +773,7 @@ public class DataDBAdapter {
             initialValues.put(PLAATS_ISEIGENAAR,0);
         }
 
-        mDb.update(PLAATS_TABLE,initialValues,"id ="+id,null);
+        mDb.update(PLAATS_TABLE, initialValues, "id =" + id, null);
 
     }
 
@@ -898,7 +914,7 @@ public class DataDBAdapter {
         initialValues.put(DOSSIER_ID,dossier.getId());
         initialValues.put(DOSSIER_NAAM,dossier.getNaam());
         initialValues.put(DOSSIER_PLAATS_ID,dossier.getPlaatsId());
-        initialValues.put(DOSSIER_DATUM,dossier.getDatum().toString());
+        initialValues.put(DOSSIER_DATUM, dossier.getDatum().toString());
 
         return mDb.insert(DOSSIER_TABLE, null, initialValues);
     }
@@ -917,7 +933,11 @@ public class DataDBAdapter {
 
         initialValues.put(DOSSIER_NAAM,dossier.getNaam());
         initialValues.put(DOSSIER_PLAATS_ID,dossier.getPlaatsId());
-        initialValues.put(DOSSIER_DATUM,dossier.getDatum().toString());
+        if(dossier.getDatum()!=null)
+        {
+            initialValues.put(DOSSIER_DATUM,dossier.getDatum().toString());
+        }
+
 
         mDb.update(DOSSIER_TABLE, initialValues, "id =" + id, null);
     }

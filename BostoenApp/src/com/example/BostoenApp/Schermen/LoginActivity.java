@@ -105,6 +105,13 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
                 .commit();
     }
 
+    @Override
+    public void goToEindScherm() {
+        getFragmentManager().beginTransaction().replace(R.id.container, new EindFragment(), "EindFragment")
+                .addToBackStack("EindFragment")
+                .commit();
+    }
+
     protected void goEnqueteActivity(){
         Intent intent = new Intent(getApplicationContext(), EnqueteActivity.class);
         startActivity(intent);
@@ -140,7 +147,7 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
 
         dataDBAdapter.addAntwoordOptie(new AntwoordOptie(1, "aa", "aa", 2, "", true, new CustomDate()));
         dataDBAdapter.addAntwoordOptie(new AntwoordOptie(1, "bb", "bb", 2, null, true,new CustomDate()));
-        dataDBAdapter.addAntwoordOptie(new AntwoordOptie(2, "cc", "c", 2, "", true, new CustomDate()));
+        dataDBAdapter.addAntwoordOptie(new AntwoordOptie(2, "cc", "c", null, "", true, new CustomDate()));
 
         dataDBAdapter.close();
     }
@@ -191,7 +198,7 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
     @Override
     public void updateVragenDossier(int dossiernr, String vraagtekst, VragenDossier vragenDossier) {
         dataDBAdapter.open();
-        dataDBAdapter.updateVragenDossier(dossiernr,vraagtekst,vragenDossier);
+        dataDBAdapter.updateVragenDossier(dossiernr, vraagtekst, vragenDossier);
         dataDBAdapter.close();
     }
 
@@ -261,7 +268,7 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
         {
             plaatsen.append(i+"\n");
         }
-        Log.d("plaatsen",plaatsen.toString());
+        Log.d("plaatsen", plaatsen.toString());
         dataDBAdapter.close();
     }
 

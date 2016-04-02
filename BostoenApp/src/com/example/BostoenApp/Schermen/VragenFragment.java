@@ -118,30 +118,40 @@ public class VragenFragment extends Fragment {
                 public void onClick(View v) {
 
                     if (huidig != null) {
-                        if (huidig.getVolgendeVraag() != null) {
-                            VragenDossier vragenDossier = new VragenDossier();
-                            vragenDossier.setDossierNr(methods.getLastDossier());
-                            vragenDossier.setAntwoordTekst(huidig.getAntwoordTekst());
-                            vragenDossier.setVraagTekst(vraag.getTekst());
 
-                            if(answered)
-                            {
-                                Log.d("Vraag","answered");
-                                methods.updateVragenDossier(methods.getLastDossier(),vraag.getTekst(),vragenDossier);
-                            }
-                            else
-                            {
-                                Log.d("Vraag","not answered");
-                                methods.addVragenDossier(vragenDossier);
-                            }
+                        VragenDossier vragenDossier = new VragenDossier();
+                        vragenDossier.setDossierNr(methods.getLastDossier());
+                        vragenDossier.setAntwoordTekst(huidig.getAntwoordTekst());
+                        vragenDossier.setVraagTekst(vraag.getTekst());
+
+                        if(answered)
+                        {
+                            Log.d("Vraag","answered");
+                            methods.updateVragenDossier(methods.getLastDossier(),vraag.getTekst(),vragenDossier);
+                        }
+                        else
+                        {
+                            Log.d("Vraag","not answered");
                             if(huidig.getOplossing()!=null)
                             {
                                 methods.addOplossing(huidig.getOplossing());
                             }
+                            methods.addVragenDossier(vragenDossier);
+                        }
+
+                        if (huidig.getVolgendeVraag() != null) {
+
 
                             mListener.goToVragenFragment(huidig.getVolgendeVraag());
+                            Log.d("volgenge vraag", huidig.getVolgendeVraag().toString());
+                            Log.d("volgende vraag","bestaat");
+                            Log.d("boolean bestaat", new Boolean(huidig.getVolgendeVraag()!=null).toString());
                         }
-                        Log.d("Volgende vraag is null", "null");
+                        else {
+                            Log.d("Volgende vraag is null", "null");
+                            mListener.goToEindScherm();
+                        }
+
                     } else {
                         Log.d("Huidig is null", "null");
                     }

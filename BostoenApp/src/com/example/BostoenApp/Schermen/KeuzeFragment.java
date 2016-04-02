@@ -69,7 +69,9 @@ public class KeuzeFragment extends Fragment {
                         methods.addDosier(dossier);
                     }
                     else {
-                        methods.updateDossier(methods.getLastDossier(),dossier);
+                       if(dossier!=null){
+                           methods.updateDossier(methods.getLastDossier(),dossier);
+                       }
                     }
                     mListener.goToVragenFragment(huidig.getEersteVraag());
                 }
