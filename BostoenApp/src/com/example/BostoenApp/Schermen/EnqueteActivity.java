@@ -28,8 +28,7 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
     private DataDBAdapter dataDBAdapter;
     private static final String PREFS_NAME = "COM.BOSTOEN.BE";
     private SharedPreferences sharedpreferences;
-    private Integer lastDossier;
-    private Integer lastReeks;
+
 
 
     @Override
@@ -168,13 +167,28 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
 
     public void setLastDossier(Integer lastDossier)
     {
-        this.lastDossier=lastDossier;
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        if(lastDossier!=null)
+        {
+            editor.putInt("LastDossier",lastDossier);
+        }
+        else
+        {
+            editor.putInt("LastDossier",-1);
+        }
+        editor.commit();
+
     }
 
 
     @Override
     public Integer getLastDossier() {
-        return lastDossier;
+        int output = sharedpreferences.getInt("LastDossier",-1);
+        if(output!=-1)
+        {
+            return output;
+        }
+        else return null;
     }
 
     @Override
@@ -226,7 +240,7 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
     @Override
     public void addDosier(Dossier dossier) {
         dataDBAdapter.open();
-        lastDossier=(int)dataDBAdapter.addDossier(dossier);
+        setLastDossier((int)dataDBAdapter.addDossier(dossier));
         dataDBAdapter.close();
     }
 
