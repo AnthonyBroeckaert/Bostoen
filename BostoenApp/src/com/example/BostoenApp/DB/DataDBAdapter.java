@@ -131,12 +131,14 @@ public class DataDBAdapter {
     private static final String VRAGENDOSSIER_DOSSIER_NR="dossiernr";
     private static final String VRAGENDOSSIER_VRAAG_TEKST="vraag_tekst";
     private static final String VRAGENDOSSIER_ANTWOORD_TEKST="antwoord_tekst";
+    private static final String VRAGENDOSSIER_ANTWOORD_OPTIE="antwoord_optie";
 
     private static final String[] VRAGENDOSSIER_FIELDS = new String[] {
             VRAGENDOSSIER_ID,
             VRAGENDOSSIER_DOSSIER_NR,
             VRAGENDOSSIER_VRAAG_TEKST,
-            VRAGENDOSSIER_ANTWOORD_TEKST
+            VRAGENDOSSIER_ANTWOORD_TEKST,
+            VRAGENDOSSIER_ANTWOORD_OPTIE
     };
 
     /**strings met sql statement om tabellen aan te maken*/
@@ -193,6 +195,7 @@ public class DataDBAdapter {
                     + VRAGENDOSSIER_ID+" INTEGER PRIMARY KEY,"
                     + VRAGENDOSSIER_DOSSIER_NR + " INTEGER,"
                     + VRAGENDOSSIER_VRAAG_TEKST + " text,"
+                    + VRAGENDOSSIER_ANTWOORD_OPTIE + " INTEGER,"
                     + VRAGENDOSSIER_ANTWOORD_TEKST+" text"+")";
 
 
@@ -698,6 +701,8 @@ public class DataDBAdapter {
         }
     }
 
+
+
     /**
      * Voegt de gewenste plaats toe aan de database
      * @param plaats
@@ -1001,6 +1006,7 @@ public class DataDBAdapter {
         initialValues.put(VRAGENDOSSIER_DOSSIER_NR,vragenDossier.getDossierNr());
         initialValues.put(VRAGENDOSSIER_VRAAG_TEKST,vragenDossier.getVraagTekst());
         initialValues.put(VRAGENDOSSIER_ANTWOORD_TEKST,vragenDossier.getAntwoordTekst());
+        initialValues.put(VRAGENDOSSIER_ANTWOORD_OPTIE,vragenDossier.getAntwoordOptie());
         mDb.insert(VRAGENDOSSIER_TABLE, null, initialValues);
     }
 
@@ -1052,6 +1058,7 @@ public class DataDBAdapter {
                 vragenDossier.setDossierNr(cursor.getInt(cursor.getColumnIndex(VRAGENDOSSIER_DOSSIER_NR)));
                 vragenDossier.setAntwoordTekst(cursor.getString(cursor.getColumnIndex(VRAGENDOSSIER_ANTWOORD_TEKST)));
                 vragenDossier.setVraagTekst(cursor.getString(cursor.getColumnIndex(VRAGENDOSSIER_VRAAG_TEKST)));
+                vragenDossier.setAntwoordOptie(cursor.getInt(cursor.getColumnIndex(VRAGENDOSSIER_ANTWOORD_OPTIE)));
 
                 output.add(vragenDossier);
             }

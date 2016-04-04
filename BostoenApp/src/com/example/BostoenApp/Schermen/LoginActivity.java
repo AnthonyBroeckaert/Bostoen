@@ -236,9 +236,9 @@ public class LoginActivity extends Activity implements FragmentsInterface,LoginA
         dataDBAdapter.addVraag(new Vraag(null,"11","",bitone,new CustomDate(),1,true));
         dataDBAdapter.addVraag(new Vraag(null, "22", "", bittwo, new CustomDate(), 2, true));
 
-        dataDBAdapter.addAntwoordOptie(new AntwoordOptie(1, "aa", "aa", 2, "", true, new CustomDate()));
-        dataDBAdapter.addAntwoordOptie(new AntwoordOptie(1, "bb", "bb", 2, null, true,new CustomDate()));
-        dataDBAdapter.addAntwoordOptie(new AntwoordOptie(2, "cc", "c", null, "", true, new CustomDate()));
+        dataDBAdapter.addAntwoordOptie(new AntwoordOptie(1, "aa", "aa", 2, "hey", true, new CustomDate()));
+        dataDBAdapter.addAntwoordOptie(new AntwoordOptie(1, "bb", "bb", 2, "bye", true,new CustomDate()));
+        dataDBAdapter.addAntwoordOptie(new AntwoordOptie(2, "cc", "c", null, "halo", true, new CustomDate()));
 
         dataDBAdapter.close();
     }

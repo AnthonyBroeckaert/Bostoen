@@ -123,6 +123,7 @@ public class VragenFragment extends Fragment {
                         vragenDossier.setDossierNr(methods.getLastDossier());
                         vragenDossier.setAntwoordTekst(huidig.getAntwoordTekst());
                         vragenDossier.setVraagTekst(vraag.getTekst());
+                        vragenDossier.setAntwoordOptie(huidig.getVraagId());
 
                         if(answered)
                         {

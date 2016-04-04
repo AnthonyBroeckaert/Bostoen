@@ -23,14 +23,14 @@ import java.util.ArrayList;
 /**
  * Created by Marnix on 20/03/2016.
  */
-public class EnqueteActivity extends Activity  implements FragmentsInterface,KeuzeFragment.OnFragmentInteractionListener,VragenFragment.OnFragmentInteractionListener{
+public class EnqueteActivity extends Activity  implements FragmentsInterface,KeuzeFragment.OnFragmentInteractionListener,VragenFragment.OnFragmentInteractionListener,EindFragment.OnFragmentInteractionListener{
 
     private DataDBAdapter dataDBAdapter;
     private static final String PREFS_NAME = "COM.BOSTOEN.BE";
     private SharedPreferences sharedpreferences;
     private Integer lastDossier;
     private Integer lastReeks;
-    private String  oplossing="";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -164,6 +164,10 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
         dataDBAdapter.close();
     }
 
+    public void setLastDossier(Integer lastDossier)
+    {
+        this.lastDossier=lastDossier;
+    }
 
 
     @Override

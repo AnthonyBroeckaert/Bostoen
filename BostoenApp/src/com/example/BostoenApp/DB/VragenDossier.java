@@ -7,16 +7,18 @@ public class VragenDossier {
     private String  vraagTekst;
     private String  antwoordTekst;
     private Integer dossierNr;
+    private Integer antwoordOptie;
 
     public VragenDossier()
     {
 
     }
 
-    public VragenDossier(String vraagTekst,String antwoordTekst)
+    public VragenDossier(String vraagTekst,String antwoordTekst,Integer antwoordOptie)
     {
        this.setVraagTekst(vraagTekst);
         this.setAntwoordTekst(antwoordTekst);
+        this.setAntwoordOptie(antwoordOptie);
     }
 
 
@@ -42,5 +44,13 @@ public class VragenDossier {
 
     public void setDossierNr(Integer dossierNr) {
         this.dossierNr = dossierNr;
+    }
+
+    public Integer getAntwoordOptie() {
+        return antwoordOptie;
+    }
+
+    public void setAntwoordOptie(Integer antwoordOptie) {
+        this.antwoordOptie = antwoordOptie;
     }
 }
