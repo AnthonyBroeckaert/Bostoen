@@ -45,11 +45,15 @@ public class LoginActivity extends Activity implements FragmentsInterface,LoginA
             if(!sharedpreferences.contains("Voornaam"))
             {
                 Log.d("no shared preferences","");
-                goToAdviseurFragment();
+                getFragmentManager().beginTransaction().add(R.id.container, new LoginAdviseurFragment(), "AdviseurFragment")
+                        .addToBackStack("AdviseurFragment")
+                        .commit();
             }
             else
             {
-                goToKlantFragment();
+                getFragmentManager().beginTransaction().add(R.id.container, new LoginKlantFragment(), "KlantFragment")
+                        .addToBackStack("KlantFragment")
+                        .commit();
                 Log.d("Shared preferences","");
             }
 

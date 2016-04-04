@@ -42,7 +42,9 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
         sharedpreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         if (savedInstanceState == null) {
-         goToKeuzeFragment();
+            getFragmentManager().beginTransaction().add(R.id.content_frame, new KeuzeFragment(), "KeuzeFragment")
+                    .addToBackStack("KeuzeFragment")
+                    .commit();
         }
     }
 
@@ -200,12 +202,25 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
 
     @Override
     public Integer getLastReeks() {
-        return lastReeks;
+        if(sharedpreferences.getInt("LastReeks",-1)!=-1)
+        {
+            return sharedpreferences.getInt("LastReeks",-1);
+        }
+        else return null;
     }
 
     @Override
     public void setLastReeks(Integer id) {
-        lastReeks=id;
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        if(id != null)
+        {
+            editor.putInt("LastReeks",id);
+        }
+        else
+        {
+            editor.putInt("LastReeks",-1);
+        }
+        editor.commit();
     }
 
     @Override
