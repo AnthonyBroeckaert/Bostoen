@@ -142,6 +142,8 @@ public class KeuzeFragment extends Fragment {
                     + " must implement FragmetnsInterface");
         }
     }
+
+
     @Override
     public void onDetach() {
         super.onDetach();

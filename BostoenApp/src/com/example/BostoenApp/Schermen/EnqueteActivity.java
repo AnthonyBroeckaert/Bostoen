@@ -1,40 +1,50 @@
 package com.example.BostoenApp.Schermen;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.util.Log;
 
+
+import com.example.BostoenApp.DB.AntwoordOptie;
+import com.example.BostoenApp.DB.DataDBAdapter;
+import com.example.BostoenApp.DB.Dossier;
+import com.example.BostoenApp.DB.Reeks;
+import com.example.BostoenApp.DB.Vraag;
+import com.example.BostoenApp.DB.VragenDossier;
 import com.example.BostoenApp.R;
 
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+
 
 /**
  * Created by Marnix on 20/03/2016.
  */
-public class EnqueteActivity extends Activity  implements FragmentsInterface{
-    private ArrayAdapter<String> adapter;
-    private List<String> list;
+public class EnqueteActivity extends Activity  implements FragmentsInterface,KeuzeFragment.OnFragmentInteractionListener,VragenFragment.OnFragmentInteractionListener{
+
+    private DataDBAdapter dataDBAdapter;
+    private static final String PREFS_NAME = "COM.BOSTOEN.BE";
+    private SharedPreferences sharedpreferences;
+    private Integer lastDossier;
+    private Integer lastReeks;
+    private Integer lastPlaats;
+    private String  oplossing="";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.enquete_layout);
 
-        ListView drawer =(ListView)findViewById(R.id.left_drawer);
+        dataDBAdapter = new DataDBAdapter(getApplicationContext());
 
-        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2" };
-        list = new ArrayList<String>();
-        Collections.addAll(list, values);
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, list);
-        drawer.setAdapter(adapter);
+        sharedpreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+        if (savedInstanceState == null) {
+         goToKeuzeFragment();
+        }
     }
 
     @Override
@@ -64,7 +74,7 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface{
     public void goToVragenFragment(int id) {
         VragenFragment vraag=new VragenFragment();
         vraag.setVraagid(id);
-        getFragmentManager().beginTransaction().replace(R.id.container, vraag, "VragenFragment")
+        getFragmentManager().beginTransaction().replace(R.id.content_frame, vraag, "VragenFragment")
                 .addToBackStack("VragenFragment")
                 .commit();
     }
@@ -86,7 +96,7 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface{
 
     @Override
     public void goToEindScherm() {
-        getFragmentManager().beginTransaction().replace(R.id.container, new EindFragment(), "EindFragment")
+        getFragmentManager().beginTransaction().replace(R.id.content_frame, new EindFragment(), "EindFragment")
                 .addToBackStack("EindFragment")
                 .commit();
     }
@@ -96,4 +106,132 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface{
         Intent intent = new Intent(getApplicationContext(), EnqueteActivity.class);
         startActivity(intent);
      }
+
+    @Override
+    public ArrayList<Reeks> getReeksen() {
+        dataDBAdapter.open();
+        ArrayList<Reeks> reeksen = null;
+        try {
+            reeksen = dataDBAdapter.getReeksenFromCursor(dataDBAdapter.getReeksen());
+        } catch (ParseException e) {
+            Log.d("Activity getReeksen", e.getMessage());
+            dataDBAdapter.close();
+        }
+        dataDBAdapter.close();
+        return reeksen;
+    }
+
+
+
+    @Override
+    public Vraag getVraag(int id) {
+        dataDBAdapter.open();
+        Vraag vraag=new Vraag();
+        try {
+            vraag =dataDBAdapter.getVraagFromCursor(dataDBAdapter.getVraag(id));
+        } catch (ParseException e) {
+            Log.d("Verkeerd formaat datum",e.getMessage());
+            dataDBAdapter.close();
+        }
+        dataDBAdapter.close();
+        return vraag;
+    }
+
+    @Override
+    public ArrayList<AntwoordOptie> getAntwoorden(int vraagid) {
+        dataDBAdapter.open();
+        ArrayList<AntwoordOptie> antwoordOpties = new ArrayList<>();
+        try{
+            antwoordOpties=dataDBAdapter.getAntwoordOptiesFromCursor(dataDBAdapter.getAntwoordOptiesVraag(vraagid));
+        } catch (ParseException e) {
+            Log.d("Verkeerd formaat datum", e.getMessage());
+            dataDBAdapter.close();
+        }
+        dataDBAdapter.close();
+        return antwoordOpties;
+    }
+
+    @Override
+    public void addVragenDossier(VragenDossier vragenDossier) {
+        dataDBAdapter.open();
+        dataDBAdapter.addVragenDossier(vragenDossier);
+        dataDBAdapter.close();
+    }
+
+    @Override
+    public void updateVragenDossier(int dossiernr, String vraagtekst, VragenDossier vragenDossier) {
+        dataDBAdapter.open();
+        dataDBAdapter.updateVragenDossier(dossiernr, vraagtekst, vragenDossier);
+        dataDBAdapter.close();
+    }
+
+
+
+    @Override
+    public Integer getLastDossier() {
+        return lastDossier;
+    }
+
+    @Override
+    public ArrayList<VragenDossier> getVragenDossiers(int dossiernr) {
+        dataDBAdapter.open();
+        ArrayList<VragenDossier> vragenDossiers;
+        vragenDossiers=dataDBAdapter.getVragenDossiersFromCursor(dataDBAdapter.getVragenDossiers(dossiernr));
+
+        dataDBAdapter.close();
+        return vragenDossiers;
+    }
+
+    @Override
+    public Dossier getDossier(int id) {
+        dataDBAdapter.open();
+        Dossier dossier = null;
+        try {
+            dossier = dataDBAdapter.getDossierFromCursor(dataDBAdapter.getDossier(id));
+        } catch (ParseException e) {
+            Log.d("Loginactivity parse error",e.getMessage());
+        }
+        dataDBAdapter.close();
+        return dossier;
+    }
+
+    @Override
+    public Integer getLastReeks() {
+        return lastReeks;
+    }
+
+    @Override
+    public void setLastReeks(Integer id) {
+        lastReeks=id;
+    }
+
+    @Override
+    public void addDosier(Dossier dossier) {
+        dataDBAdapter.open();
+        lastDossier=(int)dataDBAdapter.addDossier(dossier);
+        dataDBAdapter.close();
+    }
+
+    @Override
+    public void updateDossier(int id, Dossier dossier) {
+        dataDBAdapter.open();
+        dataDBAdapter.updateDossier(id,dossier);
+        dataDBAdapter.close();
+    }
+
+    @Override
+    public void addOplossing(String oplossing) {
+
+    }
+
+    @Override
+    public Integer getLastPlaats() {
+        int lastplaats = sharedpreferences.getInt("LastPlaats",-1);
+        if(lastplaats!=-1)
+        {
+            return lastplaats;
+        }
+        else return null;
+    }
+
 }

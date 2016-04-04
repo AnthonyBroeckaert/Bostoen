@@ -22,4 +22,6 @@ public interface FragmentsInterface {
 
     void goToEindScherm();
 
+
+
 }

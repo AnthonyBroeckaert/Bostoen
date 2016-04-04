@@ -26,14 +26,12 @@ import java.util.ArrayList;
 /**
  * Created by Marnix on 20/03/2016.
  */
-public class LoginActivity extends Activity implements FragmentsInterface,KeuzeFragment.OnFragmentInteractionListener,TestInterface,VragenFragment.OnFragmentInteractionListener,LoginAdviseurFragment.OnFragmentInteractionListener,LoginKlantFragment.OnFragmentInteractionListener{
-    private DataDBAdapter dataDBAdapter;
+public class LoginActivity extends Activity implements FragmentsInterface,LoginAdviseurFragment.OnFragmentInteractionListener,LoginKlantFragment.OnFragmentInteractionListener,TestInterface{
+
     private static final String PREFS_NAME = "COM.BOSTOEN.BE";
     private SharedPreferences sharedpreferences;
-    private Integer lastPlaats;
-    private Integer lastDossier;
-    private Integer lastReeks;
-    private String  oplossing="";
+    private DataDBAdapter dataDBAdapter;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,9 +98,7 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
 
     @Override
     public void goToKeuzeFragment() {
-        getFragmentManager().beginTransaction().replace(R.id.container, new KeuzeFragment(), "KeuzeFragment")
-                .addToBackStack("KeuzeFragment")
-                .commit();
+        goEnqueteActivity();
     }
 
     @Override
@@ -117,95 +113,9 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
         startActivity(intent);
     }
 
-    @Override
-    public ArrayList<Reeks> getReeksen() {
-        dataDBAdapter.open();
-        ArrayList<Reeks> reeksen = null;
-        try {
-            reeksen = dataDBAdapter.getReeksenFromCursor(dataDBAdapter.getReeksen());
-        } catch (ParseException e) {
-            Log.d("Activity getReeksen",e.getMessage());
-            dataDBAdapter.close();
-        }
-        dataDBAdapter.close();
-        return reeksen;
-    }
 
-    @Override
-    public void addSampleData()  {
-        dataDBAdapter.open();
 
-        dataDBAdapter.addReeks(new Reeks(null, "1", 1, new CustomDate()));
-        dataDBAdapter.addReeks(new Reeks(null, "2", 1, new CustomDate()));
-        dataDBAdapter.addReeks(new Reeks(null, "3", 3, new CustomDate()));
 
-        Bitmap bitone = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.test1);
-        Bitmap bittwo = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.test2);
-
-        dataDBAdapter.addVraag(new Vraag(null,"11","",bitone,new CustomDate(),1,true));
-        dataDBAdapter.addVraag(new Vraag(null, "22", "", bittwo, new CustomDate(), 2, true));
-
-        dataDBAdapter.addAntwoordOptie(new AntwoordOptie(1, "aa", "aa", 2, "", true, new CustomDate()));
-        dataDBAdapter.addAntwoordOptie(new AntwoordOptie(1, "bb", "bb", 2, null, true,new CustomDate()));
-        dataDBAdapter.addAntwoordOptie(new AntwoordOptie(2, "cc", "c", null, "", true, new CustomDate()));
-
-        dataDBAdapter.close();
-    }
-
-    @Override
-    public void ClearData() {
-        dataDBAdapter.open();
-        dataDBAdapter.clearAll();
-        dataDBAdapter.create();
-        dataDBAdapter.close();
-    }
-
-    @Override
-    public Vraag getVraag(int id) {
-        dataDBAdapter.open();
-        Vraag vraag=new Vraag();
-        try {
-            vraag =dataDBAdapter.getVraagFromCursor(dataDBAdapter.getVraag(id));
-        } catch (ParseException e) {
-            Log.d("Verkeerd formaat datum",e.getMessage());
-            dataDBAdapter.close();
-        }
-        dataDBAdapter.close();
-        return vraag;
-    }
-
-    @Override
-    public ArrayList<AntwoordOptie> getAntwoorden(int vraagid) {
-        dataDBAdapter.open();
-        ArrayList<AntwoordOptie> antwoordOpties = new ArrayList<>();
-        try{
-            antwoordOpties=dataDBAdapter.getAntwoordOptiesFromCursor(dataDBAdapter.getAntwoordOptiesVraag(vraagid));
-        } catch (ParseException e) {
-            Log.d("Verkeerd formaat datum", e.getMessage());
-            dataDBAdapter.close();
-        }
-        dataDBAdapter.close();
-        return antwoordOpties;
-    }
-
-    @Override
-    public void addVragenDossier(VragenDossier vragenDossier) {
-        dataDBAdapter.open();
-        dataDBAdapter.addVragenDossier(vragenDossier);
-        dataDBAdapter.close();
-    }
-
-    @Override
-    public void updateVragenDossier(int dossiernr, String vraagtekst, VragenDossier vragenDossier) {
-        dataDBAdapter.open();
-        dataDBAdapter.updateVragenDossier(dossiernr, vraagtekst, vragenDossier);
-        dataDBAdapter.close();
-    }
-
-    @Override
-    public void addOplossing(String oplossing) {
-
-    }
 
     @Override
     public String getVoornaam() {
@@ -221,7 +131,7 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString("Voornaam",voornaam);
         editor.commit();
-        Log.d("Activity","Voornaam is set");
+        Log.d("Activity", "Voornaam is set");
     }
 
     @Override
@@ -259,77 +169,6 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
     }
 
     @Override
-    public void addPlaats(Plaats plaats) {
-        dataDBAdapter.open();
-        lastPlaats=new Integer((int) dataDBAdapter.addPlaats(plaats));
-        StringBuilder plaatsen= new StringBuilder();
-        ArrayList<Plaats> plaatsArrayList = dataDBAdapter.getPlaatsenFromCursor(dataDBAdapter.getPlaatsen());
-        for(int i=0;i<plaatsArrayList.size();i++)
-        {
-            plaatsen.append(i+"\n");
-        }
-        Log.d("plaatsen", plaatsen.toString());
-        dataDBAdapter.close();
-    }
-
-    @Override
-    public Integer getLastPlaats() {
-        return lastPlaats;
-    }
-
-    @Override
-    public Integer getLastDossier() {
-        return lastDossier;
-    }
-
-    @Override
-    public ArrayList<VragenDossier> getVragenDossiers(int dossiernr) {
-        dataDBAdapter.open();
-        ArrayList<VragenDossier> vragenDossiers;
-        vragenDossiers=dataDBAdapter.getVragenDossiersFromCursor(dataDBAdapter.getVragenDossiers(dossiernr));
-
-        dataDBAdapter.close();
-        return vragenDossiers;
-    }
-
-    @Override
-    public Dossier getDossier(int id) {
-        dataDBAdapter.open();
-        Dossier dossier = null;
-        try {
-            dossier = dataDBAdapter.getDossierFromCursor(dataDBAdapter.getDossier(id));
-        } catch (ParseException e) {
-            Log.d("Loginactivity parse error",e.getMessage());
-        }
-        dataDBAdapter.close();
-        return dossier;
-    }
-
-    @Override
-    public Integer getLastReeks() {
-        return lastReeks;
-    }
-
-    @Override
-    public void setLastReeks(Integer id) {
-        lastReeks=id;
-    }
-
-    @Override
-    public void addDosier(Dossier dossier) {
-        dataDBAdapter.open();
-        lastDossier=(int)dataDBAdapter.addDossier(dossier);
-        dataDBAdapter.close();
-    }
-
-    @Override
-    public void updateDossier(int id, Dossier dossier) {
-        dataDBAdapter.open();
-        dataDBAdapter.updateDossier(id,dossier);
-        dataDBAdapter.close();
-    }
-
-    @Override
     public Plaats getPlaats(int id) {
         dataDBAdapter.open();
         Plaats plaats = dataDBAdapter.getPlaatsFromCursor(dataDBAdapter.getPlaats(id));
@@ -341,6 +180,74 @@ public class LoginActivity extends Activity implements FragmentsInterface,KeuzeF
     public void updatePlaats(int id, Plaats plaats) {
         dataDBAdapter.open();
         dataDBAdapter.updatePlaats(id, plaats);
+        dataDBAdapter.close();
+    }
+
+    @Override
+    public void addPlaats(Plaats plaats) {
+        dataDBAdapter.open();
+        setLastPlaats(new Integer((int) dataDBAdapter.addPlaats(plaats)));
+        StringBuilder plaatsen= new StringBuilder();
+        ArrayList<Plaats> plaatsArrayList = dataDBAdapter.getPlaatsenFromCursor(dataDBAdapter.getPlaatsen());
+        for(int i=0;i<plaatsArrayList.size();i++)
+        {
+            plaatsen.append(i+"\n");
+        }
+        Log.d("plaatsen", plaatsen.toString());
+        dataDBAdapter.close();
+    }
+
+    public void setLastPlaats(Integer lastPlaats)
+    {
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        if(lastPlaats!=null)
+        {
+            editor.putInt("LastPlaats",lastPlaats);
+        }
+        else
+        {
+            editor.putInt("LastPlaats",-1);
+        }
+
+        editor.commit();
+    }
+
+    @Override
+    public Integer getLastPlaats() {
+        int lastplaats = sharedpreferences.getInt("LastPlaats",-1);
+        if(lastplaats!=-1)
+        {
+            return lastplaats;
+        }
+        else return null;
+    }
+
+    @Override
+    public void addSampleData()  {
+        dataDBAdapter.open();
+
+        dataDBAdapter.addReeks(new Reeks(null, "1", 1, new CustomDate()));
+        dataDBAdapter.addReeks(new Reeks(null, "2", 1, new CustomDate()));
+        dataDBAdapter.addReeks(new Reeks(null, "3", 3, new CustomDate()));
+
+        Bitmap bitone = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.test1);
+        Bitmap bittwo = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.test2);
+
+        dataDBAdapter.addVraag(new Vraag(null,"11","",bitone,new CustomDate(),1,true));
+        dataDBAdapter.addVraag(new Vraag(null, "22", "", bittwo, new CustomDate(), 2, true));
+
+        dataDBAdapter.addAntwoordOptie(new AntwoordOptie(1, "aa", "aa", 2, "", true, new CustomDate()));
+        dataDBAdapter.addAntwoordOptie(new AntwoordOptie(1, "bb", "bb", 2, null, true,new CustomDate()));
+        dataDBAdapter.addAntwoordOptie(new AntwoordOptie(2, "cc", "c", null, "", true, new CustomDate()));
+
+        dataDBAdapter.close();
+    }
+
+    @Override
+    public void ClearData() {
+        dataDBAdapter.open();
+        dataDBAdapter.clearAll();
+        dataDBAdapter.create();
         dataDBAdapter.close();
     }
 }
