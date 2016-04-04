@@ -30,7 +30,6 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
     private SharedPreferences sharedpreferences;
     private Integer lastDossier;
     private Integer lastReeks;
-    private Integer lastPlaats;
     private String  oplossing="";
 
     @Override
