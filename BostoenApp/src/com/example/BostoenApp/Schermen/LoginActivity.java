@@ -112,8 +112,9 @@ public class LoginActivity extends Activity implements FragmentsInterface,LoginA
                 .commit();
     }
 
-    protected void goEnqueteActivity(){
+    public void goEnqueteActivity(int eersteVraag){
         Intent intent = new Intent(getApplicationContext(), EnqueteActivity.class);
+        intent.putExtra("eersteVraag",eersteVraag);
         startActivity(intent);
     }
 

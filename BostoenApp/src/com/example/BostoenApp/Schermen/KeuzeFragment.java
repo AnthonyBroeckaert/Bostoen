@@ -73,7 +73,9 @@ public class KeuzeFragment extends Fragment {
                            methods.updateDossier(methods.getLastDossier(),dossier);
                        }
                     }
-                    mListener.goToVragenFragment(huidig.getEersteVraag());
+
+                 mListener.goEnqueteActivity(huidig.getEersteVraag());
+
                 }
 
             }

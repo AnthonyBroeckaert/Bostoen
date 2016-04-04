@@ -1,51 +1,68 @@
 package com.example.BostoenApp.Schermen;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.BostoenApp.DB.AntwoordOptie;
-import com.example.BostoenApp.DB.DataDBAdapter;
-import com.example.BostoenApp.DB.Dossier;
-import com.example.BostoenApp.DB.Reeks;
 import com.example.BostoenApp.DB.Vraag;
 import com.example.BostoenApp.DB.VragenDossier;
 import com.example.BostoenApp.R;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Marnix on 20/03/2016.
  */
-public class EnqueteActivity extends Activity  implements FragmentsInterface,KeuzeFragment.OnFragmentInteractionListener,VragenFragment.OnFragmentInteractionListener,EindFragment.OnFragmentInteractionListener{
+public class EnqueteActivity extends Activity  implements FragmentsInterface, VragenFragment.OnFragmentInteractionListener{
 
-    private DataDBAdapter dataDBAdapter;
-    private static final String PREFS_NAME = "COM.BOSTOEN.BE";
-    private SharedPreferences sharedpreferences;
-    private Integer lastDossier;
-    private Integer lastReeks;
 
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
+    CustomDrawerAdapter adapter;
+
+    List<ObjectDrawerItem> dataList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.enquete_layout);
 
-        dataDBAdapter = new DataDBAdapter(getApplicationContext());
+        Intent intent = getIntent();
+        int id = intent.getIntExtra("eersteVraag",0);
+        goToVragenFragment(id);
 
-        sharedpreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        dataList = new ArrayList<ObjectDrawerItem>();
+        mTitle = mDrawerTitle = getTitle();
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction().add(R.id.content_frame, new KeuzeFragment(), "KeuzeFragment")
-                    .addToBackStack("KeuzeFragment")
-                    .commit();
-        }
+        mDrawerLayout.setDrawerShadow(R.drawable.icon,
+                GravityCompat.START);
+
+        dataList.add(new ObjectDrawerItem("Message"));
+        dataList.add(new ObjectDrawerItem("Likes"));
+        dataList.add(new ObjectDrawerItem("Games"));
+        dataList.add(new ObjectDrawerItem("Lables"));
+
+        adapter = new CustomDrawerAdapter(this, R.layout.listview_item,
+                dataList);
+
+        mDrawerList.setAdapter(adapter);
+
     }
 
     @Override
@@ -75,7 +92,7 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
     public void goToVragenFragment(int id) {
         VragenFragment vraag=new VragenFragment();
         vraag.setVraagid(id);
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, vraag, "VragenFragment")
+        getFragmentManager().beginTransaction().replace(R.id.container, vraag, "VragenFragment")
                 .addToBackStack("VragenFragment")
                 .commit();
     }
@@ -96,10 +113,8 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
     }
 
     @Override
-    public void goToEindScherm() {
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, new EindFragment(), "EindFragment")
-                .addToBackStack("EindFragment")
-                .commit();
+    public void goEnqueteActivity(int eersteVraag) {
+
     }
 
 
@@ -109,147 +124,37 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
      }
 
     @Override
-    public ArrayList<Reeks> getReeksen() {
-        dataDBAdapter.open();
-        ArrayList<Reeks> reeksen = null;
-        try {
-            reeksen = dataDBAdapter.getReeksenFromCursor(dataDBAdapter.getReeksen());
-        } catch (ParseException e) {
-            Log.d("Activity getReeksen", e.getMessage());
-            dataDBAdapter.close();
-        }
-        dataDBAdapter.close();
-        return reeksen;
+    public Vraag getVraag(int id) {
+        return null;
     }
 
-
+    @Override
+    public Integer getLastDossier() {
+        return null;
+    }
 
     @Override
-    public Vraag getVraag(int id) {
-        dataDBAdapter.open();
-        Vraag vraag=new Vraag();
-        try {
-            vraag =dataDBAdapter.getVraagFromCursor(dataDBAdapter.getVraag(id));
-        } catch (ParseException e) {
-            Log.d("Verkeerd formaat datum",e.getMessage());
-            dataDBAdapter.close();
-        }
-        dataDBAdapter.close();
-        return vraag;
+    public ArrayList<VragenDossier> getVragenDossiers(int vraagid) {
+        return null;
     }
 
     @Override
     public ArrayList<AntwoordOptie> getAntwoorden(int vraagid) {
-        dataDBAdapter.open();
-        ArrayList<AntwoordOptie> antwoordOpties = new ArrayList<>();
-        try{
-            antwoordOpties=dataDBAdapter.getAntwoordOptiesFromCursor(dataDBAdapter.getAntwoordOptiesVraag(vraagid));
-        } catch (ParseException e) {
-            Log.d("Verkeerd formaat datum", e.getMessage());
-            dataDBAdapter.close();
-        }
-        dataDBAdapter.close();
-        return antwoordOpties;
+        return null;
     }
 
     @Override
     public void addVragenDossier(VragenDossier vragenDossier) {
-        dataDBAdapter.open();
-        dataDBAdapter.addVragenDossier(vragenDossier);
-        dataDBAdapter.close();
+
     }
 
     @Override
     public void updateVragenDossier(int dossiernr, String vraagtekst, VragenDossier vragenDossier) {
-        dataDBAdapter.open();
-        dataDBAdapter.updateVragenDossier(dossiernr, vraagtekst, vragenDossier);
-        dataDBAdapter.close();
-    }
 
-    public void setLastDossier(Integer lastDossier)
-    {
-        this.lastDossier=lastDossier;
-    }
-
-
-    @Override
-    public Integer getLastDossier() {
-        return lastDossier;
-    }
-
-    @Override
-    public ArrayList<VragenDossier> getVragenDossiers(int dossiernr) {
-        dataDBAdapter.open();
-        ArrayList<VragenDossier> vragenDossiers;
-        vragenDossiers=dataDBAdapter.getVragenDossiersFromCursor(dataDBAdapter.getVragenDossiers(dossiernr));
-
-        dataDBAdapter.close();
-        return vragenDossiers;
-    }
-
-    @Override
-    public Dossier getDossier(int id) {
-        dataDBAdapter.open();
-        Dossier dossier = null;
-        try {
-            dossier = dataDBAdapter.getDossierFromCursor(dataDBAdapter.getDossier(id));
-        } catch (ParseException e) {
-            Log.d("Loginactivity parse error",e.getMessage());
-        }
-        dataDBAdapter.close();
-        return dossier;
-    }
-
-    @Override
-    public Integer getLastReeks() {
-        if(sharedpreferences.getInt("LastReeks",-1)!=-1)
-        {
-            return sharedpreferences.getInt("LastReeks",-1);
-        }
-        else return null;
-    }
-
-    @Override
-    public void setLastReeks(Integer id) {
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        if(id != null)
-        {
-            editor.putInt("LastReeks",id);
-        }
-        else
-        {
-            editor.putInt("LastReeks",-1);
-        }
-        editor.commit();
-    }
-
-    @Override
-    public void addDosier(Dossier dossier) {
-        dataDBAdapter.open();
-        lastDossier=(int)dataDBAdapter.addDossier(dossier);
-        dataDBAdapter.close();
-    }
-
-    @Override
-    public void updateDossier(int id, Dossier dossier) {
-        dataDBAdapter.open();
-        dataDBAdapter.updateDossier(id,dossier);
-        dataDBAdapter.close();
     }
 
     @Override
     public void addOplossing(String oplossing) {
 
     }
-
-    @Override
-    public Integer getLastPlaats() {
-        int lastplaats = sharedpreferences.getInt("LastPlaats",-1);
-        if(lastplaats!=-1)
-        {
-            return lastplaats;
-        }
-        else return null;
-    }
-
 }

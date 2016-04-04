@@ -20,8 +20,6 @@ public interface FragmentsInterface {
 
     void goToKeuzeFragment();
 
-    void goToEindScherm();
-
-
+    void goEnqueteActivity(int eersteVraag);
 
 }
