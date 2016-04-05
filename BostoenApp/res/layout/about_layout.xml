@@ -26,7 +26,7 @@
         android:layout_width="62dp"
         android:layout_height="62dp"
         android:id="@+id/imageView6"
-        android:src="@drawable/logobblrg"
+        android:src="@drawable/logo1"
         android:minHeight="0dp"
         android:scaleType="fitCenter"
         android:adjustViewBounds="false"
