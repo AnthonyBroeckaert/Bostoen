@@ -112,6 +112,8 @@ public class LoginActivity extends Activity implements FragmentsInterface,LoginA
                 .commit();
     }
 
+    //fix voor marnix
+
     protected void goEnqueteActivity(){
         Intent intent = new Intent(getApplicationContext(), EnqueteActivity.class);
         startActivity(intent);
