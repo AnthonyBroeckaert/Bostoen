@@ -112,9 +112,10 @@ public class LoginActivity extends Activity implements FragmentsInterface,LoginA
                 .commit();
     }
 
-    public void goEnqueteActivity(int eersteVraag){
+    //fix voor marnix
+
+    protected void goEnqueteActivity(){
         Intent intent = new Intent(getApplicationContext(), EnqueteActivity.class);
-        intent.putExtra("eersteVraag",eersteVraag);
         startActivity(intent);
     }
 
