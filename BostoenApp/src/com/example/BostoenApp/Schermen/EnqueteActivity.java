@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 
 /**
+ * for marnix
  * Created by Marnix on 20/03/2016.
  */
 public class EnqueteActivity extends Activity  implements FragmentsInterface,KeuzeFragment.OnFragmentInteractionListener,VragenFragment.OnFragmentInteractionListener,EindFragment.OnFragmentInteractionListener{
