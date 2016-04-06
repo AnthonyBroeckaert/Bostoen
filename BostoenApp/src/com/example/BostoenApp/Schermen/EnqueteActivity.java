@@ -74,8 +74,13 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
-            //Navigatie naar gewente fragment hier
+
+            selectItem(position);
         }
+    }
+
+    private void selectItem(int position) {
+        //gegevens van vraag op position inladen in fragment
     }
 
     @Override
