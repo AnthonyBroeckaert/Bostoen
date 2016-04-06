@@ -5,7 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
 import com.example.BostoenApp.DB.AntwoordOptie;
@@ -30,7 +36,11 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
     private static final String PREFS_NAME = "COM.BOSTOEN.BE";
     private SharedPreferences sharedpreferences;
 
+    //DRAWERLAYOUT
 
+    private String[] mPlanetTitles = {"Test1", "Test2"}; //Namen van de gemaakte vragen in deze array
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,10 +51,30 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
 
         sharedpreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
+
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().add(R.id.content_frame, new KeuzeFragment(), "KeuzeFragment")
                     .addToBackStack("KeuzeFragment")
                     .commit();
+        }
+
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Listview aan drawerlayout linken
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, mPlanetTitles));
+        // Klik listener (verwijst naar DrawerItemClickListener)
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+    }
+
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            //Navigatie naar gewente fragment hier
         }
     }
 
