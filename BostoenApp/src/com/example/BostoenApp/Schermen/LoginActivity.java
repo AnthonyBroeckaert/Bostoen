@@ -31,6 +31,7 @@ public class LoginActivity extends Activity implements FragmentsInterface,LoginA
     private static final String PREFS_NAME = "COM.BOSTOEN.BE";
     private SharedPreferences sharedpreferences;
     private DataDBAdapter dataDBAdapter;
+    private Integer lastPlaats;
 
 
     @Override
@@ -117,6 +118,7 @@ public class LoginActivity extends Activity implements FragmentsInterface,LoginA
 
     protected void goEnqueteActivity(){
         Intent intent = new Intent(getApplicationContext(), EnqueteActivity.class);
+        intent.putExtra("Lastplaats",lastPlaats);
         startActivity(intent);
     }
 
@@ -206,27 +208,12 @@ public class LoginActivity extends Activity implements FragmentsInterface,LoginA
 
     public void setLastPlaats(Integer lastPlaats)
     {
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        if(lastPlaats!=null)
-        {
-            editor.putInt("LastPlaats",lastPlaats);
-        }
-        else
-        {
-            editor.putInt("LastPlaats",-1);
-        }
-
-        editor.commit();
+        this.lastPlaats=lastPlaats;
     }
 
     @Override
     public Integer getLastPlaats() {
-        int lastplaats = sharedpreferences.getInt("LastPlaats",-1);
-        if(lastplaats!=-1)
-        {
-            return lastplaats;
-        }
-        else return null;
+        return lastPlaats;
     }
 
     @Override

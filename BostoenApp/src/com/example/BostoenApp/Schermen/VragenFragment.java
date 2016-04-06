@@ -133,10 +133,6 @@ public class VragenFragment extends Fragment {
                         else
                         {
                             Log.d("Vraag","not answered");
-                            if(huidig.getOplossing()!=null)
-                            {
-                                methods.addOplossing(huidig.getOplossing());
-                            }
                             methods.addVragenDossier(vragenDossier);
                         }
 
@@ -205,7 +201,6 @@ public class VragenFragment extends Fragment {
         ArrayList<AntwoordOptie> getAntwoorden(int vraagid);
         void addVragenDossier(VragenDossier vragenDossier);
         void updateVragenDossier(int dossiernr,String vraagtekst,VragenDossier vragenDossier);
-        void addOplossing(String oplossing);
 
     }
 

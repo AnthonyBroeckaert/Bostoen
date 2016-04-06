@@ -35,6 +35,9 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
     private DataDBAdapter dataDBAdapter;
     private static final String PREFS_NAME = "COM.BOSTOEN.BE";
     private SharedPreferences sharedpreferences;
+    private Integer lastPlaats;
+    private Integer lastDossier;
+    private Integer lastReeks;
 
     //DRAWERLAYOUT
 
@@ -46,6 +49,11 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.enquete_layout);
+
+        if(getIntent().getIntExtra("Lastplaats",-1)!=-1)
+        {
+            lastPlaats = getIntent().getIntExtra("Lastplaats",-1);
+        }
 
         dataDBAdapter = new DataDBAdapter(getApplicationContext());
 
@@ -203,28 +211,14 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
 
     public void setLastDossier(Integer lastDossier)
     {
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        if(lastDossier!=null)
-        {
-            editor.putInt("LastDossier",lastDossier);
-        }
-        else
-        {
-            editor.putInt("LastDossier",-1);
-        }
-        editor.commit();
+        this.lastDossier = lastDossier;
 
     }
 
 
     @Override
     public Integer getLastDossier() {
-        int output = sharedpreferences.getInt("LastDossier",-1);
-        if(output!=-1)
-        {
-            return output;
-        }
-        else return null;
+        return lastDossier;
     }
 
     @Override
@@ -252,25 +246,12 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
 
     @Override
     public Integer getLastReeks() {
-        if(sharedpreferences.getInt("LastReeks",-1)!=-1)
-        {
-            return sharedpreferences.getInt("LastReeks",-1);
-        }
-        else return null;
+        return lastReeks;
     }
 
     @Override
-    public void setLastReeks(Integer id) {
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        if(id != null)
-        {
-            editor.putInt("LastReeks",id);
-        }
-        else
-        {
-            editor.putInt("LastReeks",-1);
-        }
-        editor.commit();
+    public void setLastReeks(Integer lastReeks) {
+        this.lastReeks = lastReeks;
     }
 
     @Override
@@ -287,19 +268,10 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
         dataDBAdapter.close();
     }
 
-    @Override
-    public void addOplossing(String oplossing) {
-
-    }
 
     @Override
     public Integer getLastPlaats() {
-        int lastplaats = sharedpreferences.getInt("LastPlaats",-1);
-        if(lastplaats!=-1)
-        {
-            return lastplaats;
-        }
-        else return null;
+        return lastPlaats;
     }
 
 }
