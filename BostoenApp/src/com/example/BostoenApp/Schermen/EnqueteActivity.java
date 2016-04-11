@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,9 +42,11 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
 
     //DRAWERLAYOUT
 
-    private String[] mPlanetTitles = {"Test1", "Test2"}; //Namen van de gemaakte vragen in deze array
+    private String[] mVragen = {"Test1", "Test2"}; //Namen van de gemaakte vragen in deze array
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,15 +70,34 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
         }
 
 
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.drawable.icon, R.string.drawer_open, R.string.drawer_close) {
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+               // getActionBar().setTitle(mTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                //getActionBar().setTitle(mDrawerTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
         // Listview aan drawerlayout linken
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mPlanetTitles));
+                R.layout.drawer_list_item, mVragen));
         // Klik listener (verwijst naar DrawerItemClickListener)
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
 
@@ -149,6 +172,11 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
         Intent intent = new Intent(getApplicationContext(), EnqueteActivity.class);
         startActivity(intent);
      }
+
+    public void goToInstellingen(){
+        Intent intent = new Intent(getApplicationContext(), InstellingenActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     public ArrayList<Reeks> getReeksen() {
@@ -256,7 +284,7 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
     @Override
     public void addDosier(Dossier dossier) {
         dataDBAdapter.open();
-        setLastDossier((int)dataDBAdapter.addDossier(dossier));
+        setLastDossier((int) dataDBAdapter.addDossier(dossier));
         dataDBAdapter.close();
     }
 

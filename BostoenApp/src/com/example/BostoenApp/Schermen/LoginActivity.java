@@ -122,7 +122,10 @@ public class LoginActivity extends Activity implements FragmentsInterface,LoginA
         startActivity(intent);
     }
 
-
+    public void goToInstellingen(){
+        Intent intent = new Intent(getApplicationContext(), InstellingenActivity.class);
+        startActivity(intent);
+    }
 
 
 

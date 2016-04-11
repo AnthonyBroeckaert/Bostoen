@@ -9,8 +9,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Schermen.EnqueteActivity" />
+        <activity android:name=".Schermen.EnqueteActivity"
+            android:theme="@style/ThemeBostoen"/>
         <activity android:name=".DB.DraftActivity">
         </activity>
+        <activity android:name=".Schermen.InstellingenActivity" />
     </application>
 </manifest>
