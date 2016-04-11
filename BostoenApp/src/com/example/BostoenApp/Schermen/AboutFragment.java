@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 import com.example.BostoenApp.R;
@@ -25,6 +26,9 @@ public class AboutFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.about_layout, container, false);
+
+        TextView info = (TextView)view.findViewById(R.id.txtAbout);
+        info.setText(R.string.about);
         return view;
     }
 
