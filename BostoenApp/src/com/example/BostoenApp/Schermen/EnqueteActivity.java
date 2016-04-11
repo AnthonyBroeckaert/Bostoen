@@ -1,6 +1,7 @@
 package com.example.BostoenApp.Schermen;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import com.example.BostoenApp.DB.AntwoordOptie;
@@ -42,7 +44,7 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
 
     //DRAWERLAYOUT
 
-    private String[] mVragen = {"Test1", "Test2"}; //Namen van de gemaakte vragen in deze array
+    private String[] mVragen = {"Vraag 1", "Vraag 2", "Vraag 3", "Vraag 4"}; //Namen van de gemaakte vragen in deze array
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -110,7 +112,8 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
     }
 
     private void selectItem(int position) {
-        //gegevens van vraag op position inladen in fragment
+        Toast.makeText(this, "Laad vraag in op positie " + position, Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -176,6 +179,13 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
     public void goToInstellingen(){
         Intent intent = new Intent(getApplicationContext(), InstellingenActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void goToHomeFragment(){
+        getFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment(), "HomeFragment")
+                .addToBackStack("HomeFragment")
+                .commit();
     }
 
     @Override

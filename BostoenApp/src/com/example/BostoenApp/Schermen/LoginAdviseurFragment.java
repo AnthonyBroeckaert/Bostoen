@@ -81,7 +81,7 @@ public class LoginAdviseurFragment extends Fragment {
                     methods.setVoornaam(voornaam.getText().toString());
                     methods.setNaam(naam.getText().toString());
                     methods.setEmail(email.getText().toString());
-                    mListener.goToKlantFragment();
+                    mListener.goToHomeFragment();
                 }
 
             }

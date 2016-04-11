@@ -24,6 +24,8 @@ public interface FragmentsInterface {
 
     void goToInstellingen();
 
+    void goToHomeFragment();
+
 
 
 }

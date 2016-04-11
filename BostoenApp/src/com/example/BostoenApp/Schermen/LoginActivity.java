@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Created by Marnix on 20/03/2016.
  */
-public class LoginActivity extends Activity implements FragmentsInterface,LoginAdviseurFragment.OnFragmentInteractionListener,LoginKlantFragment.OnFragmentInteractionListener,TestInterface{
+public class LoginActivity extends Activity implements FragmentsInterface,LoginAdviseurFragment.OnFragmentInteractionListener,LoginKlantFragment.OnFragmentInteractionListener,TestInterface, HomeFragment.OnFragmentInteractionListener{
 
     private static final String PREFS_NAME = "COM.BOSTOEN.BE";
     private SharedPreferences sharedpreferences;
@@ -52,8 +52,8 @@ public class LoginActivity extends Activity implements FragmentsInterface,LoginA
             }
             else
             {
-                getFragmentManager().beginTransaction().add(R.id.container, new LoginKlantFragment(), "KlantFragment")
-                        .addToBackStack("KlantFragment")
+                getFragmentManager().beginTransaction().add(R.id.container, new HomeFragment(), "HomeFragment")
+                        .addToBackStack("HomeFragment")
                         .commit();
                 Log.d("Shared preferences","");
             }
@@ -98,6 +98,13 @@ public class LoginActivity extends Activity implements FragmentsInterface,LoginA
     public void goToAboutFragment() {
         getFragmentManager().beginTransaction().replace(R.id.container, new AboutFragment(), "AboutFragment")
                 .addToBackStack("AboutFragment")
+                .commit();
+    }
+
+    @Override
+    public void goToHomeFragment(){
+        getFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment(), "HomeFragment")
+                .addToBackStack("HomeFragment")
                 .commit();
     }
 
