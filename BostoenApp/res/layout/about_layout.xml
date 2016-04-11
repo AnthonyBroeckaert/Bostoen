@@ -9,15 +9,15 @@
     >
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="349dp"
         android:layout_height="347dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="blablablablablblablbla dingen en zo blablabllbalbalblblblblblblblbl"
+        android:text="In september 2014 gaf toenmalig minister van innovatie Ingrid Lieten groen licht aan 8 projecten voor woningrenovatie binnen de proeftuinen van het IWT. Eén van de geselecteerde projecten is het project RenBEN. Het project kadert binnen de ambitie om van Zuid-West-Vlaanderen een regio te maken waar het &apos;Warmer Wonen&apos; is: een energiezuinige regio, met een hoog wooncomfort en weinig energiearmoede."
         android:id="@+id/txtAbout"
         android:layout_row="1"
         android:layout_column="0"
         android:layout_columnSpan="4"
-        android:textColor="#e3000b"
+        android:textColor="#000000"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp" />
@@ -44,8 +44,8 @@
         android:layout_marginBottom="0dp" />
 
     <ImageView
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="89dp"
+        android:layout_height="89dp"
         android:id="@+id/imageView4"
         android:src="@drawable/logokortrijkblack"
         android:minHeight="2dp"
