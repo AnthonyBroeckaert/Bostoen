@@ -24,8 +24,8 @@ import java.util.ArrayList;
  */
 public class LoginKlantFragment extends Fragment {
     private View view;
-    private FragmentsInterface mListener;
-    private OnFragmentInteractionListener methods;
+    private OnFragmentInteractionListener mListener;
+
     private TestInterface testInterface;
 
 
@@ -51,9 +51,9 @@ public class LoginKlantFragment extends Fragment {
         testInterface.addSampleData();
 
         //kijken of er tijdens de uitvoering van de app al een plaats werd toegevoegd
-        if(methods.getLastPlaats()!=null)
+        if(mListener.getLastPlaats()!=null)
         {
-            Plaats plaats = methods.getPlaats(methods.getLastPlaats());
+            Plaats plaats = mListener.getPlaats(mListener.getLastPlaats());
             if(plaats!=null)
             {
 
@@ -88,16 +88,16 @@ public class LoginKlantFragment extends Fragment {
                     Log.d("postcode is",postcode.getText().toString());
                     plaats.setPostcode(new Integer(postcode.getText().toString()));
                 }
-                Log.d("Methods null : ",new  Boolean(methods==null).toString());
+                Log.d("Methods null : ",new  Boolean(mListener==null).toString());
                 Log.d("Plaats null : ", new Boolean(plaats == null).toString());
                 //indien de plaats nog niet bestaat
-                if(methods.getLastPlaats()==null)
+                if(mListener.getLastPlaats()==null)
                 {
-                    methods.addPlaats(plaats);
+                    mListener.addPlaats(plaats);
                 }
                 //de plaats updaten
                 else {
-                    methods.updatePlaats(methods.getLastPlaats(),plaats);
+                    mListener.updatePlaats(mListener.getLastPlaats(),plaats);
                 }
                 mListener.goToKeuzeFragment();
             }
@@ -111,11 +111,12 @@ public class LoginKlantFragment extends Fragment {
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
-        if (activity instanceof FragmentsInterface) {
-            mListener = (FragmentsInterface) activity;
+
+
             if(activity instanceof OnFragmentInteractionListener)
             {
-                methods = (OnFragmentInteractionListener)activity;
+
+                mListener = (OnFragmentInteractionListener)activity;
                 if(activity instanceof   TestInterface)
                 {
                     testInterface = (TestInterface)activity;
@@ -131,10 +132,7 @@ public class LoginKlantFragment extends Fragment {
                         + " must implement OnFragmentInteractionListenere");
             }
 
-        } else {
-            throw new RuntimeException(activity.toString()
-                    + " must implement FragmetnsInterface");
-        }
+
     }
 
     @Override
@@ -147,5 +145,6 @@ public class LoginKlantFragment extends Fragment {
         Integer getLastPlaats();
         Plaats getPlaats(int id);
         void updatePlaats(int id,Plaats plaats);
+        void goToKeuzeFragment();
     }
 }

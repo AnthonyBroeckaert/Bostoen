@@ -27,8 +27,8 @@ import java.util.ArrayList;
  */
 public class VragenFragment extends Fragment {
     private View view;
-    private FragmentsInterface mListener;
-    private OnFragmentInteractionListener methods;
+    private OnFragmentInteractionListener mListener;
+
     private int vraagid;
     private boolean answered=false;
     private AntwoordOptie huidig;
@@ -46,7 +46,7 @@ public class VragenFragment extends Fragment {
         ListView antwoorden = (ListView)view.findViewById(R.id.AntwoordenList);
         Button ok = (Button) view.findViewById(R.id.btnOK);
 
-        Vraag vraag = methods.getVraag(vraagid);
+        Vraag vraag = mListener.getVraag(vraagid);
         if(vraag!=null)
         {
             //kijken of de huidige vraag een afbeelding heeft
@@ -62,9 +62,9 @@ public class VragenFragment extends Fragment {
             }
             else tip.setText("");
 
-            ArrayList<AntwoordOptie> antwoordOpties=methods.getAntwoorden(vraagid);
+            ArrayList<AntwoordOptie> antwoordOpties=mListener.getAntwoorden(vraagid);
 
-            ArrayList<VragenDossier> vragenDossiers=methods.getVragenDossiers(methods.getLastDossier());
+            ArrayList<VragenDossier> vragenDossiers=mListener.getVragenDossiers(mListener.getLastDossier());
             if(vragenDossiers!=null)
             {
                 String antwoord="";
@@ -120,7 +120,7 @@ public class VragenFragment extends Fragment {
                     if (huidig != null) {
 
                         VragenDossier vragenDossier = new VragenDossier();
-                        vragenDossier.setDossierNr(methods.getLastDossier());
+                        vragenDossier.setDossierNr(mListener.getLastDossier());
                         vragenDossier.setAntwoordTekst(huidig.getAntwoordTekst());
                         vragenDossier.setVraagTekst(vraag.getTekst());
                         vragenDossier.setAntwoordOptie(huidig.getVraagId());
@@ -128,12 +128,12 @@ public class VragenFragment extends Fragment {
                         if(answered)
                         {
                             Log.d("Vraag","answered");
-                            methods.updateVragenDossier(methods.getLastDossier(),vraag.getTekst(),vragenDossier);
+                            mListener.updateVragenDossier(mListener.getLastDossier(),vraag.getTekst(),vragenDossier);
                         }
                         else
                         {
                             Log.d("Vraag","not answered");
-                            methods.addVragenDossier(vragenDossier);
+                            mListener.addVragenDossier(vragenDossier);
                         }
 
                         if (huidig.getVolgendeVraag() != null) {
@@ -163,20 +163,18 @@ public class VragenFragment extends Fragment {
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
-        if (activity instanceof FragmentsInterface) {
-            mListener = (FragmentsInterface) activity;
-            if(mListener instanceof OnFragmentInteractionListener)
+
+
+            if(activity instanceof OnFragmentInteractionListener)
             {
-                methods = (OnFragmentInteractionListener)activity;
+
+                mListener = (OnFragmentInteractionListener) activity;
             }
             else {
                 throw new RuntimeException(activity.toString()
                         + " must implement OnFragmentInteractionListener");
             }
-        } else {
-            throw new RuntimeException(activity.toString()
-                    + " must implement FragmetnsInterface");
-        }
+
     }
 
     public void setVraagid(int vraagid)
@@ -201,6 +199,8 @@ public class VragenFragment extends Fragment {
         ArrayList<AntwoordOptie> getAntwoorden(int vraagid);
         void addVragenDossier(VragenDossier vragenDossier);
         void updateVragenDossier(int dossiernr,String vraagtekst,VragenDossier vragenDossier);
+        void goToEindScherm();
+        void goToVragenFragment(int id);
 
     }
 
