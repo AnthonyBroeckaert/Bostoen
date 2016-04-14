@@ -87,6 +87,9 @@ public class EindFragment extends Fragment {
         kiesReeks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                methods.setLastDossier(null);
+                methods.setLastPlaats(null);
+                methods.setLastReeks(null);
                 mListener.goToKeuzeFragment();
             }
         });
@@ -191,6 +194,8 @@ public class EindFragment extends Fragment {
         ArrayList<VragenDossier> getVragenDossiers(int dossiernr);
         Integer getLastDossier();
         void setLastDossier(Integer lastdossier);
+        void setLastPlaats(Integer lastPlaats);
+        void setLastReeks(Integer lastReeks);
         ArrayList<AntwoordOptie> getAntwoorden(int vraagid);
 
     }

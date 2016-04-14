@@ -6,8 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -301,7 +301,7 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
     @Override
     public void updateDossier(int id, Dossier dossier) {
         dataDBAdapter.open();
-        dataDBAdapter.updateDossier(id,dossier);
+        dataDBAdapter.updateDossier(id, dossier);
         dataDBAdapter.close();
     }
 
@@ -309,6 +309,12 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
     @Override
     public Integer getLastPlaats() {
         return lastPlaats;
+    }
+
+    @Override
+    public void setLastPlaats(Integer lastPlaats)
+    {
+        this.lastPlaats=lastPlaats;
     }
 
 }
