@@ -86,7 +86,7 @@ public class InstellingenActivity extends FragmentActivity implements TabHost.On
         outState.putString("tab", mTabHost.getCurrentTabTag()); //save the tab selected
         super.onSaveInstanceState(outState);
     }
-
+//
     /**
      * Initialise ViewPager
      */

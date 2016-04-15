@@ -11,6 +11,7 @@ import com.example.BostoenApp.R;
 /**
  * Created by Marnix on 15/04/2016.
  */
+//
 public class instellingen_1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
