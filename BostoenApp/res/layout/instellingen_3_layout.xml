@@ -20,7 +20,7 @@
         android:layout_gravity="left"
         android:layout_margin="10dp"
         android:checked="false"
-        android:text="Afbeeldingen weegeven"
+        android:text="Afbeeldingen weergeven"
         android:textColor="#000000"
         android:textSize="20dp" />
 
