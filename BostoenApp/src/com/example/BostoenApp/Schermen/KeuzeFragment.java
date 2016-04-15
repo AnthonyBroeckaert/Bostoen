@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import com.example.BostoenApp.DB.CustomDate;
 import com.example.BostoenApp.DB.Dossier;
 import com.example.BostoenApp.DB.Reeks;
+import com.example.BostoenApp.DB.Vraag;
 import com.example.BostoenApp.R;
 import java.util.ArrayList;
 
@@ -27,8 +28,8 @@ import java.util.ArrayList;
 public class KeuzeFragment extends Fragment {
     private View view;
     private Reeks huidig;
-    private FragmentsInterface mListener;
-    private OnFragmentInteractionListener methods;
+    private OnFragmentInteractionListener mListener;
+
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -42,9 +43,9 @@ public class KeuzeFragment extends Fragment {
         Button volgende = (Button)view.findViewById(R.id.btnFragVragen);
         EditText dossiernaam = (EditText)view.findViewById(R.id.txtIdentificatieKeuze);
 
-        if(methods.getLastDossier()!=null)
+        if(mListener.getLastDossier()!=null)
         {
-            Dossier dossier = methods.getDossier(methods.getLastPlaats());
+            Dossier dossier = mListener.getDossier(mListener.getLastPlaats());
 
             if(dossier!=null)
             {
@@ -58,19 +59,19 @@ public class KeuzeFragment extends Fragment {
                 if(huidig!=null)
                 {
                     Dossier dossier = new Dossier();
-                    dossier.setPlaatsId(methods.getLastPlaats());
+                    dossier.setPlaatsId(mListener.getLastPlaats());
 
 
 
-                    if(methods.getLastDossier()==null)
+                    if(mListener.getLastDossier()==null)
                     {
                         //voorkomen dat bij een update de aanmaakdatum gewijzigd wordt
                         dossier.setDatum(new CustomDate());
-                        methods.addDosier(dossier);
+                        mListener.addDosier(dossier);
                     }
                     else {
                        if(dossier!=null){
-                           methods.updateDossier(methods.getLastDossier(),dossier);
+                           mListener.updateDossier(mListener.getLastDossier(),dossier);
                        }
                     }
                     mListener.goToVragenFragment(huidig.getEersteVraag());
@@ -83,12 +84,12 @@ public class KeuzeFragment extends Fragment {
 
 
 
-        ArrayList<Reeks> reeksen = methods.getReeksen();
+        ArrayList<Reeks> reeksen = mListener.getReeksen();
 
-        if(methods.getLastReeks()!=null)
+        if(mListener.getLastReeks()!=null)
         {
-            reeksen.get(methods.getLastReeks()).setChecked(true);
-            huidig = reeksen.get(methods.getLastReeks());
+            reeksen.get(mListener.getLastReeks()).setChecked(true);
+            huidig = reeksen.get(mListener.getLastReeks());
         }
 
         reekslijst.setAdapter(new Reeks.ReeksAdapter(getActivity().getApplicationContext(), reeksen));
@@ -98,7 +99,7 @@ public class KeuzeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 huidig = (Reeks) parent.getItemAtPosition(position);
-                methods.setLastReeks(position);
+                mListener.setLastReeks(position);
                 for (int i = 0; i < reeksen.size(); i++) {
                     Reeks reeks = reeksen.get(i);
 
@@ -125,11 +126,12 @@ public class KeuzeFragment extends Fragment {
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
-        if (activity instanceof FragmentsInterface) {
-            mListener = (FragmentsInterface) activity;
+
+
             if(activity instanceof OnFragmentInteractionListener)
             {
-                methods = (OnFragmentInteractionListener)activity;
+
+                mListener = (OnFragmentInteractionListener)activity;
 
             }
             else {
@@ -137,10 +139,7 @@ public class KeuzeFragment extends Fragment {
                         + " must implement OnFragmentInteractionListener");
             }
 
-        } else {
-            throw new RuntimeException(activity.toString()
-                    + " must implement FragmetnsInterface");
-        }
+
     }
 
 
@@ -158,6 +157,7 @@ public class KeuzeFragment extends Fragment {
     void setLastReeks(Integer id);
     void addDosier(Dossier dossier);
     void updateDossier(int id,Dossier dossier);
+        void goToVragenFragment(int id);
 
     }
 }

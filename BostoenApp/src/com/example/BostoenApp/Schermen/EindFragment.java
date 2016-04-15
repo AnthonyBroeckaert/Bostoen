@@ -27,8 +27,8 @@ import java.util.List;
  */
 public class EindFragment extends Fragment {
     private View view;
-    private FragmentsInterface mListener;
-    private OnFragmentInteractionListener methods;
+    private OnFragmentInteractionListener mListener;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,11 +44,11 @@ public class EindFragment extends Fragment {
         Button kiesReeks = (Button) view.findViewById(R.id.btnKiesReeks);
         StringBuilder tekst = new StringBuilder();
 
-        ArrayList<VragenDossier> vragenDossiers = methods.getVragenDossiers(methods.getLastDossier());
+        ArrayList<VragenDossier> vragenDossiers = mListener.getVragenDossiers(mListener.getLastDossier());
 
         for(VragenDossier vragenDossier : vragenDossiers)
         {
-            ArrayList<AntwoordOptie>  antwoordOpties= methods.getAntwoorden(vragenDossier.getAntwoordOptie());
+            ArrayList<AntwoordOptie>  antwoordOpties= mListener.getAntwoorden(vragenDossier.getAntwoordOptie());
             Log.d("Antwoordopties",new Integer(antwoordOpties.size()).toString());
 
             for(AntwoordOptie antwoordOptie : antwoordOpties)
@@ -169,20 +169,18 @@ public class EindFragment extends Fragment {
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
-        if (activity instanceof FragmentsInterface) {
-            mListener = (FragmentsInterface) activity;
+
+
             if(activity instanceof OnFragmentInteractionListener)
             {
-                methods =(OnFragmentInteractionListener) activity;
+                mListener =(OnFragmentInteractionListener) activity;
+
             }
             else {
                 throw new RuntimeException(activity.toString()
                         + " must implement OnFragmentInteractionListener");
             }
-        } else {
-            throw new RuntimeException(activity.toString()
-                    + " must implement FragmetnsInterface");
-        }
+
     }
 
     @Override
@@ -197,6 +195,8 @@ public class EindFragment extends Fragment {
         void setLastPlaats(Integer lastPlaats);
         void setLastReeks(Integer lastReeks);
         ArrayList<AntwoordOptie> getAntwoorden(int vraagid);
+        void goToInstellingen();
+        void goToKeuzeFragment();
 
     }
 }

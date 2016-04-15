@@ -20,8 +20,8 @@ import com.example.BostoenApp.R;
 
 public class LoginAdviseurFragment extends Fragment {
     private View view;
-    private FragmentsInterface mListener;
-    private OnFragmentInteractionListener methods;
+    private OnFragmentInteractionListener mListener;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,19 +35,19 @@ public class LoginAdviseurFragment extends Fragment {
         EditText naam = (EditText) view.findViewById(R.id.txtNaamAdviseur);
         EditText email = (EditText) view.findViewById(R.id.txtEmailAdviseur);
 
-        if(methods.getVoornaam()!=null)
+        if(mListener.getVoornaam()!=null)
         {
-            voornaam.setText(methods.getVoornaam());
+            voornaam.setText(mListener.getVoornaam());
         }
 
-        if(methods.getNaam()!=null)
+        if(mListener.getNaam()!=null)
         {
-            naam.setText(methods.getNaam());
+            naam.setText(mListener.getNaam());
         }
 
-        if(methods.getEmail()!=null)
+        if(mListener.getEmail()!=null)
         {
-            naam.setText(methods.getEmail());
+            naam.setText(mListener.getEmail());
         }
 
         volgende.setOnClickListener(new View.OnClickListener() {
@@ -78,9 +78,9 @@ public class LoginAdviseurFragment extends Fragment {
 
                 if(blnVoornaam && blnNaam && blnEmail)
                 {
-                    methods.setVoornaam(voornaam.getText().toString());
-                    methods.setNaam(naam.getText().toString());
-                    methods.setEmail(email.getText().toString());
+                    mListener.setVoornaam(voornaam.getText().toString());
+                    mListener.setNaam(naam.getText().toString());
+                    mListener.setEmail(email.getText().toString());
                     mListener.goToHomeFragment();
                 }
 
@@ -95,21 +95,20 @@ public class LoginAdviseurFragment extends Fragment {
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
-        if (activity instanceof FragmentsInterface) {
-            mListener = (FragmentsInterface) activity;
+
+
             if(activity instanceof OnFragmentInteractionListener)
             {
-                methods = (OnFragmentInteractionListener)activity;
+
+                mListener = (OnFragmentInteractionListener)activity;
+
             }
             else
             {
                 throw new RuntimeException(activity.toString()
                         + " must implement OnFragmentInteractionListener");
             }
-        } else {
-            throw new RuntimeException(activity.toString()
-                    + " must implement FragmetnsInterface");
-        }
+
     }
     @Override
     public void onDetach() {
@@ -123,6 +122,7 @@ public class LoginAdviseurFragment extends Fragment {
         void setNaam(String naam);
         String getEmail();
         void setEmail(String email);
+        void goToHomeFragment();
 
     }
 }

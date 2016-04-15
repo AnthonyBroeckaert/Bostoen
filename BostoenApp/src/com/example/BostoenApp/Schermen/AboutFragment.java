@@ -16,7 +16,7 @@ import com.example.BostoenApp.R;
  */
 public class AboutFragment extends Fragment {
     private View view;
-    private FragmentsInterface mListener;
+    private OnFragmentInteractionListener mListener;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,16 +36,21 @@ public class AboutFragment extends Fragment {
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
-        if (activity instanceof FragmentsInterface) {
-            mListener = (FragmentsInterface) activity;
+        if (activity instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) activity;
         } else {
             throw new RuntimeException(activity.toString()
-                    + " must implement FragmetnsInterface");
+                    + " must implement OnFragmentInteractionListener");
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    public interface OnFragmentInteractionListener {
+
+
     }
 }

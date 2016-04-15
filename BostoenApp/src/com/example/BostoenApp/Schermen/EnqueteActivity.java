@@ -33,7 +33,7 @@ import java.util.ArrayList;
 /**
  * Created by Marnix on 20/03/2016.
  */
-public class EnqueteActivity extends Activity  implements FragmentsInterface,KeuzeFragment.OnFragmentInteractionListener,VragenFragment.OnFragmentInteractionListener,EindFragment.OnFragmentInteractionListener{
+public class EnqueteActivity extends Activity  implements KeuzeFragment.OnFragmentInteractionListener,VragenFragment.OnFragmentInteractionListener,EindFragment.OnFragmentInteractionListener{
 
     private DataDBAdapter dataDBAdapter;
     private static final String PREFS_NAME = "COM.BOSTOEN.BE";
@@ -125,19 +125,7 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
         }
     }
 
-    @Override
-    public void goToAdviseurFragment() {
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, new LoginAdviseurFragment(), "AdviseurFragment")
-                .addToBackStack("AdviseurFragment")
-                .commit();
-    }
 
-    @Override
-    public void goToKlantFragment() {
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, new LoginKlantFragment(), "KlantFragment")
-                .addToBackStack("KlantFragment")
-                .commit();
-    }
 
     @Override
     public void goToVragenFragment(int id) {
@@ -149,12 +137,6 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
     }
 
 
-    @Override
-    public void goToAboutFragment() {
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, new AboutFragment(), "AboutFragment")
-                .addToBackStack("AboutFragment")
-                .commit();
-    }
 
     @Override
     public void goToKeuzeFragment() {
@@ -181,12 +163,6 @@ public class EnqueteActivity extends Activity  implements FragmentsInterface,Keu
         startActivity(intent);
     }
 
-    @Override
-    public void goToHomeFragment(){
-        getFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment(), "HomeFragment")
-                .addToBackStack("HomeFragment")
-                .commit();
-    }
 
     @Override
     public ArrayList<Reeks> getReeksen() {

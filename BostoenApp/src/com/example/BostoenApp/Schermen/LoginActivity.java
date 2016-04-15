@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Created by Marnix on 20/03/2016.
  */
-public class LoginActivity extends Activity implements FragmentsInterface,LoginAdviseurFragment.OnFragmentInteractionListener,LoginKlantFragment.OnFragmentInteractionListener,TestInterface, HomeFragment.OnFragmentInteractionListener{
+public class LoginActivity extends Activity implements LoginAdviseurFragment.OnFragmentInteractionListener,LoginKlantFragment.OnFragmentInteractionListener,TestInterface, HomeFragment.OnFragmentInteractionListener, AboutFragment.OnFragmentInteractionListener{
 
     private static final String PREFS_NAME = "COM.BOSTOEN.BE";
     private SharedPreferences sharedpreferences;
@@ -71,12 +71,7 @@ public class LoginActivity extends Activity implements FragmentsInterface,LoginA
         }
     }
 
-    @Override
-    public void goToAdviseurFragment() {
-        getFragmentManager().beginTransaction().replace(R.id.container, new LoginAdviseurFragment(), "AdviseurFragment")
-                .addToBackStack("AdviseurFragment")
-                .commit();
-    }
+
 
     @Override
     public void goToKlantFragment() {
@@ -85,14 +80,7 @@ public class LoginActivity extends Activity implements FragmentsInterface,LoginA
                 .commit();
     }
 
-    @Override
-    public void goToVragenFragment(int id) {
-        VragenFragment vraag=new VragenFragment();
-        vraag.setVraagid(id);
-        getFragmentManager().beginTransaction().replace(R.id.container, vraag, "VragenFragment")
-                .addToBackStack("VragenFragment")
-                .commit();
-    }
+
 
     @Override
     public void goToAboutFragment() {
@@ -113,12 +101,6 @@ public class LoginActivity extends Activity implements FragmentsInterface,LoginA
         goEnqueteActivity();
     }
 
-    @Override
-    public void goToEindScherm() {
-        getFragmentManager().beginTransaction().replace(R.id.container, new EindFragment(), "EindFragment")
-                .addToBackStack("EindFragment")
-                .commit();
-    }
 
     //fix voor marnix
     //marnix //

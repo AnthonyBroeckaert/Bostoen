@@ -16,8 +16,8 @@ import com.example.BostoenApp.R;
  */
 public class HomeFragment extends Fragment {
     private View view;
-    private FragmentsInterface mListener;
-    private OnFragmentInteractionListener methods;
+    private OnFragmentInteractionListener mListener;
+
 
     private Button startEnquete;
     private Button settings;
@@ -69,20 +69,19 @@ public class HomeFragment extends Fragment {
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
-        if (activity instanceof FragmentsInterface) {
-            mListener = (FragmentsInterface) activity;
-            if(mListener instanceof OnFragmentInteractionListener)
+
+
+            if(activity instanceof OnFragmentInteractionListener)
             {
-                methods = (OnFragmentInteractionListener)activity;
+
+                mListener = (OnFragmentInteractionListener)activity;
             }
             else {
                 throw new RuntimeException(activity.toString()
                         + " must implement OnFragmentInteractionListener");
             }
-        } else {
-            throw new RuntimeException(activity.toString()
-                    + " must implement FragmetnsInterface");
-        }
+
+
     }
 
     @Override
@@ -92,6 +91,9 @@ public class HomeFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
 
+        void goToAboutFragment();
+        void goToInstellingen();
+        void goToKlantFragment();
 
     }
 }
