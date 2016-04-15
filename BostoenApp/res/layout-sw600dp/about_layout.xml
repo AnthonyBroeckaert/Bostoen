@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="349dp"
             android:layout_height="347dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
             android:id="@+id/txtAbout"
             android:layout_row="1"
             android:layout_column="0"
