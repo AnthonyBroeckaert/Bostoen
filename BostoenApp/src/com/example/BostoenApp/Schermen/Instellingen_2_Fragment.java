@@ -12,9 +12,9 @@ import com.example.BostoenApp.R;
  * Created by Marnix on 15/04/2016.
  */
 //
-public class instellingen_1 extends Fragment {
+public class Instellingen_2_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.instellingen1_layout, container, false);
+        return inflater.inflate(R.layout.instellingen_2_layout, container, false);
     }
 }

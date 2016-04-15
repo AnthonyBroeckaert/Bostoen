@@ -1,6 +1,5 @@
 package com.example.BostoenApp.Schermen;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -11,9 +10,7 @@ import java.util.List;
 import java.util.Vector;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TabHost;
@@ -93,9 +90,9 @@ public class InstellingenActivity extends FragmentActivity implements TabHost.On
     private void intialiseViewPager() {
 
         List<Fragment> fragments = new Vector<Fragment>();
-        fragments.add(Fragment.instantiate(this, instellingen_1.class.getName()));
-        fragments.add(Fragment.instantiate(this, instellingen_2.class.getName()));
-        fragments.add(Fragment.instantiate(this, instellingen_3.class.getName()));
+        fragments.add(Fragment.instantiate(this, Instellingen_1_Fragment.class.getName()));
+        fragments.add(Fragment.instantiate(this, Instellingen_2_Fragment.class.getName()));
+        fragments.add(Fragment.instantiate(this, Instellingen_3_Fragment.class.getName()));
         this.mPagerAdapter  = new PagerAdapter(super.getSupportFragmentManager(), fragments);
         //
         this.mViewPager = (ViewPager)super.findViewById(R.id.viewpager);
@@ -110,11 +107,11 @@ public class InstellingenActivity extends FragmentActivity implements TabHost.On
         mTabHost = (TabHost)findViewById(android.R.id.tabhost);
         mTabHost.setup();
         TabInfo tabInfo = null;
-        InstellingenActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab1").setIndicator("Tab 1"), (tabInfo = new TabInfo("Tab1", instellingen_1.class, args)));
+        InstellingenActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab1").setIndicator("Tab 1"), (tabInfo = new TabInfo("Tab1", Instellingen_1_Fragment.class, args)));
         this.mapTabInfo.put(tabInfo.tag, tabInfo);
-        InstellingenActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab2").setIndicator("Tab 2"), (tabInfo = new TabInfo("Tab2", instellingen_2.class, args)));
+        InstellingenActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab2").setIndicator("Tab 2"), (tabInfo = new TabInfo("Tab2", Instellingen_2_Fragment.class, args)));
         this.mapTabInfo.put(tabInfo.tag, tabInfo);
-       InstellingenActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab3").setIndicator("Tab 3"), ( tabInfo = new TabInfo("Tab3", instellingen_3.class, args)));
+       InstellingenActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab3").setIndicator("Tab 3"), ( tabInfo = new TabInfo("Tab3", Instellingen_3_Fragment.class, args)));
          this.mapTabInfo.put(tabInfo.tag, tabInfo);
         // Default to first tab
         //this.onTabChanged("Tab1");

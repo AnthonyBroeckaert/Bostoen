@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Enquete"
+        android:id="@+id/btnStart"
+        android:layout_marginBottom="78dp"
+        android:layout_above="@+id/btnSettings"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About"
+        android:id="@+id/btnAbout"
+        android:layout_marginBottom="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/btnSettings"
+        android:layout_alignStart="@+id/btnSettings" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Instellingen"
+        android:id="@+id/btnSettings"
+        android:layout_marginBottom="65dp"
+        android:layout_above="@+id/btnAbout"
+        android:layout_alignEnd="@+id/btnStart"
+        android:layout_alignStart="@+id/btnStart" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Welkom"
+        android:id="@+id/txtWelkom"
+        android:layout_marginTop="55dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
