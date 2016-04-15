@@ -87,9 +87,9 @@ public class EindFragment extends Fragment {
         kiesReeks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                methods.setLastDossier(null);
-                methods.setLastPlaats(null);
-                methods.setLastReeks(null);
+                mListener.setLastDossier(null);
+                mListener.setLastPlaats(null);
+                mListener.setLastReeks(null);
                 mListener.goToKeuzeFragment();
             }
         });
