@@ -5,8 +5,7 @@
     android:weightSum="1"
     android:columnCount="10"
     android:background="#ffffff"
-    android:theme="@style/ThemeBostoen"
-    >
+    android:theme="@style/ThemeBostoen">
 
     <ScrollView
         android:layout_width="match_parent"

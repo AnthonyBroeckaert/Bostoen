@@ -31,7 +31,7 @@ public class Instellingen_1_Fragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.instellingen1_layout, container, false);
+        View view =  inflater.inflate(R.layout.instellingen_1_layout, container, false);
 
         naam = (EditText) view.findViewById(R.id.txtNaamAdviseur);
         voornaam = (EditText) view.findViewById(R.id.txtVoornaamAdviseur);

@@ -67,7 +67,7 @@ public class EnqueteActivity extends Activity  implements KeuzeFragment.OnFragme
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().add(R.id.content_frame, new KeuzeFragment(), "KeuzeFragment")
-                    .addToBackStack("KeuzeFragment")
+                    //.addToBackStack("KeuzeFragment")
                     .commit();
         }
 
