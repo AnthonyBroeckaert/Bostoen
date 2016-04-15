@@ -3,6 +3,7 @@
 
     <string name="drawer_open">open drawer</string>
     <string name="drawer_close">close drawer</string>
-    <string name="about">RenBEN (Renovatie voor Bijna Energie Neutrale (rij)woningen in private huur) beoogt de renovatie van 3 maal 10 rijwoningen in Kortrijk, Harelbeke en Menen. In deze drie steden zullen gezinnen technische, financiële en sociale ondersteuning krijgen bij de renovatie van hun rijwoning. Het proeftuinproject loopt over een periode van 3 jaar.
-</string>
+    <string name="about">RenBEN (Renovatie voor Bijna Energie Neutrale (rij)woningen in private huur) beoogt de renovatie van 3 maal 10 rijwoningen in Kortrijk, Harelbeke en Menen. In deze drie steden zullen gezinnen technische, financiële en sociale ondersteuning krijgen bij de renovatie van hun rijwoning. Het proeftuinproject loopt over een periode van 3 jaar.</string>
+    <string name="private_key">81d5282cffbdc8404ca7c85cd4bdcdd5</string>
+    <string name="public_key">4fd49301221641528079dd57df2db4e6</string>
 </resources>

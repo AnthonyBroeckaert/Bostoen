@@ -11,14 +11,13 @@ import java.util.Date;
 public class CustomDate extends Date {
     private Date date;
     private SimpleDateFormat formatter;
-    private String format = "yyyy-MM-dd':'hh:mm:ss";
+    private String format = "yyyy-MM-dd'-'hh:mm:ss";
 
     /**
      *
      */
     public CustomDate() {
-        Calendar c = Calendar.getInstance();
-        date = c.getTime();
+        date = new Date();
         formatter = new SimpleDateFormat(format);
     }
 

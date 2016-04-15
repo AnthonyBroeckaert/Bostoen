@@ -15,7 +15,10 @@ import android.widget.TextView;
 import java.text.ParseException;
 
 import com.example.BostoenApp.R;
+import com.example.BostoenApp.Webservices.Service;
+
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class DraftActivity extends Activity {
 
@@ -64,7 +67,7 @@ public class DraftActivity extends Activity {
         DataDBAdapter dataDBAdapter = new DataDBAdapter(this);
         //database openen
         dataDBAdapter.open();
-        dataDBAdapter.clearAll();
+        //dataDBAdapter.clearAll();
         //alle tabellen aanmaken
        //dataDBAdapter.create();
 
@@ -73,11 +76,11 @@ public class DraftActivity extends Activity {
 
 
         //alle reeksen toevoegen
-        dataDBAdapter.addReeksen(reeksen);
+        //dataDBAdapter.addReeksen(reeksen);
         //alle vragen toevoegen
-        dataDBAdapter.addVragen(vragen);
+        //dataDBAdapter.addVragen(vragen);
         //alle antwoordopties toevoegen
-        dataDBAdapter.addAntwoordOpties(antwoordOpties);
+        //dataDBAdapter.addAntwoordOpties(antwoordOpties);
 
         //Cursor om alle reeksen uit database te halen
         Cursor one= dataDBAdapter.getReeksen();
@@ -88,20 +91,25 @@ public class DraftActivity extends Activity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        for(Reeks reeks : antwoordenreeksen)
-        {
-            Log.d("antwoordreeks id",new Integer(reeks.getId()).toString());
-        }
-        //adapter van ListView met reeksen instellen
-        reeksenlijst.setAdapter(new Reeks.ReeksAdapter(getApplicationContext(), antwoordenreeksen));
 
-        // voorbeeld van onclick in listview
-        reeksenlijst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Reeks huidig = (Reeks) parent.getItemAtPosition(position);
+        if(antwoordenreeksen!=null)
+        {
+            for(Reeks reeks : antwoordenreeksen)
+            {
+                Log.d("antwoordreeks id",new Integer(reeks.getId()).toString());
             }
-        });
+            //adapter van ListView met reeksen instellen
+            reeksenlijst.setAdapter(new Reeks.ReeksAdapter(getApplicationContext(), antwoordenreeksen));
+
+            // voorbeeld van onclick in listview
+            reeksenlijst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Reeks huidig = (Reeks) parent.getItemAtPosition(position);
+                }
+            });
+        }
+
 
         //Cursor om alle vragen op te halen
        Cursor two=dataDBAdapter.getVragen();
@@ -113,10 +121,14 @@ public class DraftActivity extends Activity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        for(Vraag vraag : antwoordenvragen)
+        if(antwoordenvragen!=null)
         {
-            Log.d("Antwoord vraag id",vraag.getId().toString());
+            for(Vraag vraag : antwoordenvragen)
+            {
+                Log.d("Antwoord vraag id",vraag.getId().toString());
+            }
         }
+
 
         Cursor vraag = dataDBAdapter.getVraag(1);
         Vraag temp= null;
@@ -125,13 +137,18 @@ public class DraftActivity extends Activity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        String a =temp.getTekst()+temp.getLast_update();
-        Log.d("test enkele reeks",a);
+
+        if(temp!=null)
+        {
+            String a =temp.getTekst()+temp.getLast_update();
+            Log.d("test enkele reeks",a);
 
 
-        //Afbeelding van vraag weergeven
-        //omdat we momenteel niet met een Listview werken kan je slechts een afbeelding weergeven
-        imageone.setImageBitmap(antwoordenvragen.get(0).getImage());
+            //Afbeelding van vraag weergeven
+            //omdat we momenteel niet met een Listview werken kan je slechts een afbeelding weergeven
+            imageone.setImageBitmap(antwoordenvragen.get(0).getImage());
+        }
+
 
         //cursor om alle antwoordopties op te halen
         Cursor three = dataDBAdapter.getAntwoordOptiesVraag(1);
@@ -158,12 +175,19 @@ public class DraftActivity extends Activity {
 
 
 
-        dataDBAdapter.clearAll();
+        //dataDBAdapter.clearAll();
         dataDBAdapter.close();
 
-        Log.d("datetest",c.toString());
+        Log.d("datetest", c.toString());
 
-
+        Service service = new Service(this);
+        try {
+            service.userExist();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
