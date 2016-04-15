@@ -9,7 +9,7 @@
     >
 
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="296dp"
         android:id="@+id/scrollView"
         android:layout_column="0"
@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="349dp"
             android:layout_height="347dp"
-            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/txtAbout"
             android:layout_row="1"
             android:layout_column="0"

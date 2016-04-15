@@ -28,7 +28,7 @@ public class AboutFragment extends Fragment {
         view = inflater.inflate(R.layout.about_layout, container, false);
 
         TextView info = (TextView)view.findViewById(R.id.txtAbout);
-//        info.setText(R.string.about);
+        info.setText(R.string.about);
         return view;
     }
 

@@ -86,7 +86,6 @@
             android:layout_width="match_parent"
             android:layout_height="184dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="sjlsdfjjklqsdjklqdsjklqdslkjsqkjlmqdskjdsfkjqdsfkjlsqdfkjlfsqdjklsqdfjklksdjkjqdsfkjlqdslkjsqdlk"
             android:id="@+id/txtAbout"
             android:layout_row="1"
             android:layout_column="0"

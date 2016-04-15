@@ -23,9 +23,9 @@ public class Instellingen_1_Fragment extends Fragment {
     private static EditText voornaam;
     private static EditText email;
 
-    InstelllingenAdviseurListener activityCommander;
+    OnFragmentInteractionListener mListener;
 
-    public interface InstelllingenAdviseurListener {
+    public interface OnFragmentInteractionListener {
         public void setInstellingenAdviseur(String naam, String voornaam, String email);
     }
 
@@ -54,14 +54,14 @@ public class Instellingen_1_Fragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            activityCommander = (InstelllingenAdviseurListener) activity;
+            mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString());
         }
     }
 
     public void bevestig(View view) {
-        activityCommander.setInstellingenAdviseur(naam.getText().toString(), voornaam.getText().toString(), email.getText().toString());
+        mListener.setInstellingenAdviseur(naam.getText().toString(), voornaam.getText().toString(), email.getText().toString());
         Log.i(TAG, "Fragment bevistig button clicked");
     }
 }
