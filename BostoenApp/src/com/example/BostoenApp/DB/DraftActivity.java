@@ -32,7 +32,8 @@ public class DraftActivity extends Activity {
         TextView antwoorden= (TextView)findViewById(R.id.antwoordopties);
         ImageView imageone = (ImageView) findViewById(R.id.imageViewone);
         /**ImageView imagetwo = (ImageView) findViewById(R.id.imageViewtwo);
-        ImageView imagethree = (ImageView) findViewById(R.id.imageViewthree);*/
+        ImageView imagethree = (ImageView) findViewById(R.id.imageViewthree);
+         */
 
         //een ArrayList met reeksen maken
         ArrayList<Reeks> reeksen = new ArrayList<>();

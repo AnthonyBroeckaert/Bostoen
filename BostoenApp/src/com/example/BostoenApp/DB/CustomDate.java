@@ -41,6 +41,7 @@ public class CustomDate extends Date {
 
     /**
      * @param date
+     *
      * @throws ParseException wordt opgegooid wanneer de String in een verkeerd formaat wordt opgegeven
      */
     public CustomDate(String date) throws ParseException {

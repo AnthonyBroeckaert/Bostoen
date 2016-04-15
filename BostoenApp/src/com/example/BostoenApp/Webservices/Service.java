@@ -35,6 +35,7 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * Created by david on 15/04/2016.
+ *
  */
 public class Service {
     private Activity activity;
