@@ -17,6 +17,8 @@ import java.text.ParseException;
 import com.example.BostoenApp.R;
 import com.example.BostoenApp.Webservices.Service;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -184,9 +186,15 @@ public class DraftActivity extends Activity {
         Service service = new Service(this);
         try {
             service.userExist();
+            service.getReeksen();
+            service.getReeksen(new CustomDate());
+            service.getVragen(1);
+
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
     }

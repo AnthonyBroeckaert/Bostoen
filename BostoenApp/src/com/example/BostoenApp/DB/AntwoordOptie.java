@@ -44,6 +44,18 @@ public class AntwoordOptie {
         this.setLast_update(last_update);
     }
 
+    @Override
+    public String toString() {
+        return "AntwoordOptie{" +
+                "vraagId=" + vraagId +
+                ", last_update=" + last_update +
+                ", geldig=" + geldig +
+                ", oplossing='" + oplossing + '\'' +
+                ", volgendeVraag=" + volgendeVraag +
+                ", antwoordOpmerking='" + antwoordOpmerking + '\'' +
+                ", antwoordTekst='" + antwoordTekst + '\'' +
+                '}';
+    }
 
     public String getAntwoordTekst() {
         return antwoordTekst;
