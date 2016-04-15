@@ -1,5 +1,7 @@
 package com.example.BostoenApp.DB;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -11,7 +13,7 @@ import java.util.Date;
 public class CustomDate extends Date {
     private Date date;
     private SimpleDateFormat formatter;
-    private String format = "yyyy-MM-dd'-'hh:mm:ss";
+    private String format = "yyyy-MM-dd'-'HH:mm:ss";
 
     /**
      *
@@ -50,6 +52,7 @@ public class CustomDate extends Date {
     }
 
     public String toString() {
+        Log.d("original date",date.toString());
         return formatter.format(date);
     }
 }
