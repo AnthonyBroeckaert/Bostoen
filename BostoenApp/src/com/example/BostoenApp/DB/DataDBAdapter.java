@@ -429,13 +429,17 @@ public class DataDBAdapter {
         }
         initialValues.put(VRAAG_LAST_UPDATE,vraag.getLast_update().toString());
 
-        /**Bitmap naar BLOB converteren*/
-        Bitmap bmp=vraag.getImage();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
+        if(vraag.getImage()!=null)
+        {
+            /**Bitmap naar BLOB converteren*/
+            Bitmap bmp=vraag.getImage();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
 
-        initialValues.put(VRAAG_AFBEELDING, byteArray);
+            initialValues.put(VRAAG_AFBEELDING, byteArray);
+        }
+
 
         mDb.insert(VRAAG_TABLE, null, initialValues);
 
@@ -544,8 +548,12 @@ public class DataDBAdapter {
             vraag.setGeldig(cursor.getInt(cursor.getColumnIndex(VRAAG_GELDIG)) == 1);
 
             byte[] byteArray = cursor.getBlob(cursor.getColumnIndex(VRAAG_AFBEELDING));
-            Bitmap image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-            vraag.setImage(image);
+            if(byteArray!=null)
+            {
+                Bitmap image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                vraag.setImage(image);
+            }
+
             return vraag;
         }
         else
@@ -778,7 +786,9 @@ public class DataDBAdapter {
             initialValues.put(PLAATS_ISEIGENAAR,0);
         }
 
-        mDb.update(PLAATS_TABLE, initialValues, "id =" + id, null);
+        String[] selectionArgs = {new Integer(id).toString()};
+
+        mDb.update(PLAATS_TABLE, initialValues, "id = ?", selectionArgs);
 
     }
 
@@ -942,9 +952,9 @@ public class DataDBAdapter {
         {
             initialValues.put(DOSSIER_DATUM,dossier.getDatum().toString());
         }
+        String[] selectionArgs = {new Integer(id).toString()};
 
-
-        mDb.update(DOSSIER_TABLE, initialValues, "id =" + id, null);
+        mDb.update(DOSSIER_TABLE, initialValues, "id = ?", selectionArgs);
     }
 
     /**
@@ -1027,7 +1037,8 @@ public class DataDBAdapter {
         ContentValues initialValues=new ContentValues();
 
         initialValues.put(VRAGENDOSSIER_ANTWOORD_TEKST,vragenDossier.getAntwoordTekst());
-        mDb.update(VRAGENDOSSIER_TABLE,initialValues, VRAGENDOSSIER_DOSSIER_NR+"="+dossiernr+" AND "+VRAGENDOSSIER_VRAAG_TEKST+"="+vraagtekst,null);
+        String selectionArgs [] ={new Integer(vragenDossier.getDossierNr()).toString(),vragenDossier.getVraagTekst()};
+        mDb.update(VRAGENDOSSIER_TABLE,initialValues, VRAGENDOSSIER_DOSSIER_NR+"= ? AND "+VRAGENDOSSIER_VRAAG_TEKST+"= ?",selectionArgs);
     }
 
     /**

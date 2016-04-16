@@ -86,13 +86,17 @@ public class KeuzeFragment extends Fragment {
 
         ArrayList<Reeks> reeksen = mListener.getReeksen();
 
-        if(mListener.getLastReeks()!=null)
+        if(reeksen!=null)
         {
-            reeksen.get(mListener.getLastReeks()).setChecked(true);
-            huidig = reeksen.get(mListener.getLastReeks());
+            if(mListener.getLastReeks()!=null)
+            {
+                reeksen.get(mListener.getLastReeks()).setChecked(true);
+                huidig = reeksen.get(mListener.getLastReeks());
+            }
+
+            reekslijst.setAdapter(new Reeks.ReeksAdapter(getActivity().getApplicationContext(), reeksen));
         }
 
-        reekslijst.setAdapter(new Reeks.ReeksAdapter(getActivity().getApplicationContext(), reeksen));
 
 
         reekslijst.setOnItemClickListener(new AdapterView.OnItemClickListener() {

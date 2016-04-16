@@ -98,9 +98,12 @@ public class Service {
                     for(int i =0;i<responseArray.length();i++)
                     {
                         JSONObject huidig = responseArray.optJSONObject(i);
-
-                        Reeks reeks = new Reeks(huidig.optInt("id"),huidig.optString("naam"),huidig.optInt("eerste_vraag"),new CustomDate(huidig.optString("last_update").replace(" ","-")));
-                        reeksen.add(reeks);
+                        Reeks reeks = new Reeks();
+                        reeks.setId(huidig.optInt("id"));
+                        reeks.setNaam(huidig.optString("naam"));
+                        reeks.setEersteVraag(huidig.optInt("eerste_vraag"));
+                        reeks.setLast_update(new CustomDate(huidig.optString("last_update").replace(" ","-")));
+                        reeksen.add(reeks);;
                     }
                 }
 
@@ -131,8 +134,11 @@ public class Service {
                    for(int i =0;i<responseArray.length();i++)
                    {
                        JSONObject huidig = responseArray.optJSONObject(i);
-
-                       Reeks reeks = new Reeks(huidig.optInt("id"),huidig.optString("naam"),huidig.optInt("eerste_vraag"),new CustomDate(huidig.optString("last_update").replace(" ","-")));
+                       Reeks reeks = new Reeks();
+                       reeks.setId(huidig.optInt("id"));
+                       reeks.setNaam(huidig.optString("naam"));
+                       reeks.setEersteVraag(huidig.optInt("eerste_vraag"));
+                       reeks.setLast_update(new CustomDate(huidig.optString("last_update").replace(" ", "-")));
                        reeksen.add(reeks);
                    }
                }
@@ -184,11 +190,22 @@ public class Service {
                     {
                         JSONObject current = responseReeksArray.optJSONObject(i);
                         Log.d("current",current.toString());
-                        if(current.optString("afbeelding")==null ||current.optString("afbeelding").equals("null"))
-                        {
-                            Log.d("geldig",new  Integer(current.optInt("geldig")).toString()+" id :"+i);
-                            vragen.add(new Vraag(current.optInt("id"),current.optString("tekst"),current.optString("tip"),null,new CustomDate(current.optString("last_update").replace(" ","-")),reeksid,current.optInt("geldig")==1));
-                        }
+
+                            Log.d("geldig", new Integer(current.optInt("geldig")).toString() + " id :" + i);
+                            Vraag vraag = new Vraag();
+                            vraag.setId(current.optInt("id"));
+                            vraag.setTekst(current.optString("tekst"));
+                            vraag.setTip(current.optString("tip"));
+                            if(current.optString("afbeelding")==null ||current.optString("afbeelding").equals("null"))
+                            {
+                                vraag.setImage(null);
+                            }
+                            vraag.setLast_update(new CustomDate(current.optString("last_update").replace(" ","-")));
+                            vraag.setReeks_id(reeksid);
+                            vraag.setGeldig(current.optInt("geldig") == 1);
+
+                            vragen.add(vraag);
+
                     }
                     output.add(vragen);
                 }
@@ -205,6 +222,7 @@ public class Service {
                         antwoordOptie.setAntwoordTekst(current.optString("antwoord_tekst"));
                         antwoordOptie.setAntwoordOpmerking(current.optString("antwoord_opmerking"));
                         antwoordOptie.setOplossing(current.optString("oplossings_tekst"));
+                        Log.d("volgende vraag service",new Integer(current.optInt("volgendevraag_id")).toString());
                         antwoordOptie.setVolgendeVraag(current.optInt("volgendevraag_id"));
                         antwoordOptie.setGeldig(current.optInt("geldig") == 1);
                         antwoordOptie.setLast_update(new CustomDate(current.optString("last_update").replace(" ","-")));

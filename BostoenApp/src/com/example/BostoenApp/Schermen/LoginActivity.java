@@ -19,9 +19,11 @@ import com.example.BostoenApp.DB.Reeks;
 import com.example.BostoenApp.DB.Vraag;
 import com.example.BostoenApp.DB.VragenDossier;
 import com.example.BostoenApp.R;
+import com.example.BostoenApp.Webservices.Service;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Marnix on 20/03/2016.
@@ -212,6 +214,8 @@ public class LoginActivity extends Activity implements LoginAdviseurFragment.OnF
     public void addSampleData()  {
         dataDBAdapter.open();
 
+
+
         dataDBAdapter.addReeks(new Reeks(null, "1", 1, new CustomDate()));
         dataDBAdapter.addReeks(new Reeks(null, "2", 1, new CustomDate()));
         dataDBAdapter.addReeks(new Reeks(null, "3", 3, new CustomDate()));
@@ -225,8 +229,57 @@ public class LoginActivity extends Activity implements LoginAdviseurFragment.OnF
         dataDBAdapter.addAntwoordOptie(new AntwoordOptie(1, "aa", "aa", 2, "hey", true, new CustomDate()));
         dataDBAdapter.addAntwoordOptie(new AntwoordOptie(1, "bb", "bb", 2, "bye", true,new CustomDate()));
         dataDBAdapter.addAntwoordOptie(new AntwoordOptie(2, "cc", "c", null, "halo", true, new CustomDate()));
+         dataDBAdapter.close();
 
-        dataDBAdapter.close();
+        /**
+         Service service = new Service(this);
+        try {
+            ArrayList<Reeks> reeksen = service.getReeksen();
+            if(reeksen!=null)
+            {
+
+                for(Reeks reeks : reeksen)
+                {
+                    dataDBAdapter.addReeks(reeks);
+                    ArrayList<ArrayList> vraagOpties=service.getVragen(reeks.getId());
+                    if(vraagOpties!=null)
+                    {
+                        ArrayList<Vraag> vragen = vraagOpties.get(0);
+                        ArrayList<AntwoordOptie> antwoordOpties = vraagOpties.get(1);
+
+                        if(vragen!=null)
+                        {
+                            for(Vraag vraag : vragen)
+                            {
+                                dataDBAdapter.addVraag(vraag);
+                            }
+                        }
+
+                        if(antwoordOpties!=null)
+                        {
+                            for(AntwoordOptie antwoordOptie : antwoordOpties)
+                            {
+                                Log.d("Antwoordoptie",antwoordOptie.toString());
+                                dataDBAdapter.addAntwoordOptie(antwoordOptie);
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }finally {
+            dataDBAdapter.close();
+        }*/
+
+
     }
 
     @Override

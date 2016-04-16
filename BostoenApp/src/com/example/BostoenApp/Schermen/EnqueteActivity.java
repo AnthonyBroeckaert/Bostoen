@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -185,7 +186,15 @@ public class EnqueteActivity extends Activity  implements KeuzeFragment.OnFragme
         dataDBAdapter.open();
         Vraag vraag=new Vraag();
         try {
-            vraag =dataDBAdapter.getVraagFromCursor(dataDBAdapter.getVraag(id));
+            Cursor cursor = dataDBAdapter.getVraag(id);
+            if(cursor!=null)
+            {
+                vraag =dataDBAdapter.getVraagFromCursor(cursor);
+            }
+            else {
+                return null;
+            }
+
         } catch (ParseException e) {
             Log.d("Verkeerd formaat datum",e.getMessage());
             dataDBAdapter.close();
@@ -218,6 +227,8 @@ public class EnqueteActivity extends Activity  implements KeuzeFragment.OnFragme
     @Override
     public void updateVragenDossier(int dossiernr, String vraagtekst, VragenDossier vragenDossier) {
         dataDBAdapter.open();
+        Log.d("vraagtekst", vraagtekst);
+        Log.d("antwoordtekst",vragenDossier.getAntwoordTekst());
         dataDBAdapter.updateVragenDossier(dossiernr, vraagtekst, vragenDossier);
         dataDBAdapter.close();
     }
