@@ -5,13 +5,13 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="238dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Vraag Enquete"
         android:id="@+id/txtVraag"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.15"
+        android:layout_weight="0.02"
         android:textAlignment="center"
         android:textColor="#e3000b"
         android:textSize="25dp"
