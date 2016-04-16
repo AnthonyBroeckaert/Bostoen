@@ -210,6 +210,7 @@ public class LoginActivity extends Activity implements LoginAdviseurFragment.OnF
         return lastPlaats;
     }
 
+
     @Override
     public void addSampleData()  {
         dataDBAdapter.open();
