@@ -232,8 +232,9 @@ public class LoginActivity extends Activity implements LoginAdviseurFragment.OnF
         dataDBAdapter.addAntwoordOptie(new AntwoordOptie(2, "cc", "c", null, "halo", true, new CustomDate()));
          dataDBAdapter.close();
 
-        /**
-         Service service = new Service(this);
+
+
+         /**Service service = new Service(this);
         try {
             ArrayList<Reeks> reeksen = service.getReeksen();
             if(reeksen!=null)
