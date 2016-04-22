@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.example.BostoenApp.R;
 
 /**
- * Created by Marnix on 20/03/2016.
+ * Created by Marnix on 20/03/2016 .
  */
 public class AboutFragment extends Fragment {
     private View view;
